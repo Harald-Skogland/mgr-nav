@@ -1,0 +1,11 @@
+/* Gaia — text-size helpers. 1:1 with gaia-styles text-size.css: pure size
+   classes (size / line-height / letter-spacing only — no family or weight;
+   Gaia is Inter throughout and weight is applied by components). */
+
+.ga-text-helper   { font-size: var(--ga-text-xs-font-size);  line-height: var(--ga-text-xs-line-height);  letter-spacing: var(--ga-text-xs-letter-spacing); }
+.ga-text-caption  { font-size: var(--ga-text-sm-font-size);  line-height: var(--ga-text-sm-line-height);  letter-spacing: var(--ga-text-sm-letter-spacing); }
+.ga-text-body     { font-size: var(--ga-text-md-font-size);  line-height: var(--ga-text-md-line-height);  letter-spacing: var(--ga-text-md-letter-spacing); }
+.ga-text-heading  { font-size: var(--ga-text-lg-font-size);  line-height: var(--ga-text-lg-line-height);  letter-spacing: var(--ga-text-lg-letter-spacing); }
+.ga-text-title    { font-size: var(--ga-text-xl-font-size);  line-height: var(--ga-text-xl-line-height);  letter-spacing: var(--ga-text-xl-letter-spacing); }
+.ga-text-headline { font-size: var(--ga-text-2xl-font-size); line-height: var(--ga-text-2xl-line-height); letter-spacing: var(--ga-text-2xl-letter-spacing); }
+.ga-text-display  { font-size: var(--ga-text-3xl-font-size); line-height: var(--ga-text-3xl-line-height); letter-spacing: var(--ga-text-3xl-letter-spacing); }

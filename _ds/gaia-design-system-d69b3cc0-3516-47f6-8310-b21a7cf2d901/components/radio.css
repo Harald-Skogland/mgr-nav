@@ -1,0 +1,64 @@
+/* Gaia — Radio button. Same anatomy as checkbox with a circular marker and a
+   4px dot when checked. Group with .ga-radio-group. */
+
+.ga-radio-group { display: inline-flex; flex-direction: column; gap: var(--ga-size-spacing-03); }
+
+.ga-radio-button {
+  position: relative;
+  display: inline-flex;
+  gap: var(--ga-size-spacing-03);
+  cursor: pointer;
+  font-size: var(--ga-text-md-font-size);
+  letter-spacing: var(--ga-text-md-letter-spacing);
+  color: var(--ga-color-text-body);
+}
+.ga-radio-button__native {
+  height: var(--ga-size-16); width: var(--ga-size-16);
+  flex: 0 0 var(--ga-size-16);
+  opacity: 0; cursor: pointer; margin: 0;
+}
+.ga-radio-button__marker {
+  position: absolute; top: 0; left: 0;
+  height: var(--ga-size-16); width: var(--ga-size-16);
+  border: var(--ga-size-border-width-md) solid var(--ga-color-border-action);
+  border-radius: var(--ga-radius-round);
+  color: var(--ga-color-icon-on-primary);
+  pointer-events: none;
+  transition: background-color var(--ga-transition-state), border-color var(--ga-transition-state);
+}
+.ga-radio-button__native:focus-visible ~ .ga-radio-button__marker { outline: var(--ga-focus-outline); outline-offset: var(--ga-focus-outline-offset); }
+.ga-radio-button__native:hover:not(:disabled) ~ .ga-radio-button__marker { border-color: var(--ga-color-border-action-hover); background: var(--ga-color-surface-action-hover-2); }
+.ga-radio-button__native:checked ~ .ga-radio-button__marker { background: var(--ga-color-surface-action); }
+.ga-radio-button:not(.ga-radio-button--invalid) .ga-radio-button__native:hover:not(:disabled):checked ~ .ga-radio-button__marker { background: var(--ga-color-surface-action-hover); }
+.ga-radio-button__native:checked ~ .ga-radio-button__marker::after {
+  content: ''; position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: var(--ga-size-4); height: var(--ga-size-4);
+  background: var(--ga-color-icon-on-primary);
+  border-radius: var(--ga-radius-round);
+}
+
+/* Disabled */
+.ga-radio-button__native:disabled { cursor: not-allowed; }
+.ga-radio-button__native:disabled ~ .ga-radio-button__marker {
+  border-color: var(--ga-color-border-disabled);
+  background: var(--ga-color-surface-disabled);
+  color: var(--ga-color-text-disabled);
+}
+.ga-radio-button__native:disabled ~ .ga-radio-button__label { color: var(--ga-color-text-disabled); }
+.ga-radio-button__native:disabled:checked ~ .ga-radio-button__marker::after { background: var(--ga-color-icon-on-disabled); }
+
+/* Invalid (host class --invalid; --error kept as legacy alias) */
+.ga-radio-button--invalid .ga-radio-button__native ~ .ga-radio-button__marker,
+.ga-radio-button--error .ga-radio-button__native ~ .ga-radio-button__marker {
+  border-color: var(--ga-color-border-error);
+  background: var(--ga-color-surface-error);
+  color: var(--ga-color-border-error);
+}
+.ga-radio-button--invalid .ga-radio-button__native:checked ~ .ga-radio-button__marker {
+  background: var(--ga-color-border-error);
+  border-color: var(--ga-color-border-error);
+}
+
+.ga-radio-button__label { min-height: var(--ga-size-16); line-height: var(--ga-size-16); }
+.ga-radio-button__label:empty { display: none; }

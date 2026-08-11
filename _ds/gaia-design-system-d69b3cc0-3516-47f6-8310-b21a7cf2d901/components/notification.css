@@ -1,0 +1,99 @@
+/* Gaia — Notification (alert) + toast stack. Variant --brand is the default
+   look (primary border on white); status variants tint border/surface/icon.
+   Optional bottom progress bar with indeterminate mode. */
+
+.ga-notification {
+  font-size: var(--ga-text-md-font-size);
+  line-height: var(--ga-text-md-line-height);
+  letter-spacing: var(--ga-text-md-letter-spacing);
+  position: relative;
+  display: inline-flex; flex-direction: row; align-items: flex-start;
+  gap: var(--ga-size-spacing-05);
+  padding: var(--ga-size-8) var(--ga-size-8) var(--ga-size-8) var(--ga-size-16);
+  border: var(--ga-size-border-width-sm) solid var(--ga-color-border-primary);
+  background: var(--ga-color-surface-primary);
+  border-radius: var(--ga-radius);
+  min-width: 20rem;
+}
+/* --brand is the explicit name for the default surface. */
+.ga-notification--brand { border-color: var(--ga-color-border-primary); background: var(--ga-color-surface-primary); }
+.ga-notification--brand .ga-notification__icon { color: var(--ga-color-icon-action); }
+.ga-notification--transparent { border-color: transparent; background: transparent; }
+.ga-notification--transparent .ga-notification__icon { color: var(--ga-color-icon-action); }
+
+.ga-notification--information { border-color: var(--ga-color-border-information); background: var(--ga-color-surface-information); }
+.ga-notification--information .ga-notification__icon { color: var(--ga-color-icon-information); }
+.ga-notification--information .ga-notification__progress .ga-notification__progress-bar { background: var(--ga-color-icon-information); }
+.ga-notification--success { border-color: var(--ga-color-border-success); background: var(--ga-color-surface-success); }
+.ga-notification--success .ga-notification__icon { color: var(--ga-color-icon-success); }
+.ga-notification--success .ga-notification__progress .ga-notification__progress-bar { background: var(--ga-color-icon-success); }
+.ga-notification--error { border-color: var(--ga-color-border-error); background: var(--ga-color-surface-error); }
+.ga-notification--error .ga-notification__icon { color: var(--ga-color-icon-error); }
+.ga-notification--error .ga-notification__progress .ga-notification__progress-bar { background: var(--ga-color-icon-error); }
+.ga-notification--warning { border-color: var(--ga-color-border-warning); background: var(--ga-color-surface-warning); }
+.ga-notification--warning .ga-notification__icon { color: var(--ga-color-icon-warning); }
+.ga-notification--warning .ga-notification__progress .ga-notification__progress-bar { background: var(--ga-color-icon-warning); }
+
+.ga-notification__icon { margin-top: var(--ga-size-8); flex-shrink: 0; color: var(--ga-color-icon-action); width: var(--ga-size-24); height: var(--ga-size-24); }
+
+.ga-notification__content { flex: 1; min-width: 0; }
+.ga-notification__content:not(:has(.ga-notification__heading)) { min-height: var(--ga-size-32); }
+.ga-notification__content:has(.ga-notification__heading) { padding-bottom: var(--ga-size-8); }
+
+.ga-notification__heading {
+  display: flex; flex-direction: row; align-items: center;
+  gap: var(--ga-size-spacing-03);
+  min-height: var(--ga-size-40);
+}
+.ga-notification__title { flex: 1; font-weight: var(--ga-font-weight-bold); color: var(--ga-color-text-headings); }
+.ga-notification__heading-actions,
+.ga-notification__title-actions { display: flex; flex-direction: row; flex-shrink: 0; gap: var(--ga-size-spacing-03); }
+
+.ga-notification__description { margin-top: var(--ga-size-10); padding-right: var(--ga-size-8); padding-bottom: var(--ga-size-10); color: var(--ga-color-text-body); }
+.ga-notification__heading ~ .ga-notification__description { margin-top: 0; padding-bottom: 0; }
+.ga-notification__action { padding-top: var(--ga-size-8); }
+
+.ga-notification__close {
+  background: transparent; border: 0;
+  padding: var(--ga-size-4); margin: var(--ga-size-4);
+  color: var(--ga-color-icon-action); cursor: pointer;
+  border-radius: var(--ga-radius);
+  align-self: flex-start;
+  transition: background-color var(--ga-transition-hover);
+}
+.ga-notification__close:hover { background: var(--ga-color-surface-action-hover-2); }
+.ga-notification__close:focus-visible { outline: var(--ga-focus-outline); outline-offset: 0; }
+
+/* Bottom progress bar — full bleed. Width via inline style or --ga-progress. */
+.ga-notification__progress {
+  position: absolute; right: 0; bottom: 1px; left: 0;
+  height: var(--ga-size-4);
+  overflow: hidden;
+  border-bottom-left-radius: 2px; border-bottom-right-radius: 2px;
+  background: var(--ga-color-surface-disabled);
+}
+.ga-notification__progress-bar {
+  position: absolute; height: 100%;
+  transform-origin: top left;
+  border-radius: var(--ga-radius);
+  background: var(--ga-color-surface-progress);
+  width: var(--ga-progress, 60%);
+}
+.ga-notification__progress--indeterminate .ga-notification__progress-bar {
+  width: 20%;
+  animation: ga-notification-progress-animation calc(1400ms * var(--ga-duration-scalar, 1)) linear infinite;
+}
+@keyframes ga-notification-progress-animation {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(500%); }
+}
+
+/* ---------- Toast (transient notification) ---------- */
+.ga-toast { box-shadow: var(--ga-shadow-north); }
+.ga-toast-stack {
+  position: fixed; bottom: var(--ga-size-24); right: var(--ga-size-24);
+  z-index: var(--ga-index-toast);
+  display: flex; flex-direction: column;
+  gap: var(--ga-size-spacing-03);
+  max-width: 28rem;
+}

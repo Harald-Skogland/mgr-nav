@@ -1,0 +1,52 @@
+/* Gaia — Quantity selector (legacy standalone form). The canonical form is
+   .ga-input--quantity-selector (see input.css); this stepper block is kept
+   for markup that uses .ga-quantity directly. */
+
+.ga-quantity {
+  display: inline-flex; align-items: stretch;
+  border: var(--ga-size-border-width-sm) solid var(--ga-color-border-action);
+  border-radius: var(--ga-radius);
+  background: var(--ga-color-surface-primary);
+  overflow: hidden;
+  height: var(--ga-size-40);
+  padding-left: var(--ga-size-12);
+}
+.ga-quantity:focus-within {
+  border-color: var(--ga-color-border-action-hover);
+  outline: var(--ga-size-border-width-sm) solid var(--ga-color-border-action-hover);
+  outline-offset: calc(-1 * var(--ga-size-border-width-sm));
+}
+.ga-quantity__input {
+  flex: 1; min-width: 0; width: auto;
+  border: 0; outline: 0; background: transparent; padding: 0;
+  font-family: inherit;
+  font-size: var(--ga-text-md-font-size);
+  line-height: var(--ga-text-md-line-height);
+  letter-spacing: var(--ga-text-md-letter-spacing);
+  color: var(--ga-color-text-body);
+  font-variant-numeric: tabular-nums;
+}
+.ga-quantity__input::-webkit-inner-spin-button,
+.ga-quantity__input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.ga-quantity__buttons { display: inline-flex; align-items: stretch; flex-shrink: 0; }
+.ga-quantity__buttons > .ga-quantity__button + .ga-quantity__button { border-left: var(--ga-size-border-width-sm) solid var(--ga-color-border-tertiary); }
+.ga-quantity__button {
+  font-family: inherit;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: var(--ga-size-40); min-width: var(--ga-size-40);
+  background: transparent; border: 0; cursor: pointer;
+  color: var(--ga-color-icon-action);
+  transition: background-color var(--ga-transition-hover);
+}
+.ga-quantity__button:hover:not(:disabled) { background: var(--ga-color-surface-action-hover-2); }
+.ga-quantity__button:focus-visible { outline: var(--ga-focus-outline); outline-offset: calc(-1 * var(--ga-focus-outline-offset)); border-radius: var(--ga-radius); }
+.ga-quantity__button:disabled { color: var(--ga-color-text-disabled); cursor: not-allowed; }
+.ga-quantity__button .ga-icon { color: inherit; }
+.ga-quantity--small { height: var(--ga-size-32); padding-left: var(--ga-size-8); }
+.ga-quantity--small .ga-quantity__button { width: var(--ga-size-32); min-width: var(--ga-size-32); }
+.ga-quantity--small .ga-quantity__input { font-size: var(--ga-text-sm-font-size); line-height: var(--ga-text-sm-line-height); }
+.ga-quantity--disabled { background: var(--ga-color-surface-disabled); border-color: var(--ga-color-border-disabled); }
+.ga-quantity--disabled .ga-quantity__input { color: var(--ga-color-text-disabled); }
+.ga-quantity--error { border-color: var(--ga-color-border-error); }
+.ga-quantity--error:focus-within { outline-color: var(--ga-color-border-error); }
+.ga-quantity--success { border-color: var(--ga-color-border-success); }

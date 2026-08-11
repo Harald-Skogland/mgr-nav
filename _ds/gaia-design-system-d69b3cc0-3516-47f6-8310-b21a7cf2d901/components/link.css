@@ -1,0 +1,44 @@
+/* Gaia — Link. Sizes: --small (12) · default (14) · --large (16); --inline for
+   links in running text. Not underlined at rest; underline on hover/inline. */
+
+.ga-link {
+  font-size: var(--ga-text-md-font-size);
+  line-height: var(--ga-text-md-line-height);
+  letter-spacing: var(--ga-text-md-letter-spacing);
+  font-weight: var(--ga-font-weight-medium);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ga-size-4);
+  height: var(--ga-size-20);
+  padding: 0 var(--ga-size-2);
+  border-radius: var(--ga-radius);
+  color: var(--ga-color-text-action);
+  cursor: pointer;
+  font-variant-numeric: tabular-nums;
+  vertical-align: middle;
+  white-space: nowrap;
+  text-decoration: none;
+  text-underline-offset: 2px;
+  transition: color var(--ga-transition-hover);
+}
+.ga-link--inline { text-decoration: underline; text-decoration-color: var(--ga-color-primary-90); text-decoration-thickness: 1px; }
+.ga-link--small { height: var(--ga-size-16); font-size: var(--ga-text-sm-font-size); line-height: var(--ga-text-sm-line-height); letter-spacing: var(--ga-text-sm-letter-spacing); }
+.ga-link--large { height: var(--ga-size-24); font-size: var(--ga-text-lg-font-size); line-height: var(--ga-text-lg-line-height); letter-spacing: var(--ga-text-lg-letter-spacing); }
+.ga-link--disabled { color: var(--ga-color-text-disabled); cursor: not-allowed; pointer-events: none; text-decoration: none; }
+.ga-link--disabled .ga-link__icon { color: var(--ga-color-icon-disabled); }
+
+.ga-link:not(.ga-link--disabled):visited { color: var(--ga-color-text-link-visited); text-decoration-color: var(--ga-color-text-link-visited); }
+.ga-link:not(.ga-link--disabled):hover {
+  color: var(--ga-color-text-action-hover);
+  text-decoration: underline;
+  text-decoration-color: var(--ga-color-primary-90);
+  text-decoration-thickness: 1px;
+}
+.ga-link:not(.ga-link--disabled):active { color: var(--ga-color-text-action); text-decoration-color: var(--ga-color-text-action); }
+.ga-link:not(.ga-link--disabled):focus-visible { outline: var(--ga-focus-outline); outline-offset: var(--ga-focus-outline-offset); }
+
+/* Leading / trailing icon — 16px at small/medium, 24px at large. */
+.ga-link__icon { flex-shrink: 0; width: var(--ga-size-16); height: var(--ga-size-16); }
+.ga-link:not(:visited) .ga-link__icon { color: var(--ga-color-icon-primary); }
+.ga-link--large .ga-link__icon { width: var(--ga-size-24); height: var(--ga-size-24); }

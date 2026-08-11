@@ -1,0 +1,54 @@
+/* Gaia — Form field. Wraps label + control + helper/error into an accessible
+   block. Controls placed as direct children stretch to full width. */
+
+.ga-form-field { display: flex; flex-direction: column; gap: var(--ga-size-spacing-03); }
+.ga-form-field > .ga-input,
+.ga-form-field > .ga-select { width: 100%; flex-shrink: 0; }
+
+.ga-form-field__label {
+  display: inline-flex;
+  gap: var(--ga-size-4);
+  height: var(--ga-size-20);
+  width: fit-content;
+  max-width: 100%;
+  min-width: 0;
+  padding: 0 var(--ga-size-4);
+  line-height: var(--ga-size-20);
+}
+.ga-form-field__label:focus-visible { border-radius: var(--ga-radius); outline: var(--ga-focus-outline); outline-offset: var(--ga-focus-outline-offset); }
+.ga-form-field__label-text {
+  font-size: var(--ga-text-md-font-size);
+  letter-spacing: var(--ga-text-md-letter-spacing);
+  font-weight: var(--ga-font-weight-medium);
+  min-width: 0;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  transition: color var(--ga-transition-hover);
+}
+.ga-form-field__label-state {
+  font-size: var(--ga-text-sm-font-size);
+  line-height: inherit;
+  letter-spacing: var(--ga-text-sm-letter-spacing);
+  font-weight: var(--ga-font-weight-normal);
+}
+
+/* Defined-term label: dotted underline; hover reveals body colour. */
+.ga-form-field__label--defined .ga-form-field__label-text {
+  border-bottom: var(--ga-size-border-width-md) dotted;
+  color: var(--ga-color-text-action);
+}
+.ga-form-field__label--defined:not(.ga-form-field__label--disabled) .ga-form-field__label-text:hover { color: var(--ga-color-text-body); }
+.ga-form-field__label--disabled .ga-form-field__label-text,
+.ga-form-field__label--disabled .ga-form-field__label-state {
+  border-color: var(--ga-color-border-disabled);
+  color: var(--ga-color-text-disabled);
+}
+
+.ga-form-field__info {
+  display: flex; align-items: flex-start; gap: var(--ga-size-4);
+  padding: 0 var(--ga-size-4);
+  font-size: var(--ga-text-xs-font-size);
+  line-height: var(--ga-text-xs-line-height);
+  letter-spacing: var(--ga-text-xs-letter-spacing);
+}
+.ga-form-field__info .ga-icon { flex-shrink: 0; }
+.ga-form-field__info--error { color: var(--ga-color-error); }

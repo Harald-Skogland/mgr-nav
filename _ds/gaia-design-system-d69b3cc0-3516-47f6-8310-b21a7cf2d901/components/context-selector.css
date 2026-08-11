@@ -1,0 +1,141 @@
+/* Gaia — Context selector. The multi-company/branch switcher organism.
+   Panel + rows verified against the Jul-2026 kit (node 34354:*): panel 320w,
+   radius 4, 4px vertical inset, north shadow; company row 56h (avatar 40 +
+   name/meta 12px), branch row 40h (16px icon + 12px label), section header
+   32h. Focus is a 2px inset ring in border-focus (the kit draws it inset). */
+
+.ga-context-selector {
+  display: flex;
+  flex-direction: column;
+  width: var(--ga-size-320);
+  padding: var(--ga-size-4) 0;
+  border-radius: var(--ga-radius);
+  background: var(--ga-color-surface-primary);
+  box-shadow: var(--ga-shadow-north);
+  font-family: var(--ga-font-family-primary);
+}
+
+/* Optional search / utility slot — 48h band with 8px inset. */
+.ga-context-selector__slot {
+  display: flex;
+  align-items: center;
+  gap: var(--ga-size-spacing-05);
+  padding: var(--ga-size-8);
+}
+
+/* Branch selector band — 56h, holds a 40h control. */
+.ga-context-selector__branch-slot {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--ga-size-8);
+}
+
+/* Section header — 32h label row. */
+.ga-context-selector__section {
+  display: flex;
+  align-items: center;
+  gap: var(--ga-size-spacing-03);
+  height: var(--ga-size-32);
+  padding: 0 var(--ga-size-12);
+  font-size: var(--ga-text-sm-font-size);
+  line-height: 1;
+  font-weight: var(--ga-font-weight-semibold);
+  color: var(--ga-color-text-body-secondary);
+}
+
+.ga-context-selector__list {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+/* Company / group row — 56h. */
+.ga-context-selector__item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--ga-size-8);
+  height: var(--ga-size-56);
+  padding: var(--ga-size-8) var(--ga-size-12);
+  border: 0;
+  border-radius: var(--ga-radius);
+  background: var(--ga-color-surface-primary);
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--ga-transition-hover);
+}
+.ga-context-selector__item:hover { background: var(--ga-color-surface-menu-hover); }
+.ga-context-selector__item:active { background: var(--ga-color-surface-action-hover-2); }
+.ga-context-selector__item:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 var(--ga-size-border-width-md) var(--ga-color-border-focus);
+}
+.ga-context-selector__item--selected { background: var(--ga-color-surface-selected); }
+.ga-context-selector__item--selected:hover { background: var(--ga-color-surface-selected); }
+
+.ga-context-selector__details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+  min-width: 0;
+}
+.ga-context-selector__name {
+  font-size: var(--ga-text-sm-font-size);
+  line-height: 1;
+  color: var(--ga-color-text-body);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: var(--ga-size-4) 0;
+}
+.ga-context-selector__meta {
+  font-size: var(--ga-text-sm-font-size);
+  line-height: 1;
+  color: var(--ga-color-text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Favourite star — 20px hit inside a 40px action box. */
+.ga-context-selector__favourite {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--ga-size-40);
+  align-self: stretch;
+  border: 0;
+  border-radius: var(--ga-radius);
+  background: transparent;
+  color: var(--ga-color-icon-action);
+  cursor: pointer;
+  transition: color var(--ga-transition-hover);
+}
+.ga-context-selector__favourite:hover { color: var(--ga-color-icon-action-hover); }
+.ga-context-selector__favourite:focus-visible { outline: var(--ga-focus-outline); outline-offset: calc(-1 * var(--ga-size-border-width-md)); }
+.ga-context-selector__favourite--active { color: var(--ga-color-icon-warning); }
+
+/* Branch row — 40h. */
+.ga-context-selector__item--branch {
+  height: var(--ga-size-40);
+  padding: var(--ga-size-8) var(--ga-size-8) var(--ga-size-8) var(--ga-size-12);
+}
+.ga-context-selector__item--branch .ga-icon { color: var(--ga-color-icon-primary); flex-shrink: 0; }
+
+/* Empty / loading / error states — centered 320×panel body. */
+.ga-context-selector__state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ga-size-spacing-03);
+  padding: var(--ga-size-spacing-07) var(--ga-size-spacing-05);
+  text-align: center;
+  font-size: var(--ga-text-sm-font-size);
+  line-height: var(--ga-text-sm-line-height);
+  color: var(--ga-color-text-body-secondary);
+}
+.ga-context-selector__state .ga-icon--error { color: var(--ga-color-icon-error); }

@@ -1,0 +1,36 @@
+/* Gaia — Badge. Type: --text (default) or --dot. Variants: default ·
+   default-inverted · muted · information · error · warning · success ·
+   disabled · disabled-inverted. */
+
+.ga-badge { display: inline-block; border-radius: var(--ga-radius-round); vertical-align: baseline; }
+
+.ga-badge--text {
+  min-width: var(--ga-size-24);
+  padding: var(--ga-size-4);
+  text-align: center;
+  font-size: var(--ga-text-sm-font-size);
+  line-height: var(--ga-size-16);
+  letter-spacing: var(--ga-text-sm-letter-spacing);
+  font-weight: var(--ga-font-weight-medium);
+  white-space: nowrap;
+}
+.ga-badge--text.ga-badge--default { background: var(--ga-color-surface-action); color: var(--ga-color-text-on-action); }
+.ga-badge--text.ga-badge--default-inverted { background: var(--ga-color-icon-on-action); color: var(--ga-color-text-information); }
+.ga-badge--text.ga-badge--muted { background: var(--ga-color-icon-on-primary); color: var(--ga-color-text-action); }
+.ga-badge--text.ga-badge--information { background: var(--ga-color-utility-blue-accent); color: var(--ga-color-text-information); box-shadow: inset 0 0 0 var(--ga-size-border-width-sm) var(--ga-color-border-information); }
+.ga-badge--text.ga-badge--error { background: var(--ga-color-utility-red-accent); color: var(--ga-color-text-error); box-shadow: inset 0 0 0 var(--ga-size-border-width-sm) var(--ga-color-border-error); }
+.ga-badge--text.ga-badge--warning { background: var(--ga-color-utility-orange-accent); color: var(--ga-color-text-warning); box-shadow: inset 0 0 0 var(--ga-size-border-width-sm) var(--ga-color-border-warning); }
+.ga-badge--text.ga-badge--success { background: var(--ga-color-utility-green-accent); color: var(--ga-color-text-success); box-shadow: inset 0 0 0 var(--ga-size-border-width-sm) var(--ga-color-border-success); }
+.ga-badge--text.ga-badge--disabled { background: var(--ga-color-surface-disabled); color: var(--ga-color-text-disable-selected); }
+.ga-badge--text.ga-badge--disabled-inverted { background: var(--ga-color-icon-on-primary); color: var(--ga-color-text-disabled); }
+
+.ga-badge--dot { height: var(--ga-size-8); width: var(--ga-size-8); }
+.ga-badge--dot.ga-badge--default { background: var(--ga-color-surface-action); }
+.ga-badge--dot.ga-badge--default-inverted { background: var(--ga-color-icon-on-action); }
+.ga-badge--dot.ga-badge--muted { background: var(--ga-color-icon-on-primary); box-shadow: inset 0 0 0 var(--ga-size-border-width-sm) var(--ga-color-text-disabled); }
+.ga-badge--dot.ga-badge--information { background: var(--ga-color-icon-information); }
+.ga-badge--dot.ga-badge--error { background: var(--ga-color-icon-error); }
+.ga-badge--dot.ga-badge--warning { background: var(--ga-color-icon-warning); }
+.ga-badge--dot.ga-badge--success { background: var(--ga-color-icon-success); }
+.ga-badge--dot.ga-badge--disabled { background: var(--ga-color-icon-on-disabled); }
+.ga-badge--dot.ga-badge--disabled-inverted { background: var(--ga-color-icon-on-primary); }

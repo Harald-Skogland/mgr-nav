@@ -1,0 +1,95 @@
+/* Gaia — Quick filter button (chip). Pill-shaped selectable filter, 40px.
+   Modifiers: --selected · --disabled · --transparent. Group in a
+   .ga-chip-listbox. `.ga-quick-filter` is a kept alias of the root class. */
+
+.ga-quick-filter-button,
+.ga-quick-filter {
+  font-family: inherit;
+  font-size: var(--ga-text-md-font-size);
+  line-height: var(--ga-size-20);
+  letter-spacing: var(--ga-text-md-letter-spacing);
+  font-weight: var(--ga-font-weight-medium);
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: var(--ga-size-spacing-03);
+  height: var(--ga-size-40);
+  padding: 0 var(--ga-size-16);
+  border: var(--ga-size-border-width-sm) solid var(--ga-color-border-action);
+  background: var(--ga-color-surface-primary);
+  border-radius: var(--ga-radius-round);
+  color: var(--ga-color-text-action);
+  cursor: pointer;
+  white-space: nowrap;
+  vertical-align: middle;
+  transition: background-color var(--ga-transition-hover), border-color var(--ga-transition-hover), color var(--ga-transition-hover);
+}
+.ga-quick-filter-button .ga-icon,
+.ga-quick-filter .ga-icon { color: var(--ga-color-icon-primary); }
+.ga-quick-filter-button:focus-visible,
+.ga-quick-filter:focus-visible { outline: var(--ga-focus-outline); outline-offset: var(--ga-focus-outline-offset); }
+
+.ga-quick-filter-button:hover:not(:disabled):not(.ga-quick-filter-button--disabled):not(.ga-quick-filter-button--selected),
+.ga-quick-filter:hover:not(:disabled):not(.ga-quick-filter--disabled):not(.ga-quick-filter--selected) {
+  background: var(--ga-color-surface-action-hover-2);
+  color: var(--ga-color-text-action-hover);
+}
+.ga-quick-filter-button:hover:not(:disabled):not(.ga-quick-filter-button--disabled):not(.ga-quick-filter-button--selected) .ga-icon,
+.ga-quick-filter:hover:not(:disabled):not(.ga-quick-filter--disabled):not(.ga-quick-filter--selected) .ga-icon { color: var(--ga-color-icon-action); }
+.ga-quick-filter-button:active:not(:disabled):not(.ga-quick-filter-button--disabled),
+.ga-quick-filter:active:not(:disabled):not(.ga-quick-filter--disabled) { background: var(--ga-color-surface-primary); }
+
+.ga-quick-filter-button--transparent { background: transparent; }
+.ga-quick-filter-button--transparent:active:not(:disabled):not(.ga-quick-filter-button--disabled) { background: transparent; }
+
+.ga-quick-filter-button--selected,
+.ga-quick-filter--selected {
+  border-color: var(--ga-color-border-action);
+  background: var(--ga-color-surface-action);
+  color: var(--ga-color-text-on-action);
+}
+.ga-quick-filter-button--selected .ga-icon,
+.ga-quick-filter--selected .ga-icon { color: var(--ga-color-icon-on-action); }
+.ga-quick-filter-button--selected:hover:not(:disabled):not(.ga-quick-filter-button--disabled),
+.ga-quick-filter--selected:hover:not(:disabled) {
+  border-color: var(--ga-color-border-action-hover);
+  background: var(--ga-color-surface-action-hover);
+}
+.ga-quick-filter-button--selected:disabled,
+.ga-quick-filter-button--selected.ga-quick-filter-button--disabled,
+.ga-quick-filter--selected:disabled {
+  border-color: var(--ga-color-surface-disabled);
+  background: var(--ga-color-surface-disabled);
+  color: var(--ga-color-text-disable-selected);
+}
+
+.ga-quick-filter-button:disabled,
+.ga-quick-filter-button--disabled,
+.ga-quick-filter:disabled {
+  cursor: not-allowed;
+  border-color: var(--ga-color-border-disabled);
+  background: var(--ga-color-surface-page);
+  color: var(--ga-color-text-disabled);
+}
+.ga-quick-filter-button:disabled .ga-icon,
+.ga-quick-filter-button--disabled .ga-icon,
+.ga-quick-filter:disabled .ga-icon { color: var(--ga-color-icon-on-disabled); }
+
+/* Optional trailing count. */
+.ga-quick-filter__count {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: var(--ga-size-20); height: var(--ga-size-20);
+  padding: 0 var(--ga-size-6);
+  border-radius: var(--ga-radius-round);
+  font-size: var(--ga-text-xs-font-size);
+  font-weight: var(--ga-font-weight-semibold);
+  background: var(--ga-color-surface-action-hover-2);
+  color: var(--ga-color-text-action);
+}
+.ga-quick-filter-button--selected .ga-quick-filter__count,
+.ga-quick-filter--selected .ga-quick-filter__count {
+  background: color-mix(in srgb, var(--ga-color-white) 20%, transparent);
+  color: var(--ga-color-text-on-action);
+}
+
+/* Chip group. */
+.ga-chip-listbox { display: inline-flex; flex-wrap: wrap; gap: var(--ga-size-spacing-03); }
+.ga-chip-listbox--vertical { flex-direction: column; align-items: flex-start; }

@@ -1,0 +1,159 @@
+/* Gaia — Calendar. Bare 280px grid (7 × 40px cells); the .ga-datepicker panel
+   provides border/padding/shadow. Canonical day-state names plus this port's
+   earlier aliases (--today, --in-range, --range-start/-end, __nav). */
+
+.ga-calendar {
+  width: 280px;
+  background: var(--ga-color-white);
+  font-variant-numeric: lining-nums slashed-zero tabular-nums;
+}
+.ga-calendar__header { display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: var(--ga-size-4); }
+.ga-calendar__month-year { display: flex; flex-direction: row; gap: var(--ga-size-spacing-03); }
+.ga-calendar__month-year-button {
+  display: flex; flex-direction: row; align-items: center; gap: var(--ga-size-4);
+  background: transparent; border: 0; padding: 0; cursor: pointer;
+  font-family: inherit;
+  font-size: var(--ga-text-lg-font-size);
+  letter-spacing: var(--ga-text-lg-letter-spacing);
+  font-weight: var(--ga-font-weight-semibold);
+  color: var(--ga-color-text-action);
+}
+.ga-calendar__month-year-button .ga-icon { color: var(--ga-color-icon-primary); }
+.ga-calendar__navigation { display: flex; flex-direction: row; gap: var(--ga-size-spacing-03); }
+.ga-calendar__navigation-button,
+.ga-calendar__nav {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: transparent; border: 0; padding: var(--ga-size-4);
+  cursor: pointer; border-radius: var(--ga-radius);
+  color: var(--ga-color-icon-action);
+  transition: color var(--ga-transition-hover), background-color var(--ga-transition-hover);
+}
+.ga-calendar__navigation-button:hover,
+.ga-calendar__nav:hover { color: var(--ga-color-icon-action-hover); background: var(--ga-color-surface-action-hover-2); }
+.ga-calendar__navigation-button:focus-visible,
+.ga-calendar__nav:focus-visible { outline: var(--ga-focus-outline); outline-offset: 0; }
+
+/* Year / month pickers. */
+.ga-calendar__selection { display: grid; }
+.ga-calendar__selection--year { margin-top: var(--ga-size-16); grid-template-columns: repeat(5, 1fr); column-gap: var(--ga-size-12); row-gap: var(--ga-size-8); }
+.ga-calendar__selection--month { margin-top: var(--ga-size-16); grid-template-columns: repeat(3, 1fr); gap: var(--ga-size-12); }
+.ga-calendar__selection--day { margin-top: var(--ga-size-8); grid-template-columns: repeat(7, 1fr); row-gap: var(--ga-size-4); }
+.ga-calendar__year, .ga-calendar__month {
+  height: var(--ga-size-40);
+  background: transparent; border: 0; font-family: inherit;
+  cursor: pointer; border-radius: var(--ga-radius);
+  text-align: center;
+  font-size: var(--ga-text-lg-font-size);
+  line-height: var(--ga-size-40);
+  font-weight: var(--ga-font-weight-medium);
+  color: var(--ga-color-text-action);
+  transition: color var(--ga-transition-hover);
+}
+.ga-calendar__year:not(.ga-calendar__year--disabled):hover,
+.ga-calendar__month:not(.ga-calendar__month--disabled):hover { color: var(--ga-color-text-action-hover); text-decoration: underline; text-underline-offset: 6px; }
+.ga-calendar__year--selected, .ga-calendar__month--selected {
+  font-size: var(--ga-text-md-font-size);
+  background: var(--ga-color-surface-action);
+  color: var(--ga-color-text-on-action);
+}
+.ga-calendar__year--disabled, .ga-calendar__month--disabled { cursor: not-allowed; color: var(--ga-color-text-disabled); }
+
+/* Weekday header row. */
+.ga-calendar__weekdays { margin-top: var(--ga-size-8); display: grid; height: var(--ga-size-24); grid-template-columns: repeat(7, 1fr); align-items: center; justify-items: center; }
+.ga-calendar__weekday { font-size: var(--ga-text-xs-font-size); letter-spacing: var(--ga-text-xs-letter-spacing); font-weight: var(--ga-font-weight-medium); }
+.ga-calendar__week-row { display: flex; flex-direction: row; gap: var(--ga-size-16); }
+.ga-calendar__week-day { width: var(--ga-size-24); height: var(--ga-size-24); }
+
+/* Day grid (legacy alias .ga-calendar__days). */
+.ga-calendar__days { display: grid; grid-template-columns: repeat(7, 1fr); row-gap: var(--ga-size-4); margin-top: var(--ga-size-8); }
+
+/* Day cell. */
+.ga-calendar__day {
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  height: var(--ga-size-40);
+  background: transparent; border: 0; font-family: inherit;
+  font-size: var(--ga-text-md-font-size);
+  letter-spacing: var(--ga-text-md-letter-spacing);
+  border-radius: var(--ga-radius);
+  text-align: center;
+  color: var(--ga-color-text-body);
+  cursor: pointer;
+  transition: background-color var(--ga-transition-hover), color var(--ga-transition-hover);
+}
+.ga-calendar__day:hover { background: var(--ga-color-surface-action-hover-2); color: var(--ga-color-text-action-hover); }
+.ga-calendar__day:focus-visible { outline: var(--ga-focus-outline); outline-offset: calc(-1 * var(--ga-focus-outline-offset)); }
+
+/* Current day (alias --today): 20×2 underline. */
+.ga-calendar__day--current::after,
+.ga-calendar__day--today::after {
+  content: ''; position: absolute; bottom: var(--ga-size-8); left: 50%;
+  height: var(--ga-size-2); width: var(--ga-size-20);
+  transform: translateX(-50%);
+  border-radius: var(--ga-radius);
+  background: var(--ga-color-surface-action);
+}
+/* Special day: 4px dot. */
+.ga-calendar__day--special::after {
+  content: ''; position: absolute; bottom: var(--ga-size-8); left: 50%;
+  height: var(--ga-size-4); width: var(--ga-size-4);
+  transform: translateX(-50%);
+  border-radius: var(--ga-radius-round);
+  background: var(--ga-color-surface-action);
+}
+.ga-calendar__day--weekend { color: var(--ga-color-text-disabled); }
+.ga-calendar__day--outside { color: var(--ga-color-text-disabled); }
+.ga-calendar__day--disabled,
+.ga-calendar__day:disabled {
+  border-radius: var(--ga-radius-sharp);
+  cursor: not-allowed;
+  background: var(--ga-color-surface-disabled);
+  color: var(--ga-color-text-disable-selected);
+}
+.ga-calendar__day--disabled:hover { background: var(--ga-color-surface-disabled); color: var(--ga-color-text-disable-selected); }
+
+/* Selected day. */
+.ga-calendar__day--selected { background: var(--ga-color-surface-action); color: var(--ga-color-text-on-action); }
+.ga-calendar__day--selected.ga-calendar__day--current::after,
+.ga-calendar__day--selected.ga-calendar__day--today::after,
+.ga-calendar__day--selected.ga-calendar__day--special::after { background: var(--ga-color-icon-on-action); }
+.ga-calendar__day--selected:hover { background: var(--ga-color-surface-action-hover); color: var(--ga-color-text-on-action); }
+.ga-calendar__day--selected.ga-calendar__day--disabled { background: var(--ga-color-surface-disable-selected); color: var(--ga-color-text-on-action); }
+
+/* Range selection (aliases: --range-start / --in-range / --range-end). */
+.ga-calendar__day--selected-range-start,
+.ga-calendar__day--range-start {
+  border-top-right-radius: 0; border-bottom-right-radius: 0;
+  background: var(--ga-color-surface-action); color: var(--ga-color-text-on-action);
+}
+.ga-calendar__day--selected-range-middle,
+.ga-calendar__day--in-range {
+  border-radius: 0;
+  border-top: var(--ga-size-border-width-sm) solid var(--ga-color-border-success);
+  border-bottom: var(--ga-size-border-width-sm) solid var(--ga-color-border-success);
+  background: var(--ga-color-success-accent);
+  color: var(--ga-color-text-body);
+}
+.ga-calendar__day--selected-range-end,
+.ga-calendar__day--range-end {
+  border-top-left-radius: 0; border-bottom-left-radius: 0;
+  background: var(--ga-color-surface-action); color: var(--ga-color-text-on-action);
+}
+.ga-calendar__day--range-start { border-top-left-radius: var(--ga-radius); border-bottom-left-radius: var(--ga-radius); }
+.ga-calendar__day--range-end { border-top-right-radius: var(--ga-radius); border-bottom-right-radius: var(--ga-radius); }
+.ga-calendar__day--selected-range-middle-hover {
+  border-radius: 0;
+  border-top: var(--ga-size-border-width-sm) dashed var(--ga-color-border-action-hover);
+  border-bottom: var(--ga-size-border-width-sm) dashed var(--ga-color-border-action-hover);
+  background: var(--ga-color-surface-action-hover-2);
+  color: var(--ga-color-text-body);
+}
+.ga-calendar__day--selected-range-end-hover {
+  border-top-left-radius: 0; border-bottom-left-radius: 0;
+  border: var(--ga-size-border-width-sm) solid var(--ga-color-border-action);
+  background: var(--ga-color-surface-primary);
+  color: var(--ga-color-text-body);
+}
+
+/* Footer actions ("Today" / "Apply"). */
+.ga-calendar__footer { display: flex; align-items: center; justify-content: flex-end; gap: var(--ga-size-spacing-03); padding-top: var(--ga-size-8); }

@@ -1,0 +1,88 @@
+/* Gaia — Select. Canonical .ga-select trigger (single + multi) and the
+   minimal .ga-native-select wrapper for a real <select>. Pairs with
+   .ga-dropdown for the floating option panel. */
+
+.ga-native-select { position: relative; display: inline-block; }
+.ga-native-select select {
+  font-family: inherit;
+  font-size: var(--ga-text-md-font-size);
+  letter-spacing: var(--ga-text-md-letter-spacing);
+  height: var(--ga-size-40);
+  appearance: none;
+  border: var(--ga-size-border-width-sm) solid var(--ga-color-border-primary);
+  background: var(--ga-color-surface-primary);
+  border-radius: var(--ga-radius);
+  color: var(--ga-color-text-body);
+  padding: var(--ga-size-8) var(--ga-size-36) var(--ga-size-8) var(--ga-size-12);
+  line-height: 1;
+}
+.ga-native-select__arrow {
+  pointer-events: none;
+  position: absolute; top: 50%; right: var(--ga-size-8);
+  transform: translateY(-50%);
+  color: var(--ga-color-icon-primary);
+}
+
+.ga-select {
+  font-family: inherit;
+  font-size: var(--ga-text-md-font-size);
+  letter-spacing: var(--ga-text-md-letter-spacing);
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--ga-size-spacing-03);
+  height: var(--ga-size-40);
+  width: calc(5 * var(--ga-size-40)); /* w-50 = 200px; form-field stretches to 100% */
+  padding: var(--ga-size-6) var(--ga-size-10);
+  border: var(--ga-size-border-width-sm) solid var(--ga-color-border-primary);
+  background: var(--ga-color-surface-primary);
+  border-radius: var(--ga-radius);
+  color: var(--ga-color-text-body);
+  cursor: pointer;
+  appearance: none;
+  text-align: left;
+  line-height: 1;
+  transition: border-color var(--ga-transition-hover), background-color var(--ga-transition-hover);
+}
+.ga-select:hover { border-color: var(--ga-color-border-action-hover); }
+.ga-select:not(.ga-select--empty):not(.ga-select--disabled):hover { background: var(--ga-color-surface-action-hover-2); }
+.ga-select--expanded { border-color: var(--ga-color-border-focus); outline: var(--ga-size-border-width-sm) solid var(--ga-color-border-focus); }
+.ga-select:focus-visible { outline: var(--ga-focus-outline); outline-offset: var(--ga-focus-outline-offset); }
+.ga-select--disabled {
+  cursor: not-allowed;
+  border-color: var(--ga-color-border-primary);
+  background: var(--ga-color-surface-disabled);
+  color: var(--ga-color-text-disable-selected);
+}
+.ga-select--invalid { border-color: var(--ga-color-border-error); outline: var(--ga-size-border-width-sm) solid var(--ga-color-border-error); }
+.ga-select--invalid:not(.ga-select--empty) { background: var(--ga-color-surface-error); }
+
+.ga-select__main-area { position: relative; display: flex; min-height: 26px; min-width: 0; flex: 1; line-height: 26px; }
+.ga-select__placeholder { min-width: 0; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ga-color-text-disabled); }
+.ga-select__input {
+  font: inherit; letter-spacing: inherit; color: inherit;
+  border: 0; background: transparent; padding: 0; margin: 0;
+  height: var(--ga-size-24); line-height: var(--ga-size-24);
+  min-width: 0; flex: 1; outline: none;
+}
+.ga-select__input::placeholder { color: var(--ga-color-text-disabled); }
+.ga-select__input:not(:focus) { cursor: pointer; }
+.ga-select__input:not(:placeholder-shown) ~ .ga-select__value { display: none; }
+
+.ga-select:not(.ga-select--multi) .ga-select__value { min-width: 0; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ga-select:not(.ga-select--multi) .ga-select__input { position: absolute; top: 0; left: 0; height: 100%; width: 100%; }
+
+.ga-select--multi { height: auto; min-height: var(--ga-size-40); }
+.ga-select--multi .ga-select__main-area {
+  display: flex; flex-wrap: wrap; gap: var(--ga-size-spacing-03);
+  max-height: 94px; min-height: 0; flex: 1;
+  overflow-y: auto; scrollbar-width: thin;
+}
+.ga-select--multi .ga-select__value { display: contents; }
+.ga-select--multi .ga-select__value .ga-tag { min-width: 0; }
+.ga-select--multi .ga-select__input { height: 26px; min-width: var(--ga-size-12); }
+.ga-select--multi.ga-select--label-hidden .ga-select__placeholder { color: var(--ga-color-text-disable-selected); }
+.ga-select--multi.ga-select--label-hidden .ga-select__input { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ga-select--multi.ga-select--label-hidden .ga-select__input::placeholder { color: var(--ga-color-text-disable-selected); }
+
+.ga-select__action-icon { flex-shrink: 0; color: var(--ga-color-icon-primary); }
+.ga-select__suffix { display: flex; height: 26px; flex-shrink: 0; align-items: center; gap: var(--ga-size-spacing-03); }

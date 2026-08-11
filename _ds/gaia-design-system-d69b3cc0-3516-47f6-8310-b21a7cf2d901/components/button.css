@@ -1,0 +1,74 @@
+/* Gaia — Button. Variants: --primary · --secondary (default) · --ghost ·
+   --transparent; --icon-only; --loading. Values verified against
+   gaia-styles button.css. */
+
+.ga-button {
+  font-family: inherit;
+  font-size: var(--ga-text-md-font-size);
+  line-height: var(--ga-size-20);
+  font-weight: var(--ga-font-weight-medium);
+  letter-spacing: var(--ga-text-md-letter-spacing);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ga-size-spacing-03);
+  height: var(--ga-size-40);
+  padding: 0 var(--ga-size-spacing-05);
+  border-radius: var(--ga-radius);
+  border: var(--ga-size-border-width-sm) solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  vertical-align: middle;
+  transition: background-color var(--ga-transition-hover), color var(--ga-transition-hover), border-color var(--ga-transition-hover);
+  background: transparent;
+}
+.ga-button:focus-visible { outline: var(--ga-focus-outline); outline-offset: var(--ga-focus-outline-offset); }
+.ga-button:disabled { cursor: not-allowed; }
+.ga-button .ga-icon { color: var(--ga-color-icon-action); }
+.ga-button:disabled .ga-icon { color: var(--ga-color-icon-on-disabled); }
+
+.ga-button--primary { background: var(--ga-color-surface-action); color: var(--ga-color-text-on-action); border-color: var(--ga-color-surface-action); }
+.ga-button--primary .ga-icon { color: var(--ga-color-icon-on-action); }
+.ga-button--primary:hover { background: var(--ga-color-surface-action-hover); border-color: var(--ga-color-surface-action-hover); }
+.ga-button--primary:active { background: var(--ga-color-surface-action); }
+.ga-button--primary:disabled { background: var(--ga-color-surface-disabled); color: var(--ga-color-text-disable-selected); border-color: var(--ga-color-surface-disabled); }
+.ga-button--primary:disabled .ga-icon { color: var(--ga-color-icon-on-disabled); }
+
+.ga-button--secondary { border-color: var(--ga-color-border-action); background: var(--ga-color-surface-primary); color: var(--ga-color-text-action); }
+.ga-button--secondary:hover { background: var(--ga-color-surface-action-hover-2); color: var(--ga-color-text-action-hover); }
+.ga-button--secondary:active { background: var(--ga-color-surface-primary); }
+.ga-button--secondary:disabled { border-color: var(--ga-color-border-disabled); background: var(--ga-color-surface-page); color: var(--ga-color-text-disabled); }
+
+.ga-button--ghost { border-color: transparent; background: transparent; color: var(--ga-color-text-action); }
+.ga-button--ghost:hover { border-color: var(--ga-color-border-action-hover); color: var(--ga-color-text-action-hover); }
+.ga-button--ghost:active { color: var(--ga-color-text-action); }
+.ga-button--ghost:disabled { border-color: transparent; color: var(--ga-color-text-disabled); }
+.ga-button--ghost:disabled .ga-icon { color: var(--ga-color-icon-disabled); }
+
+.ga-button--transparent { border-color: var(--ga-color-border-action); background: transparent; color: var(--ga-color-text-action); }
+.ga-button--transparent:hover { background: var(--ga-color-surface-action-hover-2); color: var(--ga-color-text-action-hover); }
+.ga-button--transparent:active { background: transparent; }
+.ga-button--transparent:focus-visible { border-color: var(--ga-color-border-action); }
+.ga-button--transparent:disabled { border-color: var(--ga-color-border-disabled); background: transparent; color: var(--ga-color-text-disable-selected); }
+
+.ga-button--icon-only { width: var(--ga-size-40); padding: 0; }
+
+/* Default [gaButton] with no/empty variant renders as secondary. */
+.ga-button:not(.ga-button--primary):not(.ga-button--ghost):not(.ga-button--transparent):not(.ga-button--secondary) {
+  border-color: var(--ga-color-border-action);
+  background: var(--ga-color-surface-primary);
+  color: var(--ga-color-text-action);
+}
+
+/* Loading state (gaButtonLoading): a 16px spinner replaces the icon; the
+   label drops to caption weight 400 per the GaButtonDirective template. */
+.ga-button--loading { cursor: progress; }
+.ga-button--loading .ga-loader__spinner,
+.ga-button--loading .ga-spinner { width: var(--ga-size-16); height: var(--ga-size-16); }
+.ga-button__loading-label {
+  color: var(--ga-color-text-body);
+  font-weight: var(--ga-font-weight-normal);
+  font-size: var(--ga-text-sm-font-size);
+  line-height: var(--ga-text-sm-line-height);
+  letter-spacing: var(--ga-text-sm-letter-spacing);
+}

@@ -1,0 +1,83 @@
+/* Gaia — Feedback. The in-product "How is your experience?" widget.
+   Verified against kit node 33808:13476: 320w card, radius 4, 1px inset
+   keyline (neutral-30), 16px inset. Steps: prompt (title 12/600 + 40px
+   thumbs) → comment (textarea + Submit/Cancel, 24px gap) → confirmation
+   (title 16/500). Mobile-friendly variant raises the title to 16px. */
+
+.ga-feedback {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ga-size-spacing-05);
+  width: var(--ga-size-320);
+  padding: var(--ga-size-16);
+  border-radius: var(--ga-radius);
+  background: var(--ga-color-surface-primary);
+  box-shadow: inset 0 0 0 var(--ga-size-border-width-sm) var(--ga-color-border-tertiary);
+  font-family: var(--ga-font-family-primary);
+  box-sizing: border-box;
+}
+.ga-feedback--comment { gap: var(--ga-size-spacing-06); }
+
+.ga-feedback__content {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: var(--ga-size-4);
+}
+.ga-feedback__title {
+  flex: 1;
+  font-size: var(--ga-text-sm-font-size);
+  line-height: 1;
+  font-weight: var(--ga-font-weight-semibold);
+  color: var(--ga-color-text-body);
+  padding-top: var(--ga-size-6);
+}
+.ga-feedback--mobile .ga-feedback__title,
+.ga-feedback__title--confirmation {
+  font-size: var(--ga-text-lg-font-size);
+  line-height: var(--ga-text-lg-line-height);
+  letter-spacing: var(--ga-text-lg-letter-spacing);
+  padding-top: 0;
+}
+.ga-feedback__title--confirmation { font-weight: var(--ga-font-weight-medium); }
+
+.ga-feedback__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--ga-size-24);
+  height: var(--ga-size-24);
+  flex-shrink: 0;
+  border: 0;
+  border-radius: var(--ga-radius);
+  background: transparent;
+  color: var(--ga-color-icon-action);
+  cursor: pointer;
+  transition: color var(--ga-transition-hover);
+}
+.ga-feedback__close:hover { color: var(--ga-color-icon-action-hover); }
+.ga-feedback__close:focus-visible { outline: var(--ga-focus-outline); outline-offset: 0; }
+
+/* Thumb pair — two 40px icon-only buttons, 8px apart (uses .ga-button). */
+.ga-feedback__actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--ga-size-spacing-03);
+}
+
+/* Comment step */
+.ga-feedback__comment {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ga-size-spacing-05);
+}
+.ga-feedback__comment .ga-text-area,
+.ga-feedback__comment textarea { align-self: stretch; }
+.ga-feedback__button-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--ga-size-spacing-03);
+}

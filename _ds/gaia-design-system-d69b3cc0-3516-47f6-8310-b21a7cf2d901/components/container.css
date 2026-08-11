@@ -1,0 +1,37 @@
+/* Gaia — Container + skeleton.
+   .ga-container (canonical): responsive horizontal page margins only —
+   16 / 24 / 32 / 40px stepping up at 840 / 1440 / 1920.
+   .ga-container--surface keeps this port's earlier bordered-panel look. */
+
+.ga-container { margin-left: var(--ga-size-16); margin-right: var(--ga-size-16); }
+@media (min-width: 840px)  { .ga-container { margin-left: var(--ga-size-24); margin-right: var(--ga-size-24); } }
+@media (min-width: 1440px) { .ga-container { margin-left: var(--ga-size-32); margin-right: var(--ga-size-32); } }
+@media (min-width: 1920px) { .ga-container { margin-left: var(--ga-size-40); margin-right: var(--ga-size-40); } }
+
+.ga-container--surface {
+  margin-left: 0; margin-right: 0;
+  background: var(--ga-color-surface-primary);
+  border: var(--ga-size-border-width-sm) solid var(--ga-color-border-tertiary);
+  border-radius: var(--ga-radius);
+  padding: var(--ga-size-24);
+}
+
+/* ---------- Skeleton ---------- */
+.ga-skeleton {
+  display: inline-block;
+  border-radius: var(--ga-radius);
+  background: linear-gradient(90deg,
+    var(--ga-color-miscellaneous-skeleton-element) 0%,
+    var(--ga-color-miscellaneous-skeleton-highlight) 50%,
+    var(--ga-color-miscellaneous-skeleton-element) 100%);
+  background-size: 200% 100%;
+  animation: ga-skeleton-shimmer 1400ms linear infinite;
+  min-height: 1em; min-width: 4em;
+}
+@keyframes ga-skeleton-shimmer {
+  0% { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ga-skeleton { animation: none; background: var(--ga-color-miscellaneous-skeleton-element); }
+}

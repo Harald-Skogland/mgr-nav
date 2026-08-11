@@ -1,0 +1,92 @@
+/* Gaia — Menu. Floating list of actions with icons, shortcuts, descriptions,
+   separators and section titles. */
+
+.ga-menu {
+  font-size: var(--ga-text-md-font-size);
+  letter-spacing: var(--ga-text-md-letter-spacing);
+  display: flex; flex-direction: column; align-items: stretch;
+  max-height: 324px;
+  max-width: 80ch;
+  min-width: 14rem;
+  overflow-y: auto;
+  border: var(--ga-size-border-width-sm) solid var(--ga-color-border-primary);
+  background: var(--ga-color-surface-primary);
+  border-radius: var(--ga-radius);
+  box-shadow: var(--ga-shadow-north);
+}
+.ga-menu__item {
+  font: inherit; letter-spacing: inherit;
+  position: relative;
+  display: flex; flex-direction: row;
+  gap: var(--ga-size-spacing-03);
+  min-height: var(--ga-size-36);
+  flex-shrink: 0;
+  padding: var(--ga-size-8) var(--ga-size-12);
+  border: 0; background: transparent; border-radius: 0;
+  text-align: left; line-height: 1;
+  cursor: pointer;
+  transition: background-color var(--ga-transition-hover), color var(--ga-transition-hover);
+}
+.ga-menu__item:first-child { border-top-left-radius: var(--ga-radius); border-top-right-radius: var(--ga-radius); }
+.ga-menu__item:last-child { border-bottom-left-radius: var(--ga-radius); border-bottom-right-radius: var(--ga-radius); }
+.ga-menu__item:focus, .ga-menu__item:focus-visible { outline: none; }
+.ga-menu__item:hover { background: var(--ga-color-surface-action-hover-2); }
+.ga-menu__item:hover .ga-menu__item-icon { color: var(--ga-color-icon-action); }
+.ga-menu__item:hover .ga-menu__item-label { color: var(--ga-color-text-action-hover); }
+
+.ga-menu__item--disabled { cursor: not-allowed; background: var(--ga-color-surface-primary); }
+.ga-menu__item--disabled .ga-menu__item-icon { color: var(--ga-color-icon-disabled); }
+.ga-menu__item--disabled .ga-menu__item-label { color: var(--ga-color-text-disabled); }
+
+.ga-menu__item--selected { background: var(--ga-color-surface-action); color: var(--ga-color-text-on-action); }
+.ga-menu__item--selected .ga-menu__item-icon { color: var(--ga-color-icon-on-action); }
+.ga-menu__item--selected .ga-menu__item-label { color: var(--ga-color-text-on-action); }
+.ga-menu__item--selected:hover { background: var(--ga-color-surface-action-hover); }
+.ga-menu__item--selected.ga-menu__item--disabled { background: var(--ga-color-surface-primary); }
+.ga-menu__item--selected.ga-menu__item--disabled .ga-menu__item-icon { color: var(--ga-color-icon-on-disabled); }
+.ga-menu__item--selected.ga-menu__item--disabled .ga-menu__item-label { color: var(--ga-color-text-disable-selected); }
+
+/* Keyboard-active / focus ring drawn just inside the row. */
+.ga-menu:not(:focus-within) .ga-menu__item.ga-menu__item--active::after,
+.ga-menu__item:focus-visible::after {
+  content: ''; position: absolute; top: 1px; left: 1px;
+  height: calc(100% - 2px); width: calc(100% - 2px);
+  border: var(--ga-size-border-width-md) solid var(--ga-color-border-focus);
+  border-radius: var(--ga-radius);
+  pointer-events: none;
+}
+.ga-menu:not(:focus-within) .ga-menu__item--selected.ga-menu__item--active::after,
+.ga-menu__item--selected:focus-visible::after { border-color: var(--ga-color-white); }
+
+.ga-menu__item-icon { margin-top: var(--ga-size-2); flex-shrink: 0; color: var(--ga-color-icon-primary); }
+.ga-menu__item-content { display: flex; min-width: 0; flex-direction: column; }
+.ga-menu__item-title { display: flex; align-items: center; gap: var(--ga-size-spacing-03); }
+.ga-menu__item-label {
+  font-size: var(--ga-text-md-font-size);
+  height: var(--ga-size-20); flex: 1; min-width: 0;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-weight: var(--ga-font-weight-medium);
+  color: var(--ga-color-text-action);
+}
+.ga-menu__item-shortcut {
+  flex-shrink: 0;
+  border: var(--ga-size-border-width-sm) solid var(--ga-color-border-disabled);
+  background: var(--ga-color-white);
+  border-radius: var(--ga-radius);
+  padding: 0 var(--ga-size-4);
+  font-size: var(--ga-text-xs-font-size);
+  font-weight: var(--ga-font-weight-medium);
+  color: var(--ga-color-text-body);
+}
+.ga-menu__item-description {
+  font-size: var(--ga-text-xs-font-size);
+  line-height: var(--ga-text-xs-line-height);
+  color: var(--ga-color-text-disable-selected);
+}
+.ga-menu__separator { margin: 0 0 0 var(--ga-size-12); border: 0; border-bottom: var(--ga-size-border-width-sm) solid var(--ga-color-border-primary); }
+.ga-menu__title {
+  padding: var(--ga-size-12) var(--ga-size-12) var(--ga-size-8);
+  font-size: var(--ga-text-sm-font-size);
+  line-height: var(--ga-text-sm-line-height);
+  font-weight: var(--ga-font-weight-semibold);
+}

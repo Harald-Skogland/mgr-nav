@@ -1,0 +1,73 @@
+/* Gaia — Tabs. Underline tabs: each tab carries a 4px keyline (bottom when
+   horizontal, left when --vertical) that colours in on --selected. --keyline
+   (alias --with-keyline) draws a 1px rule behind the whole row. */
+
+.ga-tabs { display: flex; gap: var(--ga-size-spacing-03); }
+.ga-tabs__tab {
+  position: relative;
+  font-family: inherit;
+  font-size: var(--ga-text-md-font-size);
+  line-height: var(--ga-size-16);
+  letter-spacing: var(--ga-text-md-letter-spacing);
+  font-weight: var(--ga-font-weight-medium);
+  display: inline-flex; align-items: center;
+  gap: var(--ga-size-spacing-03);
+  height: var(--ga-size-32);
+  cursor: pointer;
+  background: transparent; border: 0;
+  color: var(--ga-color-text-action);
+  transition: border-color var(--ga-transition-hover), color var(--ga-transition-hover);
+}
+.ga-tabs__tab .ga-tabs__tab-icon,
+.ga-tabs__tab .ga-tab__right-icon { color: var(--ga-color-icon-action); width: var(--ga-size-16); height: var(--ga-size-16); flex-shrink: 0; }
+.ga-tabs__tab--selected { font-weight: var(--ga-font-weight-semibold); }
+.ga-tabs__tab--disabled { color: var(--ga-color-text-disabled); cursor: not-allowed; }
+.ga-tabs__tab--disabled .ga-tabs__tab-icon { color: var(--ga-color-icon-disabled); }
+.ga-tabs__tab:not(.ga-tabs__tab--disabled):hover { color: var(--ga-color-text-action-hover); }
+.ga-tabs__tab:not(.ga-tabs__tab--disabled):hover .ga-tabs__tab-icon { color: var(--ga-color-icon-primary); }
+.ga-tabs__tab:focus-visible { outline: none; }
+.ga-tabs__tab:focus-visible::after,
+.ga-tabs__tab--focused::after {
+  content: ''; position: absolute; inset: -4px;
+  border: var(--ga-size-border-width-md) solid var(--ga-color-border-focus);
+  border-radius: var(--ga-radius);
+  pointer-events: none;
+}
+
+/* Horizontal (default): 4px bottom keyline per tab. */
+.ga-tabs:not(.ga-tabs--vertical) { flex-direction: row; }
+.ga-tabs:not(.ga-tabs--vertical) .ga-tabs__tab {
+  border-bottom: var(--ga-size-border-width-lg) solid transparent;
+  padding: var(--ga-size-8) var(--ga-size-16) var(--ga-size-4);
+}
+.ga-tabs:not(.ga-tabs--vertical) .ga-tabs__tab--selected { border-bottom-color: var(--ga-color-border-action); }
+.ga-tabs:not(.ga-tabs--vertical) .ga-tabs__tab--disabled.ga-tabs__tab--selected { border-bottom-color: var(--ga-color-border-disabled); }
+.ga-tabs:not(.ga-tabs--vertical) .ga-tabs__tab:not(.ga-tabs__tab--disabled):hover { border-bottom-color: var(--ga-color-border-action-hover); }
+.ga-tabs:not(.ga-tabs--vertical) .ga-tabs__tab:focus-visible::after,
+.ga-tabs:not(.ga-tabs--vertical) .ga-tabs__tab--focused::after { bottom: -8px; }
+
+/* Vertical: 4px left keyline per tab. */
+.ga-tabs--vertical { flex-direction: column; align-items: stretch; }
+.ga-tabs--vertical .ga-tabs__tab {
+  border-left: var(--ga-size-border-width-lg) solid transparent;
+  padding: var(--ga-size-8) var(--ga-size-16) var(--ga-size-8) var(--ga-size-12);
+  height: auto;
+}
+.ga-tabs--vertical .ga-tabs__tab--selected { border-left-color: var(--ga-color-border-action); }
+.ga-tabs--vertical .ga-tabs__tab--disabled.ga-tabs__tab--selected { border-left-color: var(--ga-color-border-disabled); }
+.ga-tabs--vertical .ga-tabs__tab:not(.ga-tabs__tab--disabled):hover { border-left-color: var(--ga-color-border-action-hover); }
+.ga-tabs--vertical .ga-tabs__tab:focus-visible::after,
+.ga-tabs--vertical .ga-tabs__tab--focused::after { left: -8px; }
+
+/* --keyline: 1px rule behind the whole row. */
+.ga-tabs--keyline:not(.ga-tabs--vertical),
+.ga-tabs--with-keyline:not(.ga-tabs--vertical) { border-bottom: var(--ga-size-border-width-sm) solid var(--ga-color-border-tertiary); }
+.ga-tabs--keyline.ga-tabs--vertical,
+.ga-tabs--with-keyline.ga-tabs--vertical { border-left: var(--ga-size-border-width-sm) solid var(--ga-color-border-tertiary); }
+
+/* Outer flex wrapper + overflow trigger (ngx-gaia). */
+.ga-tabs-container { display: flex; }
+.ga-tabs-container--horizontal { flex-direction: column; }
+.ga-tabs-container--vertical { flex-direction: row; }
+.ga-tabs__more { display: inline-flex; align-items: center; gap: var(--ga-size-4); cursor: pointer; }
+.ga-tabs__more--hidden { visibility: hidden; position: absolute; pointer-events: none; }

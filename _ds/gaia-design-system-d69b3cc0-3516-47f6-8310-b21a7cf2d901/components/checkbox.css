@@ -1,0 +1,80 @@
+/* Gaia — Checkbox. Hidden native input + absolutely-positioned marker. The
+   marker's `color` drives the check/minus indicator (::after glyph fallback or
+   icon indicator elements), so state recolors the glyph automatically. */
+
+.ga-checkbox {
+  position: relative;
+  display: inline-flex;
+  gap: var(--ga-size-spacing-03);
+  font-size: var(--ga-text-md-font-size);
+  letter-spacing: var(--ga-text-md-letter-spacing);
+  color: var(--ga-color-text-body);
+}
+.ga-checkbox__native {
+  height: var(--ga-size-16); width: var(--ga-size-16);
+  flex: 0 0 var(--ga-size-16);
+  opacity: 0; cursor: pointer; margin: 0;
+}
+.ga-checkbox__marker {
+  position: absolute; top: 0; left: 0;
+  height: var(--ga-size-16); width: var(--ga-size-16);
+  border: var(--ga-size-border-width-md) solid var(--ga-color-border-action);
+  border-radius: var(--ga-radius);
+  color: var(--ga-color-icon-on-primary);
+  pointer-events: none;
+  display: flex; align-items: center; justify-content: center;
+  transition: background-color var(--ga-transition-state), border-color var(--ga-transition-state), color var(--ga-transition-state);
+}
+.ga-checkbox__native:focus-visible ~ .ga-checkbox__marker { outline: var(--ga-focus-outline); outline-offset: var(--ga-focus-outline-offset); }
+.ga-checkbox__native:hover:not(:disabled) ~ .ga-checkbox__marker { border-color: var(--ga-color-border-action-hover); background: var(--ga-color-surface-action-hover-2); }
+.ga-checkbox__native:checked ~ .ga-checkbox__marker,
+.ga-checkbox__native:indeterminate ~ .ga-checkbox__marker { background: var(--ga-color-surface-action); }
+.ga-checkbox:not(.ga-checkbox--invalid) .ga-checkbox__native:hover:not(:disabled):checked ~ .ga-checkbox__marker,
+.ga-checkbox:not(.ga-checkbox--invalid) .ga-checkbox__native:hover:not(:disabled):indeterminate ~ .ga-checkbox__marker { background: var(--ga-color-surface-action-hover); }
+
+/* CSS glyph fallback (no indicator elements in the marker). */
+.ga-checkbox__native:checked ~ .ga-checkbox__marker::after {
+  content: ''; display: block;
+  width: 0.3rem; height: 0.55rem;
+  border: solid currentColor; border-width: 0 2px 2px 0;
+  transform: translateY(-1px) rotate(45deg);
+}
+.ga-checkbox__native:indeterminate ~ .ga-checkbox__marker::after {
+  content: ''; display: block;
+  width: var(--ga-size-8); height: var(--ga-size-2);
+  background: currentColor;
+}
+
+/* Icon indicator elements (lucide Check / Minus) when present. */
+.ga-checkbox__marker__indicator-checked,
+.ga-checkbox__marker__indicator-indeterminate { display: none; color: currentColor; }
+.ga-checkbox__native:checked ~ .ga-checkbox__marker .ga-checkbox__marker__indicator-checked { display: inline-flex; }
+.ga-checkbox__native:indeterminate ~ .ga-checkbox__marker .ga-checkbox__marker__indicator-checked { display: none; }
+.ga-checkbox__native:indeterminate ~ .ga-checkbox__marker .ga-checkbox__marker__indicator-indeterminate { display: inline-flex; }
+.ga-checkbox__marker:has(.ga-checkbox__marker__indicator-checked)::after { display: none !important; }
+
+/* Disabled */
+.ga-checkbox__native:disabled { cursor: not-allowed; }
+.ga-checkbox__native:disabled ~ .ga-checkbox__marker {
+  border-color: var(--ga-color-border-disabled);
+  background: var(--ga-color-surface-disabled);
+  color: var(--ga-color-text-disabled);
+}
+.ga-checkbox__native:disabled ~ .ga-checkbox__label { color: var(--ga-color-text-disabled); }
+
+/* Invalid (host class --invalid; --error kept as legacy alias) */
+.ga-checkbox--invalid .ga-checkbox__native ~ .ga-checkbox__marker,
+.ga-checkbox--error .ga-checkbox__native ~ .ga-checkbox__marker {
+  border-color: var(--ga-color-border-error);
+  background: var(--ga-color-surface-error);
+  color: var(--ga-color-border-error);
+}
+.ga-checkbox--invalid .ga-checkbox__native:checked ~ .ga-checkbox__marker,
+.ga-checkbox--invalid .ga-checkbox__native:indeterminate ~ .ga-checkbox__marker {
+  background: var(--ga-color-border-error);
+  border-color: var(--ga-color-border-error);
+  color: var(--ga-color-icon-on-primary);
+}
+
+.ga-checkbox__label { min-height: var(--ga-size-16); line-height: var(--ga-size-16); }
+.ga-checkbox__label:empty { display: none; }

@@ -1,0 +1,30 @@
+/* Gaia — Page header. Global navigation row (menu + breadcrumbs / actions)
+   over an optional page-navigation row. Responsive per canonical CSS. */
+
+.ga-page-header { display: flex; width: 100%; flex-direction: column; align-items: flex-start; gap: var(--ga-size-4); padding: 0; }
+.ga-page-header__global-navigation {
+  display: flex; width: 100%; align-items: center; justify-content: space-between;
+  border-radius: var(--ga-radius);
+  background: var(--ga-color-surface-primary);
+  padding: var(--ga-size-12) var(--ga-size-16);
+}
+.ga-page-header__menu-breadcrumbs { display: flex; flex-shrink: 0; flex-grow: 1; flex-basis: 0; align-items: center; gap: var(--ga-size-spacing-05); }
+.ga-page-header__header-actions { display: flex; align-items: center; gap: var(--ga-size-spacing-03); background: var(--ga-color-surface-primary); }
+.ga-page-header__page-navigation { display: flex; width: 100%; align-items: center; justify-content: space-between; align-self: stretch; padding: 0 var(--ga-size-16) var(--ga-size-12); }
+.ga-page-header__page-nav-start { display: flex; align-items: center; gap: var(--ga-size-spacing-04); }
+.ga-page-header__page-nav-end { display: flex; align-items: center; gap: var(--ga-size-spacing-03); }
+
+@media (max-width: 767px) {
+  .ga-page-header .ga-page-header__global-navigation { flex-wrap: wrap; row-gap: var(--ga-size-8); }
+  .ga-page-header .ga-page-header__header-actions { margin-left: auto; }
+  .ga-page-header .ga-page-header__menu-breadcrumbs { display: contents; }
+  /* The breadcrumb wraps to row 2 and stretches full width. */
+  .ga-page-header .ga-page-header__menu-breadcrumbs .ga-breadcrumb { order: 9999; flex-basis: 100%; }
+}
+@media (min-width: 768px) {
+  .ga-page-header .ga-page-header__global-navigation { width: auto; align-self: stretch; }
+  .ga-page-header .ga-page-header__page-navigation { width: auto; }
+}
+@media (min-width: 1440px) {
+  .ga-page-header .ga-page-header__header-actions { background: transparent; }
+}

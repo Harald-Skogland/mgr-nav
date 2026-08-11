@@ -1,0 +1,60 @@
+/* Gaia — Drawer. Sliding side panel: header (back/close icon button + xl
+   title + sm description), flexible body, 56px footer action bar. Flyout
+   type carries a 1px primary border; modal type floats on the overlay scrim
+   with the directional shadow. From Figma drawer (Type=flyout / modal). */
+
+.ga-drawer {
+  display: flex; flex-direction: column; align-items: stretch;
+  width: var(--ga-size-320);
+  height: 100%;
+  background: var(--ga-color-surface-primary);
+  border: var(--ga-size-border-width-sm) solid var(--ga-color-border-primary);
+  overflow: hidden;
+}
+.ga-drawer--modal { border: 0; box-shadow: var(--ga-shadow-east); }
+.ga-drawer--start { box-shadow: var(--ga-shadow-west); }
+
+.ga-drawer__header {
+  flex-shrink: 0;
+  border-bottom: var(--ga-size-border-width-sm) solid var(--ga-color-border-tertiary);
+  border-radius: var(--ga-radius) var(--ga-radius) var(--ga-radius-sharp) var(--ga-radius-sharp);
+  background: var(--ga-color-surface-primary);
+  display: flex; flex-direction: row; align-items: flex-start;
+  gap: var(--ga-size-spacing-03);
+  padding: var(--ga-size-8);
+}
+.ga-drawer__header-section { display: flex; flex-direction: column; gap: var(--ga-size-2); flex: 1; min-width: 0; padding-bottom: var(--ga-size-12); }
+.ga-drawer__title {
+  font-size: var(--ga-text-xl-font-size);
+  line-height: var(--ga-text-xl-line-height);
+  letter-spacing: var(--ga-text-xl-letter-spacing);
+  color: var(--ga-color-text-headings);
+  padding: var(--ga-size-4) 0;
+}
+.ga-drawer__description {
+  font-size: var(--ga-text-sm-font-size);
+  line-height: var(--ga-size-20);
+  letter-spacing: var(--ga-text-sm-letter-spacing);
+  color: var(--ga-color-text-body);
+}
+
+.ga-drawer__body { flex: 1; min-height: 0; overflow-y: auto; scrollbar-width: thin; padding: var(--ga-size-8) var(--ga-size-16); }
+
+.ga-drawer__footer {
+  flex-shrink: 0;
+  height: var(--ga-size-56);
+  border-top: var(--ga-size-border-width-sm) solid var(--ga-color-border-tertiary);
+  display: flex; flex-direction: row; align-items: center; justify-content: space-between;
+  gap: var(--ga-size-spacing-03);
+  padding: var(--ga-size-8) var(--ga-size-16);
+}
+.ga-drawer__footer-actions { display: flex; flex-direction: row; align-items: center; gap: var(--ga-size-spacing-03); }
+
+/* Backdrop for the modal type. */
+.ga-drawer__backdrop { position: fixed; inset: 0; z-index: var(--ga-index-overlay); background: var(--ga-color-miscellaneous-overlay); }
+.ga-drawer__container {
+  position: fixed; top: 0; bottom: 0; right: 0;
+  z-index: var(--ga-index-modal);
+  display: flex;
+}
+.ga-drawer__container--start { right: auto; left: 0; }

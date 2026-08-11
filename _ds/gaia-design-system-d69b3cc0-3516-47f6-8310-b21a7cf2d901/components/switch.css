@@ -1,0 +1,99 @@
+/* Gaia — Switch. 48×24 track, 16px thumb (3px inset), check glyph inside the
+   track when on. State from the native input OR host classes --checked /
+   --disabled / --invalid (legacy --error / --success / --warning outlines). */
+
+.ga-switch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ga-size-spacing-04);
+  font-size: var(--ga-text-md-font-size);
+  line-height: var(--ga-text-md-line-height);
+  letter-spacing: var(--ga-text-md-letter-spacing);
+  color: var(--ga-color-text-body);
+}
+.ga-switch input,
+.ga-switch__input {
+  display: inline-block;
+  height: var(--ga-size-24); width: var(--ga-size-48);
+  flex: 0 0 var(--ga-size-48);
+  border-radius: var(--ga-radius-round);
+  opacity: 0; cursor: pointer; margin: 0;
+}
+.ga-switch__marker {
+  position: absolute; top: 0; left: 0; display: inline-block;
+  height: var(--ga-size-24); width: var(--ga-size-48);
+  border: var(--ga-size-border-width-sm) solid var(--ga-color-border-action);
+  background: var(--ga-color-surface-primary);
+  border-radius: var(--ga-radius-round);
+  pointer-events: none;
+  transition: background-color var(--ga-transition-state), border-color var(--ga-transition-state);
+}
+.ga-switch__slider {
+  position: absolute; top: 3px; left: 3px; display: inline-block;
+  height: var(--ga-size-16); width: var(--ga-size-16);
+  background: var(--ga-color-surface-action);
+  border-radius: var(--ga-radius-round);
+  pointer-events: none;
+  transition: transform var(--ga-transition-state), background-color var(--ga-transition-state);
+}
+/* Check glyph in the "on" side of the track — CSS mask fallback… */
+.ga-switch__marker::before {
+  content: ""; position: absolute; left: var(--ga-size-8); top: 50%;
+  width: var(--ga-size-10); height: var(--ga-size-10);
+  background: var(--ga-color-icon-on-primary);
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='20 6 9 17 4 12'/></svg>") no-repeat center / contain;
+          mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='20 6 9 17 4 12'/></svg>") no-repeat center / contain;
+  transform: translateY(-50%) scale(0); transform-origin: center;
+  transition: transform var(--ga-transition-state);
+}
+/* …or an explicit icon element (.ga-switch__check-icon), which suppresses it. */
+.ga-switch__check-icon {
+  position: absolute; left: var(--ga-size-6); top: 50%;
+  width: var(--ga-size-12); height: var(--ga-size-12);
+  color: var(--ga-color-icon-on-primary);
+  pointer-events: none;
+  transform: translateY(-50%) scale(0); transform-origin: center;
+  transition: transform var(--ga-transition-state), opacity var(--ga-transition-state);
+}
+.ga-switch__marker:has(.ga-switch__check-icon)::before { display: none; }
+
+/* Hover */
+.ga-switch input:hover:not(:disabled) ~ .ga-switch__marker { background: var(--ga-color-surface-action-hover-2); }
+.ga-switch input:hover:not(:disabled) ~ .ga-switch__marker .ga-switch__slider { background: var(--ga-color-surface-action-hover); }
+
+/* Checked */
+.ga-switch input:checked ~ .ga-switch__marker { border-color: var(--ga-color-border-action); background: var(--ga-color-surface-action); }
+.ga-switch input:checked ~ .ga-switch__marker .ga-switch__slider { transform: translateX(var(--ga-size-24)); background: var(--ga-color-surface-primary); }
+.ga-switch input:checked ~ .ga-switch__marker::before { transform: translateY(-50%) scale(1); }
+.ga-switch input:checked ~ .ga-switch__marker .ga-switch__check-icon { transform: translateY(-50%) scale(1); }
+.ga-switch input:checked:hover:not(:disabled) ~ .ga-switch__marker { background: var(--ga-color-surface-action-hover); }
+.ga-switch input:checked:hover:not(:disabled) ~ .ga-switch__marker .ga-switch__slider { background: var(--ga-color-surface-action-hover-2); }
+
+/* Focus */
+.ga-switch input:focus-visible ~ .ga-switch__marker { outline: var(--ga-focus-outline); outline-offset: var(--ga-focus-outline-offset); }
+
+/* Disabled */
+.ga-switch input:disabled { cursor: not-allowed; }
+.ga-switch input:disabled ~ .ga-switch__marker { border-color: var(--ga-color-border-disabled); background: var(--ga-color-surface-disabled); }
+.ga-switch input:disabled ~ .ga-switch__marker .ga-switch__slider { background: var(--ga-color-icon-on-disabled); }
+.ga-switch input:disabled ~ .ga-switch__marker::before { background: var(--ga-color-icon-on-disabled); }
+.ga-switch input:disabled ~ .ga-switch__marker .ga-switch__check-icon { color: var(--ga-color-icon-on-disabled); }
+
+/* Host-class state hooks (render state without a native control). */
+.ga-switch--checked .ga-switch__marker { border-color: var(--ga-color-border-action); background: var(--ga-color-surface-action); }
+.ga-switch--checked .ga-switch__slider { transform: translateX(var(--ga-size-24)); background: var(--ga-color-surface-primary); }
+.ga-switch--checked .ga-switch__marker::before { transform: translateY(-50%) scale(1); }
+.ga-switch--checked .ga-switch__check-icon { transform: translateY(-50%) scale(1); }
+.ga-switch--disabled .ga-switch__marker { border-color: var(--ga-color-border-disabled); background: var(--ga-color-surface-disabled); }
+.ga-switch--disabled .ga-switch__slider { background: var(--ga-color-icon-on-disabled); }
+
+/* Invalid — 2px error outline around the track (canonical). Legacy status
+   outlines kept at 1px. */
+.ga-switch--invalid input ~ .ga-switch__marker,
+.ga-switch--invalid .ga-switch__marker { outline: var(--ga-size-border-width-md) solid var(--ga-color-border-error); outline-offset: var(--ga-size-border-width-md); }
+.ga-switch--error .ga-switch__marker { outline: var(--ga-size-border-width-sm) solid var(--ga-color-border-error); outline-offset: var(--ga-size-border-width-sm); }
+.ga-switch--success .ga-switch__marker { outline: var(--ga-size-border-width-sm) solid var(--ga-color-border-success); outline-offset: var(--ga-size-border-width-sm); }
+.ga-switch--warning .ga-switch__marker { outline: var(--ga-size-border-width-sm) solid var(--ga-color-border-warning); outline-offset: var(--ga-size-border-width-sm); }
+
+.ga-switch__label { user-select: none; }

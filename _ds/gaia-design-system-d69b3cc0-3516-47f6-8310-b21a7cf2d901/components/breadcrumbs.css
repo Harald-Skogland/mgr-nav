@@ -1,0 +1,72 @@
+/* Gaia — Breadcrumbs. Trail of triggers (16px text) separated by a "/" glyph;
+   variants --link · --current-page · --back · --overflow. Labels truncate at
+   320px. Uses text-action tokens throughout. */
+
+.ga-breadcrumb {
+  display: flex; flex-wrap: wrap; content: normal; align-items: center;
+  gap: var(--ga-size-spacing-06);
+  font-size: var(--ga-text-lg-font-size);
+  line-height: var(--ga-text-lg-line-height);
+  letter-spacing: var(--ga-text-lg-letter-spacing);
+}
+.ga-breadcrumb-item { position: relative; display: inline-flex; align-items: center; gap: var(--ga-size-spacing-04); }
+
+.ga-breadcrumb-item__trigger {
+  display: inline-flex; align-items: center;
+  gap: var(--ga-size-4);
+  background: transparent; border: 0; padding: 0 var(--ga-size-4) 0 0;
+  font: inherit; letter-spacing: inherit;
+  font-weight: var(--ga-font-weight-normal);
+  color: var(--ga-color-text-action);
+  text-decoration: none; cursor: pointer;
+  border-radius: var(--ga-radius);
+  transition: color var(--ga-transition-hover);
+}
+.ga-breadcrumb-item__label {
+  max-width: var(--ga-size-320);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  color: inherit;
+}
+.ga-breadcrumb-item__trigger .ga-icon { color: var(--ga-color-icon-action); }
+.ga-breadcrumb-item__trigger:hover { color: var(--ga-color-text-action-hover); text-decoration: underline; }
+.ga-breadcrumb-item__trigger:active { color: var(--ga-color-text-action-hover); }
+.ga-breadcrumb-item__trigger:focus-visible { outline: var(--ga-focus-outline); outline-offset: var(--ga-focus-outline-offset); }
+
+.ga-breadcrumb-item__separator { color: var(--ga-color-text-body); user-select: none; }
+
+/* Current page — semibold body colour, not a link. */
+.ga-breadcrumb-item--current-page .ga-breadcrumb-item__trigger {
+  font-weight: var(--ga-font-weight-semibold);
+  color: var(--ga-color-text-body);
+  cursor: default;
+}
+.ga-breadcrumb-item--current-page .ga-breadcrumb-item__trigger:hover { text-decoration: none; color: var(--ga-color-text-body); }
+
+/* Back variant — chevron trigger + semibold label. */
+.ga-breadcrumb-item--back { gap: var(--ga-size-spacing-03); }
+.ga-breadcrumb-item--back .ga-breadcrumb-item__label { font-weight: var(--ga-font-weight-semibold); color: var(--ga-color-text-body); }
+.ga-breadcrumb-item--back .ga-breadcrumb-item__trigger:hover .ga-icon { color: var(--ga-color-icon-action-hover); }
+
+/* Overflow ("…") variant. */
+.ga-breadcrumb-item--overflow .ga-breadcrumb-item__trigger[aria-expanded="true"] .ga-breadcrumb-item__label,
+.ga-breadcrumb-item--overflow .ga-breadcrumb-item__trigger:focus-visible .ga-breadcrumb-item__label {
+  border-radius: 2px;
+  text-decoration: none;
+  outline: var(--ga-focus-outline);
+  outline-offset: var(--ga-focus-outline-offset);
+}
+
+/* Explorer button — mouse-only sibling menu trigger. */
+.ga-breadcrumb-item__explorer {
+  display: inline-flex; align-items: center;
+  background: transparent; border: 0; padding: 0 var(--ga-size-4) 0 0;
+  cursor: pointer; border-radius: var(--ga-radius); outline: none;
+  transition: color var(--ga-transition-hover);
+}
+.ga-breadcrumb-item__explorer .ga-icon { color: var(--ga-color-icon-action); }
+.ga-breadcrumb-item__explorer:hover .ga-icon { color: var(--ga-color-icon-action-hover); }
+
+/* Group wrapper — focus ring shared by trigger + explorer. */
+.ga-breadcrumb-item__group { display: inline-flex; align-items: center; border-radius: var(--ga-radius); }
+.ga-breadcrumb-item__group:focus-within { outline: var(--ga-focus-outline); outline-offset: var(--ga-focus-outline-offset); }
+.ga-breadcrumb-item__group .ga-breadcrumb-item__trigger:focus-visible { outline: none; }

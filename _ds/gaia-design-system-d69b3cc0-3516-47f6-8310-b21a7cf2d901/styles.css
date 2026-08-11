@@ -1,0 +1,7 @@
+/* =========================================================================
+   Gaia Design System — global entry
+   Load order: fonts → tokens → components (tokens.css imports fonts.css).
+   Consumers can link this single file, or the three files individually.
+   ========================================================================= */
+@import './tokens.css';
+@import './components.css';

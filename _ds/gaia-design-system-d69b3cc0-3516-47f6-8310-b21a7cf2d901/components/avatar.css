@@ -1,0 +1,117 @@
+/* Gaia — Avatar. Types: icon (default) · initials (text child) · image
+   (--image + .ga-avatar__image). Sizes: --xs 16 · --small 24 · medium 40
+   (default) · --large 64. States: --interactive (hover/focus) · --disabled.
+   Initials use the type-scale atoms per size. */
+
+.ga-avatar {
+  position: relative;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: var(--ga-size-40); height: var(--ga-size-40);
+  border-radius: var(--ga-radius-round);
+  background: var(--ga-color-surface-primary);
+  color: var(--ga-color-text-headings);
+  border: var(--ga-size-border-width-sm) solid var(--ga-color-border-tertiary);
+  font-weight: var(--ga-font-weight-bold);
+  font-size: var(--ga-text-lg-font-size);      /* 16px initials at M */
+  line-height: var(--ga-size-24);
+  letter-spacing: var(--ga-text-lg-letter-spacing);
+  cursor: default;
+  user-select: none;
+  overflow: visible;                            /* status dot + focus ring sit outside */
+  vertical-align: middle;
+  transition: background-color var(--ga-transition-hover), border-color var(--ga-transition-hover), color var(--ga-transition-hover);
+}
+.ga-avatar--xs {
+  width: var(--ga-size-16); height: var(--ga-size-16);
+  font-size: var(--ga-text-xs-font-size); line-height: var(--ga-size-16);
+  letter-spacing: var(--ga-text-xs-letter-spacing);
+  font-weight: var(--ga-font-weight-medium);
+}
+.ga-avatar--small {
+  width: var(--ga-size-24); height: var(--ga-size-24);
+  font-size: var(--ga-text-sm-font-size); line-height: var(--ga-size-16);
+  letter-spacing: var(--ga-text-sm-letter-spacing);
+}
+.ga-avatar--large {
+  width: var(--ga-size-64); height: var(--ga-size-64);
+  font-size: var(--ga-text-2xl-font-size); line-height: var(--ga-size-40);
+  letter-spacing: var(--ga-text-2xl-letter-spacing);
+}
+
+/* Icon glyph sizes per avatar size: 12 / 16 / 30 / 44 (uSpec geometry). */
+.ga-avatar .ga-avatar__icon, .ga-avatar svg.ga-avatar__icon { display: block; color: var(--ga-color-icon-primary); width: 30px; height: 30px; }
+.ga-avatar--xs    .ga-avatar__icon { width: var(--ga-size-12); height: var(--ga-size-12); }
+.ga-avatar--small .ga-avatar__icon { width: var(--ga-size-16); height: var(--ga-size-16); }
+.ga-avatar--large .ga-avatar__icon { width: 44px; height: 44px; }
+
+/* Image type — clipped by the inner element so the outer box can host the
+   status dot and focus ring; state overlays drawn via an inset ::after. */
+.ga-avatar__image {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: center top;
+  border-radius: var(--ga-radius-round);
+  display: block;
+}
+.ga-avatar--image::after {
+  content: ""; position: absolute; inset: 0;
+  border-radius: var(--ga-radius-round);
+  pointer-events: none;
+  transition: background-color var(--ga-transition-hover);
+}
+.ga-avatar--image.ga-avatar--interactive:hover::after,
+.ga-avatar--image.ga-avatar--interactive:focus-visible::after { background: color-mix(in srgb, var(--ga-color-cyan-90) 25%, transparent); }
+.ga-avatar--image.ga-avatar--disabled::after,
+.ga-avatar--image[aria-disabled="true"]::after { background: color-mix(in srgb, var(--ga-color-white) 70%, transparent); }
+
+/* Interactive */
+.ga-avatar--interactive { cursor: pointer; }
+.ga-avatar--interactive:hover,
+.ga-avatar--interactive:focus-visible {
+  background: var(--ga-color-surface-action-hover-2);
+  border-color: var(--ga-color-border-action-hover);
+  color: var(--ga-color-text-action);
+  outline: none;
+}
+.ga-avatar--interactive:hover .ga-avatar__icon,
+.ga-avatar--interactive:focus-visible .ga-avatar__icon { color: var(--ga-color-icon-action-hover); }
+.ga-avatar:focus-visible { outline: var(--ga-focus-outline); outline-offset: 3px; }
+
+/* Disabled */
+.ga-avatar--disabled,
+.ga-avatar[aria-disabled="true"] {
+  background: var(--ga-color-surface-disabled);
+  border-color: var(--ga-color-border-disabled);
+  color: var(--ga-color-text-on-disabled);
+  cursor: not-allowed;
+}
+.ga-avatar--disabled .ga-avatar__icon,
+.ga-avatar[aria-disabled="true"] .ga-avatar__icon { color: var(--ga-color-icon-on-disabled); }
+
+/* Status dot — reuse .ga-badge--dot; 2px surface halo so it reads anywhere.
+   10 / 16 / 24 at small / medium / large; hidden at xs. */
+.ga-avatar .ga-badge--dot {
+  position: absolute; right: 0; bottom: 0;
+  box-shadow: 0 0 0 var(--ga-size-border-width-md) var(--ga-color-surface-primary);
+}
+.ga-avatar:not(.ga-avatar--xs):not(.ga-avatar--small):not(.ga-avatar--large) .ga-badge--dot { width: var(--ga-size-16); height: var(--ga-size-16); }
+.ga-avatar--small .ga-badge--dot { width: var(--ga-size-10); height: var(--ga-size-10); right: -1px; bottom: -1px; }
+.ga-avatar--large .ga-badge--dot { width: var(--ga-size-24); height: var(--ga-size-24); right: 2px; bottom: 2px; }
+.ga-avatar--xs    .ga-badge--dot { display: none; }
+
+/* Legacy status anchor (back-compat); prefer .ga-badge--dot. */
+.ga-avatar__status {
+  position: absolute; right: 0; bottom: 0;
+  width: var(--ga-size-16); height: var(--ga-size-16);
+  border-radius: var(--ga-radius-round);
+  background: var(--ga-color-success);
+  box-shadow: 0 0 0 var(--ga-size-border-width-md) var(--ga-color-surface-primary);
+  pointer-events: none;
+}
+.ga-avatar--small .ga-avatar__status { width: var(--ga-size-10); height: var(--ga-size-10); right: -1px; bottom: -1px; }
+.ga-avatar--large .ga-avatar__status { width: var(--ga-size-24); height: var(--ga-size-24); right: 2px; bottom: 2px; }
+.ga-avatar--xs    .ga-avatar__status { display: none; }
+
+/* Avatar group — overlapping stack. */
+.ga-avatar-group { display: inline-flex; }
+.ga-avatar-group .ga-avatar { box-shadow: 0 0 0 var(--ga-size-border-width-md) var(--ga-color-surface-primary); }
+.ga-avatar-group .ga-avatar + .ga-avatar { margin-left: calc(-1 * var(--ga-size-8)); }

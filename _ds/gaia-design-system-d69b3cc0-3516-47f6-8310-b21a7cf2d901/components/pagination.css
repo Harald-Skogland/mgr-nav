@@ -1,0 +1,62 @@
+/* Gaia — Pagination (ngx-gaia; not in gaia-styles). Compact numbered list
+   pagination, plus the --table footer with page-size + counter + nav. */
+
+.ga-pagination {
+  display: inline-flex; align-items: center;
+  gap: var(--ga-size-spacing-03);
+  font-size: var(--ga-text-sm-font-size);
+  letter-spacing: var(--ga-text-sm-letter-spacing);
+}
+.ga-pagination__button {
+  font-family: inherit;
+  font-size: var(--ga-text-sm-font-size);
+  line-height: var(--ga-text-sm-line-height);
+  letter-spacing: var(--ga-text-sm-letter-spacing);
+  display: inline-flex; align-items: center; justify-content: center;
+  height: var(--ga-size-40); min-width: var(--ga-size-40);
+  padding: 0 var(--ga-size-8);
+  background: transparent;
+  border: var(--ga-size-border-width-sm) solid transparent;
+  border-radius: var(--ga-radius);
+  color: var(--ga-color-text-action);
+  cursor: pointer;
+  transition: background-color var(--ga-transition-hover), border-color var(--ga-transition-hover), color var(--ga-transition-hover);
+}
+.ga-pagination__button:focus-visible { outline: var(--ga-focus-outline); outline-offset: var(--ga-focus-outline-offset); }
+.ga-pagination__button:hover:not(:disabled):not(.ga-pagination__button--selected) {
+  background: var(--ga-color-surface-action-hover-2);
+  border-color: var(--ga-color-border-action-hover);
+}
+.ga-pagination__button--selected {
+  background: var(--ga-color-surface-action);
+  color: var(--ga-color-text-on-action);
+  border-color: var(--ga-color-surface-action);
+  font-weight: var(--ga-font-weight-semibold);
+  cursor: default;
+}
+.ga-pagination__button:disabled { color: var(--ga-color-text-disabled); cursor: not-allowed; }
+.ga-pagination__button .ga-icon { color: inherit; }
+.ga-pagination__ellipsis {
+  display: inline-flex; align-items: center; justify-content: center;
+  height: var(--ga-size-36); min-width: var(--ga-size-24);
+  color: var(--ga-color-text-body-secondary);
+}
+.ga-pagination__summary { font-size: var(--ga-text-sm-font-size); color: var(--ga-color-text-body-secondary); margin-right: var(--ga-size-16); }
+
+/* Table-footer pagination — 48px tall, page-size + range counter + nav. */
+.ga-pagination--table {
+  display: flex; align-items: center; justify-content: flex-end;
+  gap: var(--ga-size-spacing-07);
+  height: var(--ga-size-48);
+  padding: 0 var(--ga-size-16);
+  border: var(--ga-size-border-width-sm) solid var(--ga-color-border-secondary);
+  border-radius: var(--ga-radius);
+  background: var(--ga-color-surface-primary);
+  font-size: var(--ga-text-sm-font-size);
+  color: var(--ga-color-text-body);
+}
+.ga-pagination__page-size { display: inline-flex; align-items: center; gap: var(--ga-size-spacing-04); }
+.ga-pagination__counter { display: inline-flex; align-items: center; gap: var(--ga-size-4); }
+.ga-pagination__counter-value { font-variant-numeric: tabular-nums; }
+.ga-pagination__nav { display: inline-flex; align-items: center; gap: var(--ga-size-spacing-03); }
+.ga-pagination__nav .ga-button { color: var(--ga-color-icon-action); }

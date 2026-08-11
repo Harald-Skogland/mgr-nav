@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Visma — Log in</title>
+<link rel="stylesheet" href="_ds/gaia-design-system-d69b3cc0-3516-47f6-8310-b21a7cf2d901/styles.css">
+<style>
+  /* Page shell — composition only; all colour, type and spacing read Gaia tokens. */
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    background: var(--ga-color-surface-page);
+    color: var(--ga-color-text-body);
+    font-family: var(--ga-font-family-primary);
+    font-size: var(--ga-text-md-font-size);
+    line-height: var(--ga-text-md-line-height);
+    letter-spacing: var(--ga-text-md-letter-spacing);
+  }
+
+  .login {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--ga-size-spacing-06);
+    padding: var(--ga-size-spacing-07) var(--ga-size-spacing-05);
+    box-sizing: border-box;
+  }
+
+  /* Brand lockup — the Visma Manager checkmark above the product name.
+     Both marks are traced from the Visma Connect reference screens and fill
+     with currentColor, so they retint with the surrounding text colour. */
+  .login__brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--ga-size-spacing-04);
+    color: var(--ga-color-text-headings);
+  }
+  .login__mark { width: 64px; height: auto; display: block; }
+  .login__brand-name { font-weight: var(--ga-font-weight-normal); }
+
+  .login__footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--ga-size-spacing-04);
+    color: var(--ga-color-text-headings);
+  }
+  .login__visma { width: 88px; height: auto; display: block; }
+
+  .login__authicon {
+    display: flex;
+    justify-content: center;
+    color: var(--ga-color-icon-action);
+  }
+
+  /* .ga-card defaults to inline-block / 16px inset — widen it for the form. */
+  .login__card {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 400px;
+    padding: var(--ga-size-spacing-07);
+  }
+
+  .login__screen { display: none; flex-direction: column; gap: var(--ga-size-spacing-06); }
+  .login__screen[data-active] { display: flex; }
+
+  .login__head { display: flex; flex-direction: column; gap: var(--ga-size-spacing-02); }
+  .login__title {
+    margin: 0;
+    font-weight: var(--ga-font-weight-semibold);
+    color: var(--ga-color-text-headings);
+  }
+  .login__lede { margin: 0; color: var(--ga-color-text-body); }
+
+  .login__back {
+    align-self: flex-start;
+    margin-bottom: calc(var(--ga-size-spacing-02) * -1);
+  }
+
+  /* Static read-back of the address entered on step 1. */
+  .login__identity {
+    display: flex;
+    align-items: center;
+    gap: var(--ga-size-spacing-03);
+    padding: var(--ga-size-spacing-03) var(--ga-size-spacing-04);
+    border: var(--ga-size-border-width-sm) solid var(--ga-color-border-tertiary);
+    border-radius: var(--ga-radius);
+    background: var(--ga-color-surface-page);
+  }
+  .login__identity-value { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  .login__reveal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    color: var(--ga-color-icon-action);
+    border-radius: var(--ga-radius);
+  }
+  .login__reveal:focus-visible {
+    outline: var(--ga-focus-outline);
+    outline-offset: var(--ga-focus-outline-offset);
+  }
+
+  /* Six single-character boxes; each is a .ga-input so it inherits every field state. */
+  .login__code { display: flex; gap: var(--ga-size-spacing-03); }
+  .login__code .ga-input { width: auto; flex: 1; min-width: 0; padding-left: var(--ga-size-4); padding-right: var(--ga-size-4); }
+  .login__code input {
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+    font-weight: var(--ga-font-weight-medium);
+  }
+
+  .login__actions { display: flex; flex-direction: column; gap: var(--ga-size-spacing-04); align-items: center; }
+  .login__submit { width: 100%; }
+
+  .login__notification { width: 100%; min-width: 0; }
+
+  .login__legal { color: var(--ga-color-text-body); margin: 0; }
+</style>
+</head>
+<body>
+
+<main class="login">
+  <div class="login__brand">
+    <svg class="login__mark" viewBox="0 0 100 93.51" role="img" aria-label="Visma Manager">
+      <path fill="currentColor" d="M0.67 51.31 C0.95 50.22 1.43 49.16 2.16 48.27 C2.89 47.38 4.0 46.49 5.05 45.96 C6.09 45.42 7.32 45.06 8.44 45.07 C9.56 45.08 10.66 45.45 11.77 46.03 C12.87 46.61 11.12 44.5 15.09 48.55 C19.05 52.59 31.93 66.5 35.55 70.28 C39.18 74.06 36.48 71.1 36.84 71.24 C37.2 71.39 34.58 75.26 37.73 71.16 C40.89 67.07 50.22 53.84 55.76 46.67 C61.3 39.5 65.48 34.63 70.99 28.13 C76.5 21.63 84.73 12.22 88.82 7.66 C92.91 3.09 94.12 1.97 95.53 0.74 C96.95 -0.49 96.72 0.17 97.32 0.27 C97.92 0.38 98.81 0.92 99.14 1.35 C99.48 1.78 99.46 2.28 99.32 2.86 C99.18 3.43 101.39 0.58 98.31 4.8 C95.22 9.03 84.8 22.68 80.8 28.2 C76.8 33.73 77.24 33.19 74.31 37.94 C71.38 42.7 67.7 48.44 63.21 56.72 C58.72 65.0 50.36 81.96 47.36 87.62 C44.37 93.28 45.89 89.94 45.23 90.69 C44.58 91.44 44.2 91.73 43.42 92.12 C42.65 92.51 41.45 92.89 40.58 93.03 C39.7 93.16 39.02 93.13 38.16 92.94 C37.29 92.75 36.2 92.36 35.36 91.91 C34.52 91.47 38.56 95.75 33.11 90.26 C27.67 84.78 8.12 64.92 2.68 59.0 C-2.75 53.09 0.82 56.07 0.48 54.78 C0.15 53.5 0.39 52.4 0.67 51.31 Z"/>
+    </svg>
+    <div class="ga-text-headline login__brand-name">Visma Manager</div>
+  </div>
+
+  <div class="ga-card login__card">
+
+    <!-- 1 — Email ------------------------------------------------------- -->
+    <section class="login__screen" data-screen="1" data-active>
+      <div class="login__head">
+        <h1 class="ga-text-title login__title">Log in</h1>
+        <p class="login__lede">Enter your email address to continue.</p>
+      </div>
+
+      <div class="ga-form-field">
+        <label class="ga-form-field__label" for="email">
+          <span class="ga-form-field__label-text">Email</span>
+        </label>
+        <div class="ga-input">
+          <input id="email" type="email" autocomplete="username" placeholder="name@company.com" value="demo.user@visma.com">
+        </div>
+      </div>
+
+      <div class="login__actions">
+        <button class="ga-button ga-button--primary login__submit" data-go="2">Next</button>
+      </div>
+    </section>
+
+    <!-- 2 — Password ---------------------------------------------------- -->
+    <section class="login__screen" data-screen="2">
+      <button class="ga-button ga-button--transparent ga-button--icon-only login__back" data-go="1" aria-label="Back to email">
+        <span class="ga-icon" data-icon="arrow-left"></span>
+      </button>
+
+      <div class="login__head">
+        <h1 class="ga-text-title login__title">Enter your password</h1>
+      </div>
+
+      <div class="login__identity">
+        <span class="ga-avatar ga-avatar--small" data-initials aria-hidden="true">DU</span>
+        <span class="login__identity-value" data-identity>demo.user@visma.com</span>
+      </div>
+
+      <div class="ga-form-field">
+        <label class="ga-form-field__label" for="password">
+          <span class="ga-form-field__label-text">Password</span>
+        </label>
+        <div class="ga-input">
+          <input id="password" type="password" autocomplete="current-password" placeholder="Your password" value="demo-password">
+          <button class="login__reveal" type="button" data-reveal="password" aria-label="Show password" aria-pressed="false">
+            <span class="ga-icon" data-icon="eye"></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="login__actions">
+        <button class="ga-button ga-button--primary login__submit" data-go="3">Log in</button>
+        <a class="ga-link" href="#" data-noop>Forgot password</a>
+      </div>
+    </section>
+
+    <!-- 3 — Verification code ------------------------------------------- -->
+    <section class="login__screen" data-screen="3">
+      <button class="ga-button ga-button--transparent ga-button--icon-only login__back" data-go="2" aria-label="Back to password">
+        <span class="ga-icon" data-icon="arrow-left"></span>
+      </button>
+
+      <div class="login__head">
+        <h1 class="ga-text-title login__title">Enter verification code</h1>
+        <p class="login__lede">We sent a 6-digit code to <span data-identity>demo.user@visma.com</span>.</p>
+      </div>
+
+      <div class="login__authicon" aria-hidden="true">
+        <span class="ga-icon" data-icon="phone-code" data-size="40"></span>
+      </div>
+
+      <div class="login__code" role="group" aria-label="Verification code">
+        <div class="ga-input"><input type="text" inputmode="numeric" maxlength="1" placeholder="0" value="4" aria-label="Digit 1"></div>
+        <div class="ga-input"><input type="text" inputmode="numeric" maxlength="1" placeholder="0" value="8" aria-label="Digit 2"></div>
+        <div class="ga-input"><input type="text" inputmode="numeric" maxlength="1" placeholder="0" value="2" aria-label="Digit 3"></div>
+        <div class="ga-input"><input type="text" inputmode="numeric" maxlength="1" placeholder="0" value="9" aria-label="Digit 4"></div>
+        <div class="ga-input"><input type="text" inputmode="numeric" maxlength="1" placeholder="0" value="1" aria-label="Digit 5"></div>
+        <div class="ga-input"><input type="text" inputmode="numeric" maxlength="1" placeholder="0" value="6" aria-label="Digit 6"></div>
+      </div>
+
+      <div class="login__actions">
+        <button class="ga-button ga-button--primary login__submit" data-go="4">Verify</button>
+        <a class="ga-link" href="#" data-noop>Send new code</a>
+      </div>
+    </section>
+
+    <!-- 4 — Logged in ---------------------------------------------------- -->
+    <section class="login__screen" data-screen="4">
+      <div class="login__head">
+        <h1 class="ga-text-title login__title">Logged in</h1>
+      </div>
+
+      <div class="ga-notification ga-notification--success login__notification" role="status">
+        <span class="ga-icon ga-notification__icon" data-icon="circle-check"></span>
+        <div class="ga-notification__content">
+          <div class="ga-notification__heading">
+            <span class="ga-notification__title">Verification complete</span>
+          </div>
+          <div class="ga-notification__description">
+            You are logged in as <span data-identity>demo.user@visma.com</span>.
+          </div>
+        </div>
+      </div>
+
+      <div class="login__actions">
+        <a class="ga-button ga-button--primary login__submit"
+           href="../VMM%20-%20Dashboard%20with%20New%20nav%20menu%20and%20BNXT/Visma%20Manager.html"
+           style="display:inline-flex;align-items:center;justify-content:center;text-decoration:none">Go to Visma Manager</a>
+        <a class="ga-link" href="#" data-go="1">Start over</a>
+      </div>
+    </section>
+
+  </div>
+
+  <footer class="login__footer">
+    <svg class="login__visma" viewBox="0 0 100 21.05" role="img" aria-label="Visma">
+      <path fill="currentColor" fill-rule="evenodd" d="M97.0 1.5 C97.0 1.2 96.9 0.8 96.9 0.6 C97.0 0.4 97.1 0.3 97.3 0.2 C97.5 0.1 97.8 0.0 98.1 0.0 C98.4 0.0 99.0 0.0 99.1 0.2 C99.3 0.3 98.9 0.6 98.9 0.9 C98.8 1.1 99.0 1.6 99.0 1.9 C99.0 2.2 99.1 2.4 98.9 2.5 C98.6 2.6 97.6 2.6 97.3 2.5 C97.0 2.3 97.1 1.9 97.0 1.5 Z M96.6 3.4 C96.4 3.2 96.2 2.7 96.2 2.4 C96.1 2.0 96.3 1.3 96.4 1.3 C96.5 1.4 96.7 2.4 96.8 2.7 C97.0 3.0 97.1 3.1 97.2 3.3 C97.4 3.4 97.5 3.6 97.8 3.6 C98.1 3.7 98.5 3.6 98.8 3.5 C99.0 3.5 99.2 3.2 99.3 3.2 C99.5 3.1 99.8 3.1 99.8 3.3 C99.8 3.4 99.5 3.8 99.2 4.0 C98.9 4.2 98.4 4.3 98.1 4.3 C97.8 4.3 97.6 4.3 97.3 4.1 C97.1 4.0 96.7 3.7 96.6 3.4 Z M44.7 9.3 C43.9 12.0 42.5 17.9 41.8 19.8 C41.1 21.7 41.2 20.5 40.7 20.6 C40.1 20.7 38.9 20.5 38.5 20.4 C38.0 20.3 38.6 21.8 38.0 19.9 C37.4 18.0 35.8 11.7 35.0 9.0 C34.3 6.3 33.7 5.0 33.4 3.9 C33.1 2.9 33.2 2.9 33.3 2.7 C33.4 2.4 33.5 2.4 34.0 2.4 C34.5 2.3 35.9 2.3 36.4 2.4 C36.9 2.4 36.9 2.5 37.0 2.7 C37.2 2.8 37.0 1.8 37.4 3.3 C37.8 4.7 39.0 9.9 39.4 11.3 C39.8 12.7 39.7 11.7 39.8 11.7 C39.9 11.7 39.7 12.8 40.1 11.4 C40.5 10.0 41.9 4.5 42.3 3.1 C42.7 1.6 42.6 2.7 42.8 2.6 C43.0 2.5 43.0 2.4 43.5 2.4 C44.1 2.4 45.4 2.4 45.8 2.5 C46.3 2.6 46.2 2.8 46.3 3.0 C46.4 3.1 46.6 2.2 46.3 3.3 C46.0 4.3 45.4 6.5 44.7 9.3 Z M49.8 20.6 C49.2 20.5 49.3 20.4 49.1 20.3 C48.9 20.1 48.9 22.4 48.8 19.6 C48.8 16.9 48.8 6.6 48.8 3.8 C48.8 1.1 48.9 3.3 49.0 3.1 C49.1 2.9 49.0 2.7 49.5 2.6 C49.9 2.5 51.1 2.4 51.7 2.4 C52.2 2.4 52.5 2.5 52.7 2.8 C53.0 3.0 53.0 1.0 53.1 3.8 C53.2 6.6 53.2 16.8 53.1 19.6 C53.0 22.4 53.1 20.3 52.5 20.5 C52.0 20.6 50.3 20.6 49.8 20.6 Z M59.1 14.5 C58.6 13.3 57.3 11.1 56.7 9.8 C56.2 8.5 56.0 7.7 56.0 6.7 C56.0 5.7 56.5 4.3 56.7 3.6 C57.0 3.0 57.0 3.0 57.3 2.8 C57.6 2.6 57.9 2.5 58.4 2.4 C58.9 2.3 59.8 2.3 60.3 2.4 C60.7 2.5 61.1 2.4 61.1 2.9 C61.1 3.3 60.4 4.5 60.3 5.3 C60.2 6.0 60.2 6.5 60.3 7.2 C60.4 7.9 60.7 8.8 61.0 9.4 C61.2 10.0 61.5 10.1 61.9 10.8 C62.3 11.5 63.0 13.0 63.3 13.8 C63.5 14.5 63.6 14.7 63.6 15.3 C63.7 16.0 63.7 17.0 63.6 17.7 C63.6 18.4 63.4 18.8 63.3 19.2 C63.1 19.7 62.7 20.2 62.5 20.4 C62.2 20.6 62.2 20.5 61.7 20.6 C61.2 20.6 59.8 20.6 59.3 20.6 C58.8 20.5 58.9 20.5 58.8 20.4 C58.6 20.3 58.5 20.2 58.7 19.9 C58.8 19.6 59.3 18.8 59.5 18.4 C59.7 17.9 59.9 17.9 59.8 17.2 C59.7 16.6 59.6 15.8 59.1 14.5 Z M79.4 2.4 C80.0 2.4 80.4 2.3 80.8 2.5 C81.1 2.6 81.2 3.0 81.3 3.3 C81.4 3.7 81.3 3.8 81.3 4.3 C81.4 4.8 81.7 5.4 81.8 6.2 C81.9 7.0 81.7 8.3 81.8 9.1 C81.9 9.9 82.2 10.3 82.3 11.0 C82.4 11.7 82.2 12.7 82.3 13.4 C82.4 14.1 82.7 14.6 82.8 15.3 C82.9 16.0 82.7 17.0 82.8 17.7 C82.9 18.4 83.2 19.2 83.3 19.6 C83.3 20.0 83.1 20.1 83.0 20.3 C82.8 20.4 82.7 20.5 82.3 20.6 C81.9 20.6 80.8 20.6 80.4 20.6 C79.9 20.5 79.8 20.5 79.6 20.4 C79.4 20.3 79.3 20.1 79.1 19.9 C79.0 19.7 79.0 19.9 78.9 19.1 C78.9 18.4 79.1 16.5 78.9 15.3 C78.8 14.1 78.4 12.3 78.3 11.9 C78.1 11.4 78.3 11.1 78.0 12.4 C77.7 13.8 76.9 18.6 76.5 20.0 C76.1 21.4 76.0 20.5 75.6 20.6 C75.2 20.7 74.5 20.6 74.2 20.6 C73.8 20.5 73.7 20.4 73.5 20.3 C73.3 20.1 73.3 20.4 73.1 19.7 C72.9 19.0 72.4 17.0 72.2 16.3 C72.1 15.5 72.4 16.0 72.2 15.3 C72.1 14.6 71.8 12.7 71.6 12.2 C71.4 11.6 71.3 11.7 71.2 11.8 C71.1 11.8 70.9 11.1 70.8 12.4 C70.7 13.8 70.9 18.6 70.7 20.0 C70.6 21.4 70.4 20.5 69.9 20.6 C69.3 20.7 68.0 20.6 67.5 20.6 C67.0 20.5 67.0 20.4 66.8 20.3 C66.6 20.1 66.5 20.0 66.5 19.6 C66.5 19.2 66.9 18.7 67.0 17.7 C67.1 16.7 66.9 14.8 67.0 13.9 C67.1 12.9 67.4 12.8 67.5 12.0 C67.5 11.2 67.4 9.9 67.5 9.1 C67.5 8.3 67.9 8.1 67.9 7.2 C68.0 6.3 67.9 4.6 67.9 3.8 C68.0 3.1 68.1 3.0 68.3 2.8 C68.6 2.5 68.7 2.5 69.4 2.4 C70.0 2.3 71.7 2.3 72.2 2.4 C72.8 2.4 72.7 2.5 72.9 2.7 C73.1 2.8 73.2 2.9 73.3 3.3 C73.4 3.6 73.5 3.6 73.7 4.8 C73.9 5.9 74.2 9.3 74.4 10.2 C74.7 11.2 74.8 10.7 74.9 10.6 C75.0 10.6 75.1 10.4 75.1 10.0 C75.2 9.7 75.0 9.2 75.1 8.6 C75.2 8.1 75.5 7.3 75.6 6.7 C75.7 6.1 75.5 5.9 75.6 5.3 C75.7 4.6 75.9 3.4 76.2 3.0 C76.4 2.5 76.5 2.5 77.0 2.4 C77.6 2.3 78.8 2.4 79.4 2.4 Z M89.9 17.6 C89.5 18.9 89.5 19.4 89.3 19.9 C89.1 20.4 89.0 20.3 88.8 20.4 C88.6 20.5 88.5 20.5 88.0 20.6 C87.6 20.6 86.6 20.6 86.1 20.6 C85.7 20.5 85.6 20.4 85.5 20.3 C85.3 20.1 84.5 22.5 85.2 19.6 C85.9 16.7 88.8 5.9 89.7 3.1 C90.5 0.2 89.7 2.7 90.1 2.6 C90.6 2.5 91.9 2.4 92.3 2.4 C92.8 2.4 92.8 2.5 93.0 2.7 C93.2 2.8 92.5 0.3 93.4 3.3 C94.3 6.2 97.6 17.3 98.3 20.2 C99.0 23.1 98.1 20.5 97.6 20.6 C97.1 20.6 95.8 20.7 95.2 20.6 C94.7 20.5 94.8 21.6 94.3 20.1 C93.7 18.6 92.6 13.1 92.2 11.7 C91.7 10.2 91.9 11.3 91.8 11.3 C91.6 11.3 91.6 10.8 91.3 11.9 C91.0 12.9 90.2 16.3 89.9 17.6 Z M4.3 5.7 C6.6 7.4 14.0 13.0 16.4 14.7 C18.7 16.4 18.1 16.0 18.4 16.0 C18.6 16.0 19.2 16.7 17.9 14.6 C16.6 12.6 11.9 5.6 10.7 3.6 C9.5 1.7 10.7 3.3 10.8 3.2 C10.9 3.0 10.8 3.0 11.1 3.0 C11.4 2.9 11.3 2.6 12.4 2.9 C13.6 3.1 16.7 4.1 17.9 4.6 C19.1 5.0 19.1 5.1 19.8 5.6 C20.6 6.0 21.5 6.5 22.4 7.3 C23.3 8.0 24.7 9.5 25.3 10.1 C25.9 10.8 25.8 10.8 26.0 11.3 C26.3 11.8 26.7 12.7 26.9 13.3 C27.1 13.9 27.3 14.3 27.3 14.8 C27.3 15.4 27.2 15.8 27.0 16.5 C26.7 17.1 26.3 18.0 25.7 18.6 C25.2 19.1 24.4 19.6 23.7 19.9 C23.0 20.2 22.1 20.5 21.5 20.6 C21.0 20.7 21.0 20.5 20.6 20.6 C20.2 20.6 19.6 21.0 19.0 21.0 C18.5 21.0 17.9 20.6 17.2 20.6 C16.5 20.5 15.7 20.7 14.8 20.6 C13.9 20.4 12.4 20.0 11.8 19.8 C11.2 19.6 11.6 19.6 11.2 19.4 C10.8 19.3 10.0 19.1 9.4 18.9 C8.8 18.6 8.2 18.3 7.5 17.9 C6.7 17.4 5.9 17.0 4.9 16.2 C3.9 15.3 2.2 13.6 1.5 12.8 C0.8 12.1 1.0 12.3 0.8 11.7 C0.5 11.1 0.1 9.8 0.0 9.1 C-0.1 8.4 -0.0 8.1 0.0 7.7 C0.0 7.2 0.1 6.9 0.3 6.5 C0.5 6.1 0.7 5.7 1.1 5.4 C1.4 5.0 1.8 4.6 2.1 4.5 C2.4 4.4 2.3 4.3 2.7 4.5 C3.0 4.7 2.0 4.0 4.3 5.7 Z"/>
+    </svg>
+    <p class="ga-text-helper login__legal">Demo prototype — no credentials are checked.</p>
+  </footer>
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ---- Icons. Lucide, 24x24, 1.5 stroke, currentColor — per the Gaia spec. --- */
+  var ICONS = {
+    'arrow-left': '<path d="M19 12H5"/><path d="m12 19-7-7 7-7"/>',
+    'eye': '<path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/>',
+    'eye-off': '<path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"/><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"/><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"/><path d="m2 2 20 20"/>',
+    'circle-check': '<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>',
+    /* Authenticator app — the phone-and-arrow mark from the reference screen. */
+    'phone-code': '<rect x="3" y="2" width="11" height="20" rx="2"/>' +
+                  '<path d="M6.5 10h5"/><path d="M6.5 13h3"/>' +
+                  '<path d="M16.5 12h5"/><path d="m19 9.5 2.5 2.5-2.5 2.5"/>'
+  };
+
+  function paintIcon(host) {
+    var name = host.getAttribute('data-icon');
+    if (!ICONS[name]) return;
+    // .ga-icon is locked to 16x16 by the design system and stretches its <svg>
+    // to fill, so data-size has to drive the wrapper box, not the svg attrs.
+    var size = host.getAttribute('data-size') || '24';
+    if (host.hasAttribute('data-size')) {
+      host.style.width = size + 'px';
+      host.style.height = size + 'px';
+    }
+    host.innerHTML =
+      '<svg xmlns="http://www.w3.org/2000/svg" width="' + size + '" height="' + size + '" viewBox="0 0 24 24" ' +
+      'fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" ' +
+      'aria-hidden="true" focusable="false">' + ICONS[name] + '</svg>';
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('.ga-icon[data-icon]'), paintIcon);
+
+  /* ---- Screen switching. Click-through only; nothing validates. ------------- */
+  var screens = document.querySelectorAll('.login__screen');
+
+  function show(n) {
+    Array.prototype.forEach.call(screens, function (screen) {
+      if (screen.getAttribute('data-screen') === String(n)) {
+        screen.setAttribute('data-active', '');
+      } else {
+        screen.removeAttribute('data-active');
+      }
+    });
+
+    var active = document.querySelector('.login__screen[data-active]');
+    if (!active) return;
+
+    // Carry the typed address forward so later screens read back what was entered.
+    syncIdentity();
+
+    var first = active.querySelector('input');
+    if (first) first.focus();
+    window.scrollTo(0, 0);
+  }
+
+  function syncIdentity() {
+    var email = document.getElementById('email');
+    var value = email && email.value.trim() ? email.value.trim() : email.placeholder;
+    Array.prototype.forEach.call(document.querySelectorAll('[data-identity]'), function (slot) {
+      slot.textContent = value;
+    });
+
+    // Avatar initials follow the address: "demo.user@..." -> "DU".
+    var local = value.split('@')[0] || '';
+    var words = local.split(/[._+-]+/).filter(Boolean);
+    var initials = words.length > 1
+      ? (words[0].charAt(0) + words[1].charAt(0))
+      : local.slice(0, 2);
+    Array.prototype.forEach.call(document.querySelectorAll('[data-initials]'), function (slot) {
+      slot.textContent = initials.toUpperCase();
+    });
+  }
+
+  document.addEventListener('click', function (event) {
+    var target = event.target.closest('[data-go], [data-noop], [data-reveal]');
+    if (!target) return;
+
+    if (target.hasAttribute('data-noop')) {
+      event.preventDefault();
+      return;
+    }
+
+    if (target.hasAttribute('data-reveal')) {
+      togglePassword(target);
+      return;
+    }
+
+    event.preventDefault();
+    show(target.getAttribute('data-go'));
+  });
+
+  function togglePassword(button) {
+    var field = document.getElementById(button.getAttribute('data-reveal'));
+    var hidden = field.type === 'password';
+    field.type = hidden ? 'text' : 'password';
+    button.setAttribute('aria-pressed', String(hidden));
+    button.setAttribute('aria-label', hidden ? 'Hide password' : 'Show password');
+    var icon = button.querySelector('.ga-icon');
+    icon.setAttribute('data-icon', hidden ? 'eye-off' : 'eye');
+    paintIcon(icon);
+  }
+
+  /* ---- Enter anywhere in a screen fires that screen's primary button. ------- */
+  document.addEventListener('keydown', function (event) {
+    if (event.key !== 'Enter') return;
+    var active = document.querySelector('.login__screen[data-active]');
+    if (!active || !active.contains(event.target)) return;
+    var primary = active.querySelector('.login__submit');
+    if (!primary) return;
+    event.preventDefault();
+    primary.click();
+  });
+
+  /* ---- Code boxes: type to advance, backspace to retreat. ------------------- */
+  var codeBoxes = document.querySelectorAll('.login__code input');
+
+  Array.prototype.forEach.call(codeBoxes, function (box, index) {
+    box.addEventListener('input', function () {
+      box.value = box.value.replace(/\D/g, '').slice(0, 1);
+      if (box.value && codeBoxes[index + 1]) codeBoxes[index + 1].focus();
+    });
+
+    box.addEventListener('keydown', function (event) {
+      if (event.key === 'Backspace' && !box.value && codeBoxes[index - 1]) {
+        codeBoxes[index - 1].focus();
+      }
+    });
+
+    box.addEventListener('focus', function () { box.select(); });
+  });
+
+  syncIdentity();
+}());
+</script>
+
+</body>
+</html>

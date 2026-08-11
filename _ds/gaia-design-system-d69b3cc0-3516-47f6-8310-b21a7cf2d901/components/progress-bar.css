@@ -1,0 +1,45 @@
+/* Gaia — Progress bar. 4px track with optional label (12/20, action colour)
+   and helper (11/16). Variants: --success · --error · --indeterminate. */
+
+.ga-progress { display: flex; flex-direction: column; gap: var(--ga-size-4); }
+.ga-progress__label {
+  font-size: var(--ga-text-sm-font-size);
+  line-height: var(--ga-size-20);
+  letter-spacing: var(--ga-text-sm-letter-spacing);
+  color: var(--ga-color-text-action);
+}
+.ga-progress__helper {
+  display: flex; flex-direction: row; align-items: center;
+  gap: var(--ga-size-4);
+  font-size: var(--ga-text-xs-font-size);
+  line-height: var(--ga-text-xs-line-height);
+  letter-spacing: var(--ga-text-xs-letter-spacing);
+  color: var(--ga-color-text-body);
+}
+.ga-progress__buffer {
+  position: relative;
+  height: var(--ga-size-4); width: 100%;
+  overflow: hidden;
+  border-radius: var(--ga-radius);
+  background: var(--ga-color-surface-disabled);
+}
+.ga-progress__bar {
+  position: absolute; top: 0; left: 0; height: 100%; width: 100%;
+  transform-origin: top left;
+  border-radius: var(--ga-radius);
+  background: var(--ga-color-surface-progress);
+  transition: width var(--ga-transition-hover);
+}
+.ga-progress--success .ga-progress__bar { background: var(--ga-color-icon-success); }
+.ga-progress--success .ga-progress__helper .ga-icon { color: var(--ga-color-icon-success); }
+.ga-progress--error .ga-progress__bar { background: var(--ga-color-icon-error); }
+.ga-progress--error .ga-progress__helper .ga-icon { color: var(--ga-color-icon-error); }
+
+.ga-progress--indeterminate .ga-progress__bar {
+  width: 20%;
+  animation: ga-progress-animation calc(1400ms * var(--ga-duration-scalar, 1)) linear infinite;
+}
+@keyframes ga-progress-animation {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(500%); }
+}

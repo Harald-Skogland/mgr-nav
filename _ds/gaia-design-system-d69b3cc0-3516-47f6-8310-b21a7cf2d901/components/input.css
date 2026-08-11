@@ -1,0 +1,90 @@
+/* Gaia — Input. Field wrapper around a native <input>; prefix/suffix content
+   (icon, clear, spinner) sits as flex siblings. State parity with gaia-styles:
+   the filled state (input:not(:placeholder-shown)) tints the field on hover /
+   disabled / invalid / success. Host classes --disabled / --invalid /
+   --success mirror the :has() driven states for markup without native state. */
+
+.ga-input {
+  font-family: inherit;
+  font-size: var(--ga-text-md-font-size);
+  line-height: var(--ga-text-md-line-height);
+  letter-spacing: var(--ga-text-md-letter-spacing);
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--ga-size-spacing-03);
+  height: var(--ga-size-40);
+  width: calc(5 * var(--ga-size-40)); /* w-50 = 200px default; form-field stretches to 100% */
+  padding: var(--ga-size-8) var(--ga-size-12);
+  border: var(--ga-size-border-width-sm) solid var(--ga-color-border-primary);
+  background: var(--ga-color-surface-primary);
+  border-radius: var(--ga-radius);
+  color: var(--ga-color-text-body);
+  transition: border-color var(--ga-transition-hover), background-color var(--ga-transition-hover);
+}
+.ga-input input {
+  border: 0; outline: 0; background: transparent; padding: 0; margin: 0;
+  font: inherit; letter-spacing: inherit; color: inherit;
+  height: var(--ga-size-24); line-height: var(--ga-size-24);
+  width: 100%; min-width: 0;
+}
+.ga-input input::placeholder { color: var(--ga-color-text-disabled); }
+
+/* Hover — border tint; filled fields also tint the surface. */
+.ga-input:hover:not(.ga-input--disabled):not(:has(input:disabled)) { border-color: var(--ga-color-border-action-hover); }
+.ga-input:hover:not(.ga-input--disabled):not(:has(input:disabled)):has(input:not(:placeholder-shown)) { background: var(--ga-color-surface-action-hover-2); }
+
+/* Focus — border + 1px ring in border-focus (not applied to invalid/success). */
+.ga-input:has(input:focus):not(.ga-input--invalid):not(.ga-input--success) {
+  border-color: var(--ga-color-border-focus);
+  outline: var(--ga-size-border-width-sm) solid var(--ga-color-border-focus);
+}
+
+/* Invalid / success — border + 1px ring; filled fields tint the surface. */
+.ga-input--invalid { border-color: var(--ga-color-border-error); outline: var(--ga-size-border-width-sm) solid var(--ga-color-border-error); }
+.ga-input--invalid:has(input:not(:placeholder-shown)) { background: var(--ga-color-surface-error); }
+.ga-input--success { border-color: var(--ga-color-border-success); outline: var(--ga-size-border-width-sm) solid var(--ga-color-border-success); }
+.ga-input--success:has(input:not(:placeholder-shown)) { background: var(--ga-color-surface-success); }
+
+/* Disabled — via host class or native input state. */
+.ga-input--disabled,
+.ga-input:has(input:disabled) {
+  border-color: var(--ga-color-border-disabled);
+  background: var(--ga-color-surface-disabled);
+  color: var(--ga-color-text-disable-selected);
+}
+.ga-input--disabled input,
+.ga-input:has(input:disabled) input { cursor: not-allowed; }
+.ga-input:has(input:disabled):has(input:not(:placeholder-shown)) {
+  border-color: var(--ga-color-surface-disable-selected);
+  background: var(--ga-color-surface-disable-selected);
+  color: var(--ga-color-text-on-action);
+}
+
+/* ---------- Quantity selector (canonical: .ga-input--quantity-selector) ----- */
+.ga-input--quantity-selector { width: var(--ga-size-160); padding-left: var(--ga-size-8); padding-right: var(--ga-size-8); }
+.ga-input--quantity-selector input {
+  min-width: 0; flex: 1; background: transparent;
+  padding: 0 var(--ga-size-8);
+  appearance: textfield; -moz-appearance: textfield;
+  font-variant-numeric: tabular-nums;
+}
+.ga-input--quantity-selector input::-webkit-outer-spin-button,
+.ga-input--quantity-selector input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.ga-input__quantity-separator { height: var(--ga-size-24); width: var(--ga-size-1); background: var(--ga-color-border-disabled); flex-shrink: 0; }
+.ga-input__quantity-button {
+  display: flex; align-items: center; justify-content: center;
+  width: var(--ga-size-24); flex-shrink: 0; padding: var(--ga-size-4);
+  background: transparent; border: 0; cursor: pointer;
+  color: var(--ga-color-icon-action);
+  transition: background-color var(--ga-transition-hover);
+}
+.ga-input__quantity-button:hover:not(:disabled) {
+  border-radius: var(--ga-radius);
+  background: var(--ga-color-surface-action-hover-2);
+  outline: var(--ga-size-border-width-sm) solid var(--ga-color-border-action-hover);
+}
+.ga-input__quantity-button:focus-visible { border-radius: var(--ga-radius); outline: var(--ga-focus-outline); outline-offset: var(--ga-focus-outline-offset); }
+.ga-input__quantity-button:disabled { cursor: not-allowed; background: transparent; color: var(--ga-color-text-disabled); }
+.ga-input--quantity-selector:has(input:disabled):has(input:not(:placeholder-shown)) .ga-input__quantity-separator { background: var(--ga-color-text-on-action); }
+.ga-input--quantity-selector:has(input:disabled):has(input:not(:placeholder-shown)) .ga-input__quantity-button { color: var(--ga-color-text-on-action); }

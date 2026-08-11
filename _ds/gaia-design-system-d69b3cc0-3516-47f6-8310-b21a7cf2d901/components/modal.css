@@ -1,0 +1,104 @@
+/* Gaia — Modal / dialog. Sizes: --small 340 · --medium 696 · --large 1230.
+   Type icon: --information / --danger / --warning / --success. Border is
+   border-focus per the canonical source; backdrop uses the overlay scrim. */
+
+.ga-modal__backdrop {
+  position: fixed; inset: 0;
+  z-index: var(--ga-index-overlay);
+  background: var(--ga-color-miscellaneous-overlay);
+}
+.ga-modal__container {
+  position: fixed; inset: 0;
+  z-index: var(--ga-index-modal);
+  display: flex; align-items: flex-start; justify-content: center;
+}
+.ga-modal__container .ga-modal { margin-top: var(--ga-size-64); }
+
+.ga-modal {
+  font-size: var(--ga-text-md-font-size);
+  line-height: var(--ga-text-md-line-height);
+  letter-spacing: var(--ga-text-md-letter-spacing);
+  display: inline-flex; flex-direction: column;
+  width: 100%;
+  max-height: calc(100vh - 2 * var(--ga-size-64));
+  max-width: calc(100vw - 2 * var(--ga-size-32));
+  overflow-y: auto;
+  scrollbar-width: thin;
+  background: var(--ga-color-white);
+  border: var(--ga-size-border-width-sm) solid var(--ga-color-border-focus);
+  border-radius: var(--ga-radius);
+  padding: var(--ga-size-16) var(--ga-size-8);
+}
+.ga-modal--small  { width: 21.25rem; }   /* 340px */
+.ga-modal--medium { width: 43.5rem; }    /* 696px */
+.ga-modal--large  { width: 76.875rem; }  /* 1230px */
+
+.ga-modal--danger      .ga-modal__icon { color: var(--ga-color-icon-error); }
+.ga-modal--warning     .ga-modal__icon { color: var(--ga-color-icon-warning); }
+.ga-modal--success     .ga-modal__icon { color: var(--ga-color-icon-success); }
+.ga-modal--information .ga-modal__icon { color: var(--ga-color-icon-information); }
+
+.ga-modal__top-section {
+  display: flex; align-items: flex-start; flex-shrink: 0;
+  gap: var(--ga-size-spacing-05);
+  min-height: var(--ga-size-32);
+  padding: 0 var(--ga-size-8) var(--ga-size-8);
+}
+.ga-modal__top-section--scrollable { flex-shrink: 1; }
+.ga-modal__icon { flex-shrink: 0; padding: var(--ga-size-8); color: var(--ga-color-icon-action); display: inline-flex; }
+.ga-modal__icon .ga-icon,
+.ga-modal__icon svg { width: var(--ga-size-24); height: var(--ga-size-24); }
+.ga-modal__heading { display: flex; min-height: 0; flex: 1; flex-direction: column; align-self: stretch; }
+.ga-modal__label {
+  display: flex; align-items: center;
+  min-height: var(--ga-size-24);
+  margin-bottom: var(--ga-size-4);
+  font-size: var(--ga-text-sm-font-size);
+  line-height: var(--ga-text-sm-line-height);
+  letter-spacing: var(--ga-text-sm-letter-spacing);
+  color: var(--ga-color-text-headings);
+}
+.ga-modal__title {
+  font-size: var(--ga-text-xl-font-size);
+  line-height: var(--ga-text-xl-line-height);
+  letter-spacing: var(--ga-text-xl-letter-spacing);
+  font-weight: var(--ga-font-weight-semibold);
+  color: var(--ga-color-text-headings);
+}
+
+.ga-modal__content {
+  margin-top: var(--ga-size-16);
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  padding: var(--ga-size-8);
+}
+.ga-modal__content:empty { margin-top: 0; }
+.ga-modal__description {
+  margin-top: var(--ga-size-16);
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.ga-modal__actions {
+  margin-top: var(--ga-size-24);
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end;
+  gap: var(--ga-size-spacing-03);
+  padding: 0 var(--ga-size-8);
+}
+
+/* Close button — ghost icon button pinned to the top-right of the section. */
+.ga-modal__close-icon { margin: calc(-1 * var(--ga-size-8)) calc(-1 * var(--ga-size-8)) 0 0; }
+.ga-modal__close {
+  flex-shrink: 0;
+  width: var(--ga-size-40); height: var(--ga-size-40);
+  display: inline-flex; align-items: center; justify-content: center;
+  background: transparent; border: 0; cursor: pointer;
+  border-radius: var(--ga-radius);
+  color: var(--ga-color-text-body);
+  transition: background-color var(--ga-transition-hover);
+}
+.ga-modal__close svg, .ga-modal__close .ga-icon { width: var(--ga-size-24); height: var(--ga-size-24); }
+.ga-modal__close:hover { background: var(--ga-color-surface-action-hover-2); }
+.ga-modal__close:focus-visible { outline: var(--ga-focus-outline); outline-offset: calc(-1 * var(--ga-focus-outline-offset)); }

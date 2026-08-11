@@ -1,0 +1,87 @@
+/* Gaia — Loader / spinner / inline loading. The spinner is an orange track
+   ring with a cyan quarter-arc rotating in the component's staggered rhythm
+   (90° at 350/700/900/1100ms). Reduced motion swaps to a static arc.
+   Canonical .ga-loader is a COLUMN (icon above label); use .ga-inline-loading
+   for the inline row form. */
+
+.ga-spinner {
+  display: inline-block;
+  width: var(--ga-size-32); height: var(--ga-size-32); flex-shrink: 0;
+  border-radius: var(--ga-radius-round);
+  background: conic-gradient(from -90deg, var(--ga-color-primary-70) 0deg 90deg, var(--ga-color-secondary) 90deg 360deg);
+  /* stroke = size/5 → mask keeps the outer 40% as the ring (alpha-only; the
+     #000 here is mask alpha, not a color) */
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 40%), #000 calc(100% - 40%));
+          mask: radial-gradient(farthest-side, transparent calc(100% - 40%), #000 calc(100% - 40%));
+  animation: ga-loader-animation calc(1100ms * var(--ga-duration-scalar, 1)) linear infinite;
+}
+.ga-spinner svg { display: block; }
+
+@keyframes ga-loader-animation {
+  0%      { transform: rotate(0deg); }
+  31.82%  { transform: rotate(90deg); }   /* 350ms / 1100ms */
+  63.64%  { transform: rotate(180deg); }  /* 700ms / 1100ms */
+  81.82%  { transform: rotate(270deg); }  /* 900ms / 1100ms */
+  100%    { transform: rotate(360deg); }
+}
+
+/* Labelled loader — column: icon over label. Sizes: --small 16 · medium 32
+   (default) · --large 64. --inverse for dark surfaces; --centered pads out. */
+.ga-loader {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: var(--ga-size-spacing-03);
+  color: var(--ga-color-text-body);
+  font-size: var(--ga-text-sm-font-size);
+  line-height: var(--ga-text-sm-line-height);
+  letter-spacing: var(--ga-text-sm-letter-spacing);
+}
+.ga-loader__spinner,
+.ga-loader__icon {
+  display: inline-block;
+  width: var(--ga-size-32); height: var(--ga-size-32); flex-shrink: 0;
+  border-radius: var(--ga-radius-round);
+  background: conic-gradient(from -90deg, var(--ga-color-primary-70) 0deg 90deg, var(--ga-color-secondary) 90deg 360deg);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 40%), #000 calc(100% - 40%));
+          mask: radial-gradient(farthest-side, transparent calc(100% - 40%), #000 calc(100% - 40%));
+  animation: ga-loader-animation calc(1100ms * var(--ga-duration-scalar, 1)) linear infinite;
+}
+.ga-loader--small  { font-size: var(--ga-text-xs-font-size); line-height: var(--ga-text-xs-line-height); }
+.ga-loader--small  .ga-loader__spinner, .ga-loader--small .ga-loader__icon { width: var(--ga-size-16); height: var(--ga-size-16); }
+.ga-loader--medium .ga-loader__spinner, .ga-loader--medium .ga-loader__icon { width: var(--ga-size-32); height: var(--ga-size-32); }
+.ga-loader--large  { font-size: var(--ga-text-md-font-size); line-height: var(--ga-text-md-line-height); }
+.ga-loader--large  .ga-loader__spinner, .ga-loader--large .ga-loader__icon { width: var(--ga-size-64); height: var(--ga-size-64); }
+.ga-loader--inline { flex-direction: row; }
+.ga-loader--inverse { color: var(--ga-color-white); }
+.ga-loader--inverse .ga-loader__spinner, .ga-loader--inverse .ga-loader__icon {
+  background: conic-gradient(from -90deg, var(--ga-color-white) 0deg 90deg, color-mix(in srgb, var(--ga-color-white) 25%, transparent) 90deg 360deg);
+}
+.ga-loader--centered { padding: var(--ga-size-32); text-align: center; }
+.ga-loader__label { color: inherit; }
+.ga-loader__label:empty { display: none; }
+
+/* Inline labelled loader — row: 16px icon + caption. */
+.ga-inline-loading {
+  display: inline-flex; flex-direction: row; align-items: center;
+  gap: var(--ga-size-4);
+  font-size: var(--ga-text-sm-font-size);
+  line-height: var(--ga-text-sm-line-height);
+  letter-spacing: var(--ga-text-sm-letter-spacing);
+  color: var(--ga-color-text-body);
+}
+.ga-inline-loading__icon { width: var(--ga-size-16); height: var(--ga-size-16); flex-shrink: 0; }
+.ga-inline-loading--active .ga-inline-loading__icon {
+  border-radius: var(--ga-radius-round);
+  background: conic-gradient(from -90deg, var(--ga-color-primary-70) 0deg 90deg, var(--ga-color-secondary) 90deg 360deg);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 40%), #000 calc(100% - 40%));
+          mask: radial-gradient(farthest-side, transparent calc(100% - 40%), #000 calc(100% - 40%));
+  animation: ga-loader-animation calc(1100ms * var(--ga-duration-scalar, 1)) linear infinite;
+}
+.ga-inline-loading--completed .ga-inline-loading__icon { color: var(--ga-color-icon-success); }
+.ga-inline-loading--error .ga-inline-loading__icon { color: var(--ga-color-icon-error); }
+.ga-inline-loading--inactive { color: var(--ga-color-text-disable-selected); }
+
+/* Reduced motion — static three-quarter arc instead of rotation. */
+@media (prefers-reduced-motion: reduce) {
+  .ga-spinner, .ga-loader__spinner, .ga-loader__icon,
+  .ga-inline-loading--active .ga-inline-loading__icon { animation: none; }
+}

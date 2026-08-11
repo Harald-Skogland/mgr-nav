@@ -1,0 +1,68 @@
+/* Gaia — Text area. Canonical class is `ga-text-area`; this port also keeps
+   `.ga-textarea` as an alias. Field chrome mirrors the input. */
+
+textarea.ga-text-area,
+textarea.ga-textarea {
+  font-family: inherit;
+  font-size: var(--ga-text-md-font-size);
+  line-height: var(--ga-size-24);
+  letter-spacing: var(--ga-text-md-letter-spacing);
+  display: inline-flex;
+  width: 100%;
+  min-width: 0;
+  max-width: 40rem;
+  min-height: 5rem;
+  padding: var(--ga-size-8) var(--ga-size-12);
+  border: var(--ga-size-border-width-sm) solid var(--ga-color-border-primary);
+  background: var(--ga-color-surface-primary);
+  border-radius: var(--ga-radius);
+  color: var(--ga-color-text-body);
+  resize: vertical;
+  transition: border-color var(--ga-transition-hover), background-color var(--ga-transition-hover);
+}
+textarea.ga-text-area::placeholder,
+textarea.ga-textarea::placeholder { color: var(--ga-color-text-disabled); }
+
+textarea.ga-text-area:hover:not(:disabled),
+textarea.ga-textarea:hover:not(:disabled) { border-color: var(--ga-color-border-action-hover); }
+textarea.ga-text-area:hover:not(:disabled):not(:placeholder-shown),
+textarea.ga-textarea:hover:not(:disabled):not(:placeholder-shown) { background: var(--ga-color-surface-action-hover-2); }
+
+textarea.ga-text-area:focus:not(.ga-text-area--invalid),
+textarea.ga-textarea:focus:not(.ga-textarea--invalid) {
+  border-color: var(--ga-color-border-focus);
+  outline: var(--ga-size-border-width-sm) solid var(--ga-color-border-focus);
+}
+
+.ga-text-area--invalid,
+.ga-textarea--invalid { border-color: var(--ga-color-border-error) !important; outline: var(--ga-size-border-width-sm) solid var(--ga-color-border-error); }
+textarea.ga-text-area.ga-text-area--invalid:not(:placeholder-shown),
+textarea.ga-textarea.ga-textarea--invalid:not(:placeholder-shown) { background: var(--ga-color-surface-error); }
+
+textarea.ga-text-area:disabled,
+textarea.ga-textarea:disabled {
+  border-color: var(--ga-color-border-disabled);
+  background: var(--ga-color-surface-disabled);
+  color: var(--ga-color-text-disable-selected);
+  cursor: not-allowed;
+  resize: none;
+}
+textarea.ga-text-area:disabled:not(:placeholder-shown),
+textarea.ga-textarea:disabled:not(:placeholder-shown) {
+  border-color: var(--ga-color-surface-disable-selected);
+  background: var(--ga-color-surface-disable-selected);
+  color: var(--ga-color-text-on-action);
+}
+
+/* Optional character counter (ngx-gaia extension). */
+.ga-textarea__counter,
+.ga-text-area__counter {
+  font-size: var(--ga-text-xs-font-size);
+  line-height: var(--ga-text-xs-line-height);
+  letter-spacing: var(--ga-text-xs-letter-spacing);
+  color: var(--ga-color-text-body-secondary);
+  text-align: right;
+  padding: var(--ga-size-4) var(--ga-size-4) 0;
+}
+.ga-textarea__counter--warning, .ga-text-area__counter--warning { color: var(--ga-color-warning); }
+.ga-textarea__counter--error, .ga-text-area__counter--error { color: var(--ga-color-error); }

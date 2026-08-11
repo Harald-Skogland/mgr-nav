@@ -1,0 +1,34 @@
+/* Gaia — base document + icon primitives. Mirrors gaia-styles base.css
+   (body font binding) plus this port's box-sizing + .ga-icon helper. */
+
+body {
+  font-family: var(--ga-font-family-primary);
+  font-feature-settings: var(--ga-font-feature-settings);
+  font-size: var(--ga-text-md-font-size);
+  line-height: var(--ga-text-md-line-height);
+  letter-spacing: var(--ga-text-md-letter-spacing);
+  color: var(--ga-color-text-body);
+  background: var(--ga-color-surface-page);
+  margin: 0;
+}
+*, *::before, *::after { box-sizing: border-box; }
+
+/* ---------- Icon helper ----------
+   16px default; inherits currentColor so icons tint with surrounding text. */
+.ga-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: currentColor;
+  width: var(--ga-size-16);
+  height: var(--ga-size-16);
+}
+.ga-icon svg { width: 100%; height: 100%; display: block; }
+
+/* Shared visually-hidden pattern (button/segmented-control SR labels). */
+.ga-sr-only,
+.ga-button__icon-label,
+.ga-segmented-control__button-sr-label {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); clip-path: inset(50%);
+  white-space: nowrap; border-width: 0;
+}

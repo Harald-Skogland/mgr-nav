@@ -1,0 +1,37 @@
+/* Gaia — Card. White surface for grouping content. --selectable adds hover
+   (north shadow + tint) and an outer focus frame; --selected / --disabled. */
+
+.ga-card {
+  font-size: var(--ga-text-md-font-size);
+  line-height: var(--ga-text-md-line-height);
+  letter-spacing: var(--ga-text-md-letter-spacing);
+  display: inline-block;
+  border: var(--ga-size-border-width-sm) solid var(--ga-color-border-tertiary);
+  background: var(--ga-color-white);
+  padding: var(--ga-size-16);
+  border-radius: var(--ga-radius);
+}
+.ga-card--selectable {
+  position: relative; cursor: pointer;
+  transition: color var(--ga-transition-hover), background-color var(--ga-transition-hover), border-color var(--ga-transition-hover), box-shadow var(--ga-transition-hover);
+}
+.ga-card--selectable:hover:not(.ga-card--selected) {
+  box-shadow: var(--ga-shadow-north);
+  border-color: var(--ga-color-border-action-hover);
+  background: var(--ga-color-surface-action-hover-2);
+}
+.ga-card--selectable:focus-visible { outline: none; }
+.ga-card--selectable:focus-visible::after {
+  content: ''; position: absolute; inset: -5px;
+  border: var(--ga-size-border-width-md) solid var(--ga-color-border-focus);
+  pointer-events: none;
+}
+.ga-card--disabled { border-color: var(--ga-color-border-disabled); background: var(--ga-color-surface-disabled); color: var(--ga-color-text-disabled); }
+.ga-card--selected { border-color: var(--ga-color-border-focus); background: var(--ga-color-surface-selected); }
+
+/* Structural parts (ngx-gaia card anatomy). */
+.ga-card__header { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--ga-size-spacing-05); }
+.ga-card__title { font-size: var(--ga-text-md-font-size); line-height: var(--ga-text-md-line-height); font-weight: var(--ga-font-weight-bold); color: var(--ga-color-text-headings); margin: 0; }
+.ga-card__description { font-size: var(--ga-text-sm-font-size); line-height: var(--ga-text-sm-line-height); color: var(--ga-color-text-body); margin: 0; }
+.ga-card__body { display: flex; flex-direction: column; gap: var(--ga-size-spacing-03); }
+.ga-card__footer { display: flex; gap: var(--ga-size-spacing-05); align-items: center; padding-top: var(--ga-size-spacing-03); }

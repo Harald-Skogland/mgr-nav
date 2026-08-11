@@ -1,0 +1,92 @@
+/* Gaia — Tag. Pill (status/interactive) or rounded-rect (utility). Height is
+   24px content-box (border sits outside, per the canonical box-content h-6). */
+
+.ga-tag {
+  box-sizing: content-box;
+  display: inline-flex; flex-direction: row; align-items: center;
+  flex-shrink: 0; /* a tag never truncates itself when nested in a shrinking flex/grid parent */
+  gap: var(--ga-size-4);
+  height: var(--ga-size-24);
+  padding-left: var(--ga-size-8);
+  padding-right: var(--ga-size-4);
+  border: var(--ga-size-border-width-sm) solid var(--ga-color-border-action);
+  border-radius: var(--ga-radius-round);
+  font-size: var(--ga-text-sm-font-size);
+  line-height: var(--ga-text-sm-line-height);
+  letter-spacing: var(--ga-text-sm-letter-spacing);
+  color: var(--ga-color-text-body);
+  background: var(--ga-color-surface-primary);
+}
+.ga-tag:focus-visible { outline: var(--ga-focus-outline); outline-offset: var(--ga-focus-outline-offset); }
+.ga-tag .ga-icon, .ga-tag__icon { flex-shrink: 0; width: var(--ga-size-16); height: var(--ga-size-16); color: var(--ga-color-icon-action); }
+.ga-tag__label { padding-right: var(--ga-size-4); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: fit-content; }
+.ga-tag__divider, .ga-tag__separator { width: var(--ga-size-1); height: var(--ga-size-20); align-self: center; background: var(--ga-color-border-disabled); }
+.ga-tag__close {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 0 var(--ga-size-4); margin: 0; height: 100%;
+  background: transparent; border: 0; cursor: pointer; color: inherit;
+}
+.ga-tag__close:hover { color: var(--ga-color-text-action-hover); }
+
+/* Status variants */
+.ga-tag--information { border-color: var(--ga-color-border-information); background: var(--ga-color-surface-information); color: var(--ga-color-text-information); }
+.ga-tag--information .ga-icon, .ga-tag--information .ga-tag__icon { color: var(--ga-color-icon-information); }
+.ga-tag--success { border-color: var(--ga-color-border-success); background: var(--ga-color-surface-success); }
+.ga-tag--success .ga-icon, .ga-tag--success .ga-tag__icon { color: var(--ga-color-icon-success); }
+.ga-tag--error { border-color: var(--ga-color-border-error); background: var(--ga-color-surface-error); }
+.ga-tag--error .ga-icon, .ga-tag--error .ga-tag__icon { color: var(--ga-color-icon-error); }
+.ga-tag--warning { border-color: var(--ga-color-border-warning); background: var(--ga-color-surface-warning); }
+.ga-tag--warning .ga-icon, .ga-tag--warning .ga-tag__icon { color: var(--ga-color-icon-warning); }
+.ga-tag--disabled { border-color: var(--ga-color-border-disabled); background: var(--ga-color-surface-disabled); color: var(--ga-color-text-disable-selected); }
+.ga-tag--disabled .ga-icon, .ga-tag--disabled .ga-tag__icon { color: var(--ga-color-icon-on-disabled); }
+
+/* Interactive (dashed "add") + selected states. --add kept as alias. */
+.ga-tag--add, .ga-tag--interactive {
+  cursor: pointer; border-style: dashed;
+  background: var(--ga-color-surface-primary);
+  transition: background-color var(--ga-transition-hover), border-color var(--ga-transition-hover);
+}
+.ga-tag--add:hover, .ga-tag--interactive:hover { background: var(--ga-color-surface-action-hover-2); }
+.ga-tag--interactive:hover .ga-icon, .ga-tag--interactive:hover .ga-tag__icon { color: var(--ga-color-icon-action-hover); }
+.ga-tag--interactive-disabled { cursor: not-allowed; border-style: dashed; border-color: var(--ga-color-border-disabled); color: var(--ga-color-text-disabled); }
+.ga-tag--interactive-disabled .ga-icon, .ga-tag--interactive-disabled .ga-tag__icon { color: var(--ga-color-icon-disabled); }
+.ga-tag--interactive-selected {
+  cursor: pointer; border-style: solid;
+  background: var(--ga-color-surface-primary);
+  color: var(--ga-color-text-action);
+  transition: border-color var(--ga-transition-hover);
+}
+.ga-tag--interactive-selected:hover { border-color: var(--ga-color-border-action-hover); }
+.ga-tag--interactive-selected:hover .ga-icon, .ga-tag--interactive-selected:hover .ga-tag__icon { color: var(--ga-color-icon-action-hover); }
+.ga-tag--interactive-selected-disabled {
+  cursor: not-allowed; border-style: solid;
+  border-color: var(--ga-color-surface-disable-selected);
+  background: var(--ga-color-surface-disable-selected);
+  color: var(--ga-color-text-on-action);
+}
+.ga-tag--interactive-selected-disabled .ga-icon, .ga-tag--interactive-selected-disabled .ga-tag__icon { color: var(--ga-color-icon-on-primary); }
+
+/* Utility variants — rounded-rect, 6px lead padding, body-tinted icons. */
+.ga-tag--utility-grey, .ga-tag--utility-indigo, .ga-tag--utility-teal, .ga-tag--utility-lime,
+.ga-tag--utility-purple, .ga-tag--utility-pink, .ga-tag--utility-rose, .ga-tag--utility-blue,
+.ga-tag--utility-green, .ga-tag--utility-orange, .ga-tag--utility-disabled {
+  border-radius: var(--ga-radius);
+  padding-left: var(--ga-size-6);
+}
+.ga-tag--utility-grey .ga-icon, .ga-tag--utility-indigo .ga-icon, .ga-tag--utility-teal .ga-icon, .ga-tag--utility-lime .ga-icon,
+.ga-tag--utility-purple .ga-icon, .ga-tag--utility-pink .ga-icon, .ga-tag--utility-rose .ga-icon, .ga-tag--utility-blue .ga-icon,
+.ga-tag--utility-green .ga-icon, .ga-tag--utility-orange .ga-icon,
+.ga-tag--utility-grey .ga-tag__icon, .ga-tag--utility-indigo .ga-tag__icon, .ga-tag--utility-teal .ga-tag__icon, .ga-tag--utility-lime .ga-tag__icon,
+.ga-tag--utility-purple .ga-tag__icon, .ga-tag--utility-pink .ga-tag__icon, .ga-tag--utility-rose .ga-tag__icon, .ga-tag--utility-blue .ga-tag__icon,
+.ga-tag--utility-green .ga-tag__icon, .ga-tag--utility-orange .ga-tag__icon { color: var(--ga-color-text-body); }
+.ga-tag--utility-grey   { border-color: var(--ga-color-utility-grey); background: var(--ga-color-utility-grey-accent); }
+.ga-tag--utility-indigo { border-color: var(--ga-color-utility-indigo); background: var(--ga-color-utility-indigo-accent); }
+.ga-tag--utility-teal   { border-color: var(--ga-color-utility-teal); background: var(--ga-color-utility-teal-accent); }
+.ga-tag--utility-lime   { border-color: var(--ga-color-utility-lime); background: var(--ga-color-utility-lime-accent); }
+.ga-tag--utility-purple { border-color: var(--ga-color-utility-purple); background: var(--ga-color-utility-purple-accent); }
+.ga-tag--utility-pink   { border-color: var(--ga-color-utility-pink); background: var(--ga-color-utility-pink-accent); }
+.ga-tag--utility-rose   { border-color: var(--ga-color-utility-rose); background: var(--ga-color-utility-rose-accent); }
+.ga-tag--utility-blue   { border-color: var(--ga-color-utility-blue); background: var(--ga-color-utility-blue-accent); }
+.ga-tag--utility-green  { border-color: var(--ga-color-utility-green); background: var(--ga-color-utility-green-accent); }
+.ga-tag--utility-orange { border-color: var(--ga-color-utility-orange); background: var(--ga-color-utility-orange-accent); }
+.ga-tag--utility-disabled { border-color: var(--ga-color-border-disabled); background: var(--ga-color-surface-disabled); color: var(--ga-color-text-disable-selected); }

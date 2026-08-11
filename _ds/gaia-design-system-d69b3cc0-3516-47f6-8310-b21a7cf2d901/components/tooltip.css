@@ -1,0 +1,72 @@
+/* Gaia — Tooltip. Dark (action-hover) contextual surface, 8px arrow per
+   placement, optional title/close/actions and .ga-kbd keyboard hints. */
+
+.ga-tooltip {
+  position: relative;
+  display: inline-flex; flex-direction: column;
+  gap: var(--ga-size-4);
+  max-width: 25rem;
+  padding: var(--ga-size-8);
+  border-radius: var(--ga-radius);
+  background: var(--ga-color-surface-action-hover);
+  color: var(--ga-color-text-on-action);
+  font-size: var(--ga-text-md-font-size);
+  line-height: var(--ga-text-md-line-height);
+  letter-spacing: var(--ga-text-md-letter-spacing);
+}
+.ga-tooltip__title { font-weight: var(--ga-font-weight-semibold); margin-bottom: var(--ga-size-4); }
+.ga-tooltip--shortcut { padding: var(--ga-size-4) var(--ga-size-8); flex-direction: row; align-items: center; gap: var(--ga-size-4); }
+.ga-tooltip__row { display: flex; align-items: flex-start; gap: var(--ga-size-12); justify-content: space-between; }
+.ga-tooltip__close {
+  background: transparent; border: 0; color: inherit; cursor: pointer; padding: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: var(--ga-size-20); height: var(--ga-size-20); flex: 0 0 var(--ga-size-20);
+}
+.ga-tooltip__close:hover { opacity: .7; }
+.ga-tooltip__actions { display: flex; gap: var(--ga-size-spacing-03); margin-top: var(--ga-size-4); }
+
+/* Keyboard hint chip. */
+.ga-kbd {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: var(--ga-size-20); height: var(--ga-size-20);
+  padding: 0 var(--ga-size-4);
+  border-radius: var(--ga-radius);
+  background: color-mix(in srgb, var(--ga-color-white) 10%, transparent);
+  color: inherit;
+  font-family: inherit;
+  font-size: var(--ga-text-sm-font-size);
+  line-height: 1;
+}
+
+/* Placement margins + arrows (8px). */
+.ga-tooltip--top-start, .ga-tooltip--top-center, .ga-tooltip--top-end { margin-bottom: var(--ga-size-8); }
+.ga-tooltip--bottom-start, .ga-tooltip--bottom-center, .ga-tooltip--bottom-end { margin-top: var(--ga-size-8); }
+.ga-tooltip--left-start, .ga-tooltip--left-center, .ga-tooltip--left-end { margin-right: var(--ga-size-8); }
+.ga-tooltip--right-start, .ga-tooltip--right-center, .ga-tooltip--right-end { margin-left: var(--ga-size-8); }
+
+.ga-tooltip--top-start::before, .ga-tooltip--top-center::before, .ga-tooltip--top-end::before {
+  content: ''; position: absolute; bottom: -8px;
+  border-left: 8px solid transparent; border-right: 8px solid transparent;
+  border-top: 8px solid var(--ga-color-surface-action-hover);
+}
+.ga-tooltip--bottom-start::before, .ga-tooltip--bottom-center::before, .ga-tooltip--bottom-end::before {
+  content: ''; position: absolute; top: -8px;
+  border-left: 8px solid transparent; border-right: 8px solid transparent;
+  border-bottom: 8px solid var(--ga-color-surface-action-hover);
+}
+.ga-tooltip--top-start::before, .ga-tooltip--bottom-start::before { left: var(--ga-size-16); }
+.ga-tooltip--top-center::before, .ga-tooltip--bottom-center::before { left: 50%; transform: translateX(-50%); }
+.ga-tooltip--top-end::before, .ga-tooltip--bottom-end::before { right: var(--ga-size-16); }
+.ga-tooltip--left-start::before, .ga-tooltip--left-center::before, .ga-tooltip--left-end::before {
+  content: ''; position: absolute; right: -8px;
+  border-top: 8px solid transparent; border-bottom: 8px solid transparent;
+  border-left: 8px solid var(--ga-color-surface-action-hover);
+}
+.ga-tooltip--right-start::before, .ga-tooltip--right-center::before, .ga-tooltip--right-end::before {
+  content: ''; position: absolute; left: -8px;
+  border-top: 8px solid transparent; border-bottom: 8px solid transparent;
+  border-right: 8px solid var(--ga-color-surface-action-hover);
+}
+.ga-tooltip--left-start::before, .ga-tooltip--right-start::before { top: var(--ga-size-16); }
+.ga-tooltip--left-center::before, .ga-tooltip--right-center::before { top: 50%; transform: translateY(-50%); }
+.ga-tooltip--left-end::before, .ga-tooltip--right-end::before { bottom: var(--ga-size-16); }

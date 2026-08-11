@@ -1,0 +1,39 @@
+/* Gaia — Segmented control. Grouped single-select toolbar: 2px inset padding,
+   34px segments, selected segment gets an action border on white. */
+
+.ga-segmented-control {
+  font-size: var(--ga-text-md-font-size);
+  letter-spacing: var(--ga-text-md-letter-spacing);
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: var(--ga-size-2);
+  padding: var(--ga-size-2);
+  border: var(--ga-size-border-width-sm) solid var(--ga-color-border-tertiary);
+  border-radius: var(--ga-radius);
+  vertical-align: middle;
+}
+.ga-segmented-control__button {
+  font-family: inherit; font-size: inherit; letter-spacing: inherit;
+  line-height: var(--ga-size-20);
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: var(--ga-size-spacing-03);
+  height: 2.125rem; /* h-8.5 = 34px */
+  padding: 0 var(--ga-size-16);
+  border: var(--ga-size-border-width-sm) solid transparent;
+  background: transparent;
+  color: var(--ga-color-text-action);
+  cursor: pointer;
+  border-radius: var(--ga-radius);
+  white-space: nowrap;
+  vertical-align: middle;
+  transition: background-color var(--ga-transition-hover), border-color var(--ga-transition-hover), color var(--ga-transition-hover);
+}
+.ga-segmented-control__button:focus-visible { outline: var(--ga-focus-outline); outline-offset: 1px; }
+.ga-segmented-control__button--selected,
+.ga-segmented-control__button:hover { border-color: var(--ga-color-border-action); }
+.ga-segmented-control__button--selected { background: var(--ga-color-surface-primary); }
+.ga-segmented-control__button:hover:not(.ga-segmented-control__button--selected) {
+  background: var(--ga-color-surface-action-hover-2);
+  color: var(--ga-color-text-action-hover);
+}
+.ga-segmented-control__button--icon-only { padding: 0 9px; } /* px-2.25 */
+.ga-segmented-control__button--icon-only:hover:not(.ga-segmented-control__button--selected) { color: var(--ga-color-icon-action-hover); }

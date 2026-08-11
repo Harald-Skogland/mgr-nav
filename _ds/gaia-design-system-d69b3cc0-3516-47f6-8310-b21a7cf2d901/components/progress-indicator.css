@@ -1,0 +1,138 @@
+/* Gaia — Progress indicator (multi-step). Canonical .ga-progress-indicator:
+   each item carries a coloured top stripe (left stripe when --vertical) that
+   thickens to 4px for --current / --error. This port also keeps the earlier
+   .ga-stepper naming as a working alias (see bottom). */
+
+.ga-progress-indicator { display: flex; }
+.ga-progress-indicator--horizontal { flex-direction: row; }
+.ga-progress-indicator--horizontal .ga-progress-indicator__item { flex: 1; }
+.ga-progress-indicator--vertical { flex-direction: column; }
+
+.ga-progress-indicator__item {
+  position: relative;
+  display: flex; gap: var(--ga-size-spacing-03);
+  cursor: pointer;
+  border: 0;
+  border-top: var(--ga-size-border-width-md) solid var(--ga-color-surface-disabled);
+  background: transparent;
+  padding: var(--ga-size-6) var(--ga-size-2) 0 0;
+  text-align: left;
+  color: var(--ga-color-text-body);
+  font-family: inherit;
+}
+.ga-progress-indicator__item:focus-visible { outline: none; }
+.ga-progress-indicator__item:focus-visible .ga-progress-indicator__indicator {
+  position: relative; border-radius: var(--ga-radius-round);
+  outline: var(--ga-focus-outline); outline-offset: var(--ga-focus-outline-offset);
+}
+.ga-progress-indicator__item:not(.ga-progress-indicator__item--disabled):hover .ga-progress-indicator__label-text { color: var(--ga-color-text-action-hover); }
+
+.ga-progress-indicator__indicator { position: relative; display: flex; flex-shrink: 0; align-items: flex-start; justify-content: center; padding-left: var(--ga-size-8); }
+.ga-progress-indicator__indicator .ga-icon { margin: 1px; width: var(--ga-size-24); height: var(--ga-size-24); }
+.ga-progress-indicator__content { display: flex; min-width: 0; flex-direction: column; }
+.ga-progress-indicator__label { display: inline-flex; height: var(--ga-size-24); min-width: 0; align-items: center; gap: var(--ga-size-4); }
+.ga-progress-indicator__label-text {
+  font-size: var(--ga-text-md-font-size);
+  letter-spacing: var(--ga-text-md-letter-spacing);
+  font-weight: var(--ga-font-weight-medium);
+  min-width: 0;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  color: var(--ga-color-text-action);
+  transition: color var(--ga-transition-hover);
+}
+.ga-progress-indicator__label-state { font-size: var(--ga-text-md-font-size); font-weight: var(--ga-font-weight-normal); color: var(--ga-color-text-body); }
+.ga-progress-indicator__label--defined .ga-progress-indicator__label-text { border-bottom: var(--ga-size-border-width-md) dotted var(--ga-color-text-action); }
+.ga-progress-indicator__label--defined:not(.ga-progress-indicator__label--disabled):hover .ga-progress-indicator__label-text { color: var(--ga-color-text-body); }
+.ga-progress-indicator__description { font-size: var(--ga-text-xs-font-size); line-height: var(--ga-text-xs-line-height); color: var(--ga-color-text-body); }
+.ga-progress-indicator__current-dot {
+  position: absolute; top: var(--ga-size-8); right: var(--ga-size-8);
+  height: var(--ga-size-8); width: var(--ga-size-8);
+  border-radius: var(--ga-radius-round);
+  background: var(--ga-color-icon-action);
+}
+
+/* States */
+.ga-progress-indicator__item--completed { border-color: var(--ga-color-border-success); }
+.ga-progress-indicator__item--completed .ga-progress-indicator__indicator .ga-icon { color: var(--ga-color-icon-success); }
+.ga-progress-indicator__item--current { border-top-width: var(--ga-size-border-width-lg); border-color: var(--ga-color-border-action); padding-top: var(--ga-size-4); }
+.ga-progress-indicator__item--current .ga-progress-indicator__indicator .ga-icon { color: var(--ga-color-icon-action); }
+.ga-progress-indicator__item--incomplete .ga-progress-indicator__label-text { color: var(--ga-color-text-body); }
+.ga-progress-indicator__item--error { border-top-width: var(--ga-size-border-width-lg); border-color: var(--ga-color-border-error); padding-top: var(--ga-size-4); }
+.ga-progress-indicator__item--error .ga-progress-indicator__indicator .ga-icon { color: var(--ga-color-icon-error); }
+.ga-progress-indicator__item--error .ga-progress-indicator__label-text,
+.ga-progress-indicator__item--error .ga-progress-indicator__description { color: var(--ga-color-text-error); }
+.ga-progress-indicator__item--disabled { cursor: not-allowed; }
+.ga-progress-indicator__item--disabled .ga-progress-indicator__indicator .ga-icon { color: var(--ga-color-icon-disabled); }
+.ga-progress-indicator__item--disabled .ga-progress-indicator__label-text,
+.ga-progress-indicator__item--disabled .ga-progress-indicator__label-state,
+.ga-progress-indicator__item--disabled .ga-progress-indicator__description { color: var(--ga-color-text-disabled); }
+
+/* Vertical: stripe moves to the left edge. */
+.ga-progress-indicator--vertical .ga-progress-indicator__item {
+  border-top: 0;
+  border-left: var(--ga-size-border-width-md) solid var(--ga-color-surface-disabled);
+  padding: 0 0 var(--ga-size-24) 0;
+}
+.ga-progress-indicator--vertical .ga-progress-indicator__item .ga-progress-indicator__indicator { padding-left: var(--ga-size-6); }
+.ga-progress-indicator--vertical .ga-progress-indicator__item--completed { border-left-color: var(--ga-color-border-success); }
+.ga-progress-indicator--vertical .ga-progress-indicator__item--current,
+.ga-progress-indicator--vertical .ga-progress-indicator__item--error { border-top: 0; border-left-width: var(--ga-size-border-width-lg); padding-top: 0; }
+.ga-progress-indicator--vertical .ga-progress-indicator__item--current { border-left-color: var(--ga-color-border-action); }
+.ga-progress-indicator--vertical .ga-progress-indicator__item--error { border-left-color: var(--ga-color-border-error); }
+.ga-progress-indicator--vertical .ga-progress-indicator__item--current .ga-progress-indicator__indicator,
+.ga-progress-indicator--vertical .ga-progress-indicator__item--error .ga-progress-indicator__indicator { padding-left: var(--ga-size-4); }
+
+/* =========================================================================
+   Legacy alias — .ga-stepper (earlier revisions of this port). Same visual
+   system: stripe + 24px state icon + md label + xs description.
+   ========================================================================= */
+.ga-stepper {
+  display: flex; flex-direction: row; align-items: stretch;
+  font-size: var(--ga-text-md-font-size);
+  color: var(--ga-color-text-body);
+  width: 100%;
+}
+.ga-stepper__step {
+  flex: 1 1 0; min-width: 0;
+  display: flex; flex-direction: column; gap: var(--ga-size-4);
+  padding: var(--ga-size-8) var(--ga-size-12);
+  min-height: var(--ga-size-64);
+  border-top: var(--ga-size-border-width-md) solid var(--ga-color-surface-disabled);
+  color: var(--ga-color-text-body);
+}
+.ga-stepper__row { display: flex; flex-direction: row; align-items: center; gap: var(--ga-size-4); }
+.ga-stepper__bubble {
+  display: inline-flex; align-items: center; justify-content: center;
+  height: var(--ga-size-24); width: var(--ga-size-24); flex: 0 0 var(--ga-size-24);
+  color: var(--ga-color-icon-primary);
+}
+.ga-stepper__label {
+  font-size: var(--ga-text-md-font-size); line-height: var(--ga-text-md-line-height);
+  letter-spacing: var(--ga-text-md-letter-spacing);
+  font-weight: var(--ga-font-weight-medium);
+  color: var(--ga-color-text-body);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.ga-stepper__description {
+  font-size: var(--ga-text-xs-font-size); line-height: var(--ga-text-xs-line-height);
+  letter-spacing: var(--ga-text-xs-letter-spacing);
+  color: var(--ga-color-text-body-secondary);
+  padding-left: calc(var(--ga-size-24) + var(--ga-size-4));
+}
+.ga-stepper__step--current { border-top-color: var(--ga-color-border-action); border-top-width: var(--ga-size-border-width-lg); padding-top: var(--ga-size-6); }
+.ga-stepper__step--current .ga-stepper__bubble { color: var(--ga-color-icon-action); }
+.ga-stepper__step--complete { border-top-color: var(--ga-color-border-success); }
+.ga-stepper__step--complete .ga-stepper__bubble { color: var(--ga-color-icon-success); }
+.ga-stepper__step--error { border-top-color: var(--ga-color-border-error); border-top-width: var(--ga-size-border-width-lg); padding-top: var(--ga-size-6); }
+.ga-stepper__step--error .ga-stepper__bubble { color: var(--ga-color-icon-error); }
+.ga-stepper__step--error .ga-stepper__label { color: var(--ga-color-text-error); }
+.ga-stepper__step--disabled { border-top-color: var(--ga-color-border-disabled); color: var(--ga-color-text-disabled); }
+.ga-stepper__step--disabled .ga-stepper__bubble { color: var(--ga-color-icon-disabled); }
+.ga-stepper__step--disabled .ga-stepper__label,
+.ga-stepper__step--disabled .ga-stepper__description { color: var(--ga-color-text-disabled); }
+.ga-stepper--vertical { flex-direction: column; }
+.ga-stepper--vertical .ga-stepper__step { border-top: 0; border-left: var(--ga-size-border-width-md) solid var(--ga-color-surface-disabled); padding: var(--ga-size-8) var(--ga-size-12); }
+.ga-stepper--vertical .ga-stepper__step--current { border-left-color: var(--ga-color-border-action); border-left-width: var(--ga-size-border-width-lg); padding-left: var(--ga-size-10); }
+.ga-stepper--vertical .ga-stepper__step--complete { border-left-color: var(--ga-color-border-success); }
+.ga-stepper--vertical .ga-stepper__step--error { border-left-color: var(--ga-color-border-error); border-left-width: var(--ga-size-border-width-lg); padding-left: var(--ga-size-10); }
+.ga-stepper--vertical .ga-stepper__step--disabled { border-left-color: var(--ga-color-border-disabled); }

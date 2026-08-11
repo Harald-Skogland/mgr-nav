@@ -1,0 +1,132 @@
+/* Gaia — File uploader. Canonical anatomy: heading, dropzone, file list of
+   __file-item rows (+ --success / --error with error callout). The earlier
+   .ga-file-row row form is kept as a working alias at the bottom. */
+
+.ga-file-uploader { display: flex; flex-direction: column; gap: var(--ga-size-spacing-05); }
+.ga-file-uploader .ga-button { width: fit-content; }
+.ga-file-uploader__input {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); clip-path: inset(50%);
+  white-space: nowrap; border-width: 0;
+}
+
+.ga-file-uploader__heading { display: flex; flex: 1; flex-direction: column; gap: var(--ga-size-4); color: var(--ga-color-text-body); }
+.ga-file-uploader__heading-label {
+  font-size: var(--ga-text-md-font-size);
+  letter-spacing: var(--ga-text-md-letter-spacing);
+  font-weight: var(--ga-font-weight-medium);
+  vertical-align: middle;
+}
+.ga-file-uploader__heading-description { font-size: var(--ga-text-sm-font-size); line-height: var(--ga-text-sm-line-height); font-weight: var(--ga-font-weight-normal); }
+.ga-file-uploader--disabled .ga-file-uploader__heading { color: var(--ga-color-text-disable-selected); }
+
+/* Dropzone */
+.ga-file-uploader__dropzone {
+  font-size: var(--ga-text-md-font-size);
+  letter-spacing: var(--ga-text-md-letter-spacing);
+  font-weight: var(--ga-font-weight-normal);
+  display: flex; flex-direction: column; gap: var(--ga-size-spacing-03);
+  flex: 1; align-items: center; justify-content: center; text-align: center;
+  min-height: 6.25rem;
+  padding: var(--ga-size-32);
+  border: var(--ga-size-border-width-sm) dashed var(--ga-color-border-action);
+  border-radius: var(--ga-radius);
+  background: var(--ga-color-surface-primary);
+  color: var(--ga-color-text-action);
+  cursor: pointer;
+  transition: background-color var(--ga-transition-hover), border-color var(--ga-transition-hover), color var(--ga-transition-hover);
+}
+.ga-file-uploader__dropzone:hover {
+  border-color: var(--ga-color-border-action-hover);
+  background: var(--ga-color-surface-action-hover-2);
+  color: var(--ga-color-text-action-hover);
+}
+.ga-file-uploader__dropzone:focus-visible,
+.ga-file-uploader__dropzone:focus-within {
+  border-color: transparent;
+  outline: var(--ga-focus-outline);
+}
+.ga-file-uploader__dropzone--drag-hover,
+.ga-file-uploader__dropzone--active {
+  border-color: transparent;
+  background: var(--ga-color-surface-page);
+  color: var(--ga-color-text-action-hover);
+  outline: var(--ga-focus-outline);
+}
+.ga-file-uploader__dropzone[aria-disabled="true"],
+.ga-file-uploader__dropzone--disabled,
+.ga-file-uploader--disabled .ga-file-uploader__dropzone {
+  cursor: not-allowed;
+  border-color: var(--ga-color-border-disabled);
+  background: var(--ga-color-surface-primary);
+  color: var(--ga-color-text-disabled);
+  outline: none;
+}
+.ga-file-uploader__icon { color: var(--ga-color-icon-action); width: var(--ga-size-24); height: var(--ga-size-24); }
+.ga-file-uploader__label { font-weight: var(--ga-font-weight-medium); }
+.ga-file-uploader__hint { font-size: var(--ga-text-sm-font-size); color: var(--ga-color-text-body-secondary); }
+
+/* File list */
+.ga-file-uploader__file-list { display: flex; flex: 1; flex-direction: column; gap: var(--ga-size-spacing-03); }
+.ga-file-uploader__file-item {
+  font-size: var(--ga-text-md-font-size);
+  letter-spacing: var(--ga-text-md-letter-spacing);
+  display: flex; align-items: center; justify-content: space-between;
+  height: var(--ga-size-40);
+  max-width: 58rem; min-width: 22rem;
+  padding: var(--ga-size-4) var(--ga-size-8);
+  border-radius: var(--ga-radius);
+  background: var(--ga-color-surface-disabled);
+  color: var(--ga-color-text-body);
+}
+.ga-file-uploader__file-icon { width: var(--ga-size-16); height: var(--ga-size-16); }
+.ga-file-uploader__file-action {
+  display: flex; align-items: center; justify-content: center;
+  height: var(--ga-size-16); width: var(--ga-size-16);
+  padding: 0; border: none; background: transparent; border-radius: var(--ga-radius);
+  color: var(--ga-color-icon-action); cursor: pointer;
+}
+.ga-file-uploader__file-action:focus-visible { outline: var(--ga-focus-outline); outline-offset: var(--ga-focus-outline-offset); }
+.ga-file-uploader__file-item--success .ga-file-uploader__file-icon { color: var(--ga-color-icon-success); }
+.ga-file-uploader__file-item--error {
+  height: auto; flex-direction: column; align-items: flex-start;
+  gap: var(--ga-size-spacing-03);
+  border: var(--ga-size-border-width-sm) solid var(--ga-color-border-error);
+  background: var(--ga-color-surface-error);
+  outline: var(--ga-size-border-width-sm) solid var(--ga-color-border-error);
+}
+.ga-file-uploader__error-file { display: flex; width: 100%; align-items: center; justify-content: space-between; line-height: var(--ga-size-24); }
+.ga-file-uploader__error-callout {
+  display: flex; flex-direction: row; align-items: center;
+  gap: var(--ga-size-4);
+  font-size: var(--ga-text-xs-font-size);
+  line-height: var(--ga-text-xs-line-height);
+  font-weight: var(--ga-font-weight-normal);
+}
+.ga-file-uploader__error-callout-icon { width: var(--ga-size-16); height: var(--ga-size-16); color: var(--ga-color-icon-error); }
+
+/* ---------- Legacy alias: .ga-file-row (earlier revisions) ---------- */
+.ga-file-row {
+  display: flex; align-items: center; gap: var(--ga-size-spacing-04);
+  padding: var(--ga-size-8) var(--ga-size-12);
+  border: var(--ga-size-border-width-sm) solid var(--ga-color-border-tertiary);
+  border-radius: var(--ga-radius);
+  background: var(--ga-color-surface-primary);
+}
+.ga-file-row__icon { color: var(--ga-color-icon-primary); flex-shrink: 0; }
+.ga-file-row__content { flex: 1; min-width: 0; }
+.ga-file-row__name { font-weight: var(--ga-font-weight-medium); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ga-file-row__meta { font-size: var(--ga-text-sm-font-size); color: var(--ga-color-text-body-secondary); }
+.ga-file-row__action { background: transparent; border: 0; color: var(--ga-color-icon-action); cursor: pointer; padding: var(--ga-size-4); border-radius: var(--ga-radius); }
+.ga-file-row__action:hover { background: var(--ga-color-surface-action-hover-2); }
+.ga-file-row--error { border-color: var(--ga-color-border-error); background: var(--ga-color-surface-error); }
+.ga-file-row--error .ga-file-row__icon { color: var(--ga-color-icon-error); }
+.ga-file-row--success { border-color: var(--ga-color-border-success); background: var(--ga-color-surface-success); }
+.ga-file-row--success .ga-file-row__icon { color: var(--ga-color-icon-success); }
+.ga-file-row__progress {
+  position: relative; height: 3px; width: 100%;
+  background: var(--ga-color-surface-disabled);
+  border-radius: var(--ga-radius);
+  overflow: hidden; margin-top: var(--ga-size-6);
+}
+.ga-file-row__progress-bar { position: absolute; inset: 0 auto 0 0; background: var(--ga-color-surface-progress); }

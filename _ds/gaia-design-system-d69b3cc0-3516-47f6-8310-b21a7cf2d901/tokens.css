@@ -1,0 +1,573 @@
+/* =========================================================================
+   Gaia Design System — Design Tokens
+   Prefix: --ga-*
+
+   Verified against BOTH sources of truth (2026-07):
+   • Figma "Gaia UI Kit — Jun 2026" Variables
+     (collections: foundation → alias → mapped → responsive)
+   • @vsn-ux/gaia-styles design-tokens (DTCG v2025.10 + desktop overrides)
+   Where the two disagree, the newer Figma design wins; divergences are noted
+   inline. Tokens marked "extension" are not in the gaia-styles dist but are
+   documented conventions of this port.
+
+   Scaling: --ga-base-scaling-factor multiplies the type scale, spacing and
+   size ramps (exactly what gaia-styles' theme layer scales). Default 1.
+   Legacy hosts with a 10px root font-size set it to 1.6 to restore canonical
+   rendered sizes. Radii, border widths and shadows never scale.
+   ========================================================================= */
+
+/* Pull the @font-face declarations into the global-CSS closure so 'Inter'
+   resolves to its self-hosted files. */
+@import './fonts.css';
+
+:root {
+  /* ---------- Base ---------- */
+  --ga-base-scaling-factor: 1; /* @kind other */
+  --ga-sf: var(--ga-base-scaling-factor, 1); /* internal shorthand @kind other */
+
+  /* ---------- Primitive colors (foundation) ---------- */
+  --ga-color-white: #ffffff;
+  --ga-color-black: #000000;
+
+  /* Cyan (primary family) */
+  --ga-color-cyan-60: #377ea0;
+  --ga-color-cyan-70: #2a6480;
+  --ga-color-cyan-80: #1f4e66;
+  --ga-color-cyan-90: #133445;
+
+  /* Orange (secondary family) */
+  --ga-color-orange-10: #fcf0e7;
+  --ga-color-orange-20: #fae0ce;
+  --ga-color-orange-30: #f5c3a1;
+  --ga-color-orange-40: #f2a676;
+  --ga-color-orange-60: #bb5822;
+
+  /* Neutral */
+  --ga-color-neutral-10: #f2f3f5;
+  --ga-color-neutral-20: #e2e4e9;
+  --ga-color-neutral-30: #cccfd7;
+  --ga-color-neutral-60: #6f7687;
+  --ga-color-neutral: var(--ga-color-neutral-30);
+
+  /* Blue */
+  --ga-color-blue-10: #edf4fe;
+  --ga-color-blue-40: #93bbf9;
+  --ga-color-blue-60: #366af6;
+
+  /* Green */
+  --ga-color-green-10: #eef5ee;
+  --ga-color-green-40: #9bc59b;
+  --ga-color-green-60: #448548;
+
+  /* Red */
+  --ga-color-red-10: #fcf1ee;
+  --ga-color-red-40: #eca79e;
+  --ga-color-red-60: #cc453e;
+
+  /* Grey */
+  --ga-color-grey-10: #f2f2f2;
+  --ga-color-grey-40: #b9b9b9;
+
+  /* Lime */
+  --ga-color-lime-10: #edf6dd;
+  --ga-color-lime-40: #a5c656;
+
+  /* Teal (sequential ramp) */
+  --ga-color-teal-10: #ecf5f4;
+  --ga-color-teal-20: #d5e8e6;
+  --ga-color-teal-30: #b4d7d4;
+  --ga-color-teal-40: #92c3c0;
+  --ga-color-teal-50: #51a39e;
+  --ga-color-teal-60: #3a837e;
+  --ga-color-teal-70: #2c6764;
+  --ga-color-teal-80: #21514e;
+  --ga-color-teal-90: #143734;
+  --ga-color-teal-100: #081f1f;
+
+  /* Indigo */
+  --ga-color-indigo-10: #f0f2fe;
+  --ga-color-indigo-40: #adb4f9;
+
+  /* Purple */
+  --ga-color-purple-10: #f3f1fe;
+  --ga-color-purple-40: #c3acf9;
+  --ga-color-purple-80: #591ab5;
+
+  /* Pink */
+  --ga-color-pink-10: #fbeefc;
+  --ga-color-pink-40: #e79dee;
+
+  /* Rose — Figma foundation rose/10 rgb(252,240,244), rose/40 rgb(239,161,189) */
+  --ga-color-rose-10: #fcf0f4;
+  --ga-color-rose-40: #efa1bd;
+
+  /* ---------- Alias: primary / secondary ---------- */
+  --ga-color-primary: var(--ga-color-cyan-80);
+  --ga-color-primary-60: var(--ga-color-cyan-60);
+  --ga-color-primary-70: var(--ga-color-cyan-70);
+  --ga-color-primary-90: var(--ga-color-cyan-90);
+
+  --ga-color-secondary: var(--ga-color-orange-20);
+  --ga-color-secondary-10: var(--ga-color-orange-10);
+  --ga-color-secondary-30: var(--ga-color-orange-30);
+
+  /* ---------- Utility colors (bg = *-40, accent = *-10) ---------- */
+  --ga-color-utility-blue: var(--ga-color-blue-40);
+  --ga-color-utility-blue-accent: var(--ga-color-blue-10);
+  --ga-color-utility-green: var(--ga-color-green-40);
+  --ga-color-utility-green-accent: var(--ga-color-green-10);
+  --ga-color-utility-grey: var(--ga-color-grey-40);
+  --ga-color-utility-grey-accent: var(--ga-color-grey-10);
+  --ga-color-utility-indigo: var(--ga-color-indigo-40);
+  --ga-color-utility-indigo-accent: var(--ga-color-indigo-10);
+  --ga-color-utility-lime: var(--ga-color-lime-40);
+  --ga-color-utility-lime-accent: var(--ga-color-lime-10);
+  --ga-color-utility-orange: var(--ga-color-orange-40);
+  --ga-color-utility-orange-accent: var(--ga-color-orange-10);
+  --ga-color-utility-pink: var(--ga-color-pink-40);
+  --ga-color-utility-pink-accent: var(--ga-color-pink-10);
+  --ga-color-utility-purple: var(--ga-color-purple-40);
+  --ga-color-utility-purple-accent: var(--ga-color-purple-10);
+  --ga-color-utility-red: var(--ga-color-red-40);
+  --ga-color-utility-red-accent: var(--ga-color-red-10);
+  --ga-color-utility-rose: var(--ga-color-rose-40);
+  --ga-color-utility-rose-accent: var(--ga-color-rose-10);
+  --ga-color-utility-teal: var(--ga-color-teal-40);
+  --ga-color-utility-teal-accent: var(--ga-color-teal-10);
+
+  /* ---------- Status ---------- */
+  --ga-color-error: var(--ga-color-red-60);
+  --ga-color-error-accent: var(--ga-color-utility-red-accent);
+  --ga-color-success: var(--ga-color-green-60);
+  --ga-color-success-accent: var(--ga-color-utility-green-accent);
+  --ga-color-warning: var(--ga-color-orange-60);
+  --ga-color-warning-accent: var(--ga-color-utility-orange-accent);
+  --ga-color-information: var(--ga-color-blue-60);
+  --ga-color-information-accent: var(--ga-color-utility-blue-accent);
+
+  /* ---------- Data visualization ----------
+     Chart palettes — tested against protanopia/deuteranopia/tritanopia.
+     Apply in strict sequence; do not skip or reorder. Steps that exist as
+     primitives reference them (per Figma variable aliases); the rest are
+     foundation values outside the shipped ramps. */
+
+  /* Categorical — discrete, unordered series. Map data to 01→10 in order. */
+  --ga-color-graph-categorical-01: #6769d8; /* indigo-60 */
+  --ga-color-graph-categorical-02: #479fc6; /* cyan-50 */
+  --ga-color-graph-categorical-03: var(--ga-color-teal-70);
+  --ga-color-graph-categorical-04: #c0497d; /* rose-60 */
+  --ga-color-graph-categorical-05: #041255; /* blue-100 */
+  --ga-color-graph-categorical-06: #dc756b; /* red-50 */
+  --ga-color-graph-categorical-07: var(--ga-color-rose-40);
+  --ga-color-graph-categorical-08: #984319; /* orange-70 */
+  --ga-color-graph-categorical-09: var(--ga-color-indigo-40);
+  --ga-color-graph-categorical-10: #610f08; /* red-90 */
+
+  /* Sequential — continuous low→high. Monochromatic teal (luminance-encoded);
+     CVD-safe. Aliases the teal primitive ramp. */
+  --ga-color-graph-sequential-10: var(--ga-color-teal-10);
+  --ga-color-graph-sequential-20: var(--ga-color-teal-20);
+  --ga-color-graph-sequential-30: var(--ga-color-teal-30);
+  --ga-color-graph-sequential-40: var(--ga-color-teal-40);
+  --ga-color-graph-sequential-50: var(--ga-color-teal-50);
+  --ga-color-graph-sequential-60: var(--ga-color-teal-60);
+  --ga-color-graph-sequential-70: var(--ga-color-teal-70);
+  --ga-color-graph-sequential-80: var(--ga-color-teal-80);
+  --ga-color-graph-sequential-90: var(--ga-color-teal-90);
+  --ga-color-graph-sequential-100: var(--ga-color-teal-100);
+
+  /* Diverging — critical midpoint (08). Indigo (low) → neutral → teal (high).
+     Avoids red/green; CVD-safe. */
+  --ga-color-graph-diverging-01: #281986; /* indigo-90 */
+  --ga-color-graph-diverging-02: #3d37a3; /* indigo-80 */
+  --ga-color-graph-diverging-03: #504fba; /* indigo-70 */
+  --ga-color-graph-diverging-04: #6769d8; /* indigo-60 */
+  --ga-color-graph-diverging-05: #8489f5; /* indigo-50 */
+  --ga-color-graph-diverging-06: var(--ga-color-indigo-40);
+  --ga-color-graph-diverging-07: #c5cbfb; /* indigo-30 */
+  --ga-color-graph-diverging-08: var(--ga-color-indigo-10);
+  --ga-color-graph-diverging-09: var(--ga-color-teal-30);
+  --ga-color-graph-diverging-10: var(--ga-color-teal-40);
+  --ga-color-graph-diverging-11: var(--ga-color-teal-50);
+  --ga-color-graph-diverging-12: var(--ga-color-teal-60);
+  --ga-color-graph-diverging-13: var(--ga-color-teal-70);
+  --ga-color-graph-diverging-14: var(--ga-color-teal-80);
+  --ga-color-graph-diverging-15: var(--ga-color-teal-90);
+
+  /* gaia-styles dist names the same palettes "<kind>-graph"; keep both. */
+  --ga-color-categorical-graph-01: var(--ga-color-graph-categorical-01);
+  --ga-color-categorical-graph-02: var(--ga-color-graph-categorical-02);
+  --ga-color-categorical-graph-03: var(--ga-color-graph-categorical-03);
+  --ga-color-categorical-graph-04: var(--ga-color-graph-categorical-04);
+  --ga-color-categorical-graph-05: var(--ga-color-graph-categorical-05);
+  --ga-color-categorical-graph-06: var(--ga-color-graph-categorical-06);
+  --ga-color-categorical-graph-07: var(--ga-color-graph-categorical-07);
+  --ga-color-categorical-graph-08: var(--ga-color-graph-categorical-08);
+  --ga-color-categorical-graph-09: var(--ga-color-graph-categorical-09);
+  --ga-color-categorical-graph-10: var(--ga-color-graph-categorical-10);
+  --ga-color-sequential-graph-10: var(--ga-color-graph-sequential-10);
+  --ga-color-sequential-graph-20: var(--ga-color-graph-sequential-20);
+  --ga-color-sequential-graph-30: var(--ga-color-graph-sequential-30);
+  --ga-color-sequential-graph-40: var(--ga-color-graph-sequential-40);
+  --ga-color-sequential-graph-50: var(--ga-color-graph-sequential-50);
+  --ga-color-sequential-graph-60: var(--ga-color-graph-sequential-60);
+  --ga-color-sequential-graph-70: var(--ga-color-graph-sequential-70);
+  --ga-color-sequential-graph-80: var(--ga-color-graph-sequential-80);
+  --ga-color-sequential-graph-90: var(--ga-color-graph-sequential-90);
+  --ga-color-sequential-graph-100: var(--ga-color-graph-sequential-100);
+  --ga-color-diverging-graph-01: var(--ga-color-graph-diverging-01);
+  --ga-color-diverging-graph-02: var(--ga-color-graph-diverging-02);
+  --ga-color-diverging-graph-03: var(--ga-color-graph-diverging-03);
+  --ga-color-diverging-graph-04: var(--ga-color-graph-diverging-04);
+  --ga-color-diverging-graph-05: var(--ga-color-graph-diverging-05);
+  --ga-color-diverging-graph-06: var(--ga-color-graph-diverging-06);
+  --ga-color-diverging-graph-07: var(--ga-color-graph-diverging-07);
+  --ga-color-diverging-graph-08: var(--ga-color-graph-diverging-08);
+  --ga-color-diverging-graph-09: var(--ga-color-graph-diverging-09);
+  --ga-color-diverging-graph-10: var(--ga-color-graph-diverging-10);
+  --ga-color-diverging-graph-11: var(--ga-color-graph-diverging-11);
+  --ga-color-diverging-graph-12: var(--ga-color-graph-diverging-12);
+  --ga-color-diverging-graph-13: var(--ga-color-graph-diverging-13);
+  --ga-color-diverging-graph-14: var(--ga-color-graph-diverging-14);
+  --ga-color-diverging-graph-15: var(--ga-color-graph-diverging-15);
+
+  /* ---------- Mapped: text ---------- */
+  --ga-color-text-headings: var(--ga-color-primary-90);
+  --ga-color-text-body: var(--ga-color-primary-90);
+  --ga-color-text-body-secondary: var(--ga-color-primary-70);
+  --ga-color-text-action: var(--ga-color-primary);
+  --ga-color-text-action-hover: var(--ga-color-primary-90);
+  --ga-color-text-disabled: var(--ga-color-utility-grey);
+  --ga-color-text-disable-selected: var(--ga-color-neutral-60);
+  --ga-color-text-information: var(--ga-color-primary-90);
+  --ga-color-text-success: var(--ga-color-primary-90);
+  --ga-color-text-warning: var(--ga-color-primary-90);
+  --ga-color-text-error: var(--ga-color-primary-90);
+  --ga-color-text-on-action: var(--ga-color-secondary-10);
+  --ga-color-text-on-disabled: var(--ga-color-neutral-60);
+  --ga-color-text-link-visited: var(--ga-color-purple-80);
+  --ga-color-text-menu: var(--ga-color-secondary);
+  /* Referenced by gaia-styles side-navigation but absent from its dist —
+     patched here so the reference resolves. */
+  --ga-color-text-secondary: var(--ga-color-neutral-60);
+
+  /* ---------- Mapped: surface ---------- */
+  --ga-color-surface-page: var(--ga-color-neutral-10);
+  --ga-color-surface-primary: var(--ga-color-white);
+  --ga-color-surface-disabled: var(--ga-color-neutral-20);
+  --ga-color-surface-information: var(--ga-color-information-accent);
+  --ga-color-surface-success: var(--ga-color-success-accent);
+  --ga-color-surface-warning: var(--ga-color-warning-accent);
+  --ga-color-surface-error: var(--ga-color-error-accent);
+  --ga-color-surface-action: var(--ga-color-primary);
+  --ga-color-surface-action-hover: var(--ga-color-primary-90);
+  --ga-color-surface-action-hover-2: var(--ga-color-secondary);
+  --ga-color-surface-menu-hover: var(--ga-color-secondary-10);
+  --ga-color-surface-disable-selected: var(--ga-color-neutral-60);
+  --ga-color-surface-selected: var(--ga-color-green-10);
+  --ga-color-surface-container: var(--ga-color-neutral-20);
+  --ga-color-surface-progress: var(--ga-color-primary-70);
+  --ga-color-surface-progress-2: var(--ga-color-primary-60);
+  --ga-color-surface-highlight: var(--ga-color-secondary-30);
+
+  /* ---------- Mapped: border ---------- */
+  --ga-color-border-primary: var(--ga-color-neutral-60);
+  --ga-color-border-secondary: var(--ga-color-secondary-30);
+  --ga-color-border-tertiary: var(--ga-color-neutral);
+  --ga-color-border-disabled: var(--ga-color-neutral);
+  --ga-color-border-information: var(--ga-color-information);
+  --ga-color-border-success: var(--ga-color-success);
+  --ga-color-border-warning: var(--ga-color-warning);
+  --ga-color-border-error: var(--ga-color-error);
+  --ga-color-border-action: var(--ga-color-primary);
+  --ga-color-border-action-hover: var(--ga-color-primary-60);
+  --ga-color-border-action-hover-2: var(--ga-color-secondary-30);
+  --ga-color-border-focus: var(--ga-color-primary);
+  --ga-color-border-selected: var(--ga-color-green-60);
+
+  /* ---------- Mapped: icon ---------- */
+  --ga-color-icon-primary: var(--ga-color-primary-90);
+  --ga-color-icon-on-primary: var(--ga-color-white);
+  --ga-color-icon-action: var(--ga-color-primary);
+  --ga-color-icon-action-hover: var(--ga-color-primary-60);
+  --ga-color-icon-on-action: var(--ga-color-secondary);
+  --ga-color-icon-information: var(--ga-color-information);
+  --ga-color-icon-on-disabled: var(--ga-color-neutral-60);
+  --ga-color-icon-success: var(--ga-color-success);
+  --ga-color-icon-warning: var(--ga-color-warning);
+  --ga-color-icon-error: var(--ga-color-error);
+  --ga-color-icon-disabled: var(--ga-color-neutral);
+  --ga-color-icon-visited: var(--ga-color-purple-80);
+  /* Same patch as text-secondary: used by side-navigation, missing in dist. */
+  --ga-color-icon-secondary: var(--ga-color-neutral-60);
+
+  /* ---------- Miscellaneous ---------- */
+  /* Figma: rgba(111,118,135,0.57) = neutral-60 @ 57% — derived so retinting
+     the neutral family retints the scrim. */
+  --ga-color-miscellaneous-overlay: color-mix(in srgb, var(--ga-color-neutral-60) 57%, transparent);
+  --ga-color-miscellaneous-skeleton-element: var(--ga-color-neutral-10);
+  --ga-color-miscellaneous-skeleton-highlight: var(--ga-color-neutral-20);
+
+  /* ---------- Typography ---------- */
+  /* Gaia is Inter-only (all 5,400+ text nodes in the UI kit). */
+  --ga-font-family-primary: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  /* Chrome ligature fix carried by gaia-styles' theme layer. */
+  --ga-font-feature-settings: 'liga' 1, 'calt' 1; /* @kind other */
+  /* Not part of Gaia — kept only for this port's preview/editorial chrome. */
+  --ga-font-family-display: 'Inter Display', var(--ga-font-family-primary);
+  --ga-font-family-code: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace;
+
+  --ga-font-weight-normal: 400;
+  --ga-font-weight-medium: 500;
+  --ga-font-weight-semibold: 600;
+  --ga-font-weight-bold: 700;
+
+  /* Type scale — mobile-first; desktop overrides at ≥48rem below.
+     Letter-spacing is rem-based (absolute), matching the Figma px values
+     (0.005rem = 0.08px … -0.022rem = -0.35px) — not em-relative.
+     Line heights land on the 4px grid. Note: gaia-styles v2025.10 dist
+     carries 20px line-height for sm/md; the Jun-2026 design says 16/24 —
+     the design wins here. */
+
+  /* Helper — 11px. Legal, timestamps, validation. Never primary copy. */
+  --ga-text-xs-font-size: calc(0.6875rem * var(--ga-sf));   /* 11px */
+  --ga-text-xs-line-height: calc(1rem * var(--ga-sf));      /* 16px */
+  --ga-text-xs-letter-spacing: calc(0.005rem * var(--ga-sf));  /* +0.08px */
+  --ga-paragraph-spacing-xs: calc(0.5rem * var(--ga-sf));   /* 8px */
+
+  /* Caption — 12px. Tags, tooltips, chart labels. */
+  --ga-text-sm-font-size: calc(0.75rem * var(--ga-sf));     /* 12px */
+  --ga-text-sm-line-height: calc(1rem * var(--ga-sf));      /* 16px */
+  --ga-text-sm-letter-spacing: 0rem;
+  --ga-paragraph-spacing-sm: calc(0.5rem * var(--ga-sf));   /* 8px */
+
+  /* Body — 14px. The default: paragraphs, inputs, labels, buttons. */
+  --ga-text-md-font-size: calc(0.875rem * var(--ga-sf));    /* 14px */
+  --ga-text-md-line-height: calc(1.5rem * var(--ga-sf));    /* 24px */
+  --ga-text-md-letter-spacing: calc(-0.006rem * var(--ga-sf)); /* -0.10px */
+  --ga-paragraph-spacing-md: calc(1rem * var(--ga-sf));     /* 16px */
+
+  /* Heading — 16px. Card headers, sub-sections. */
+  --ga-text-lg-font-size: calc(1rem * var(--ga-sf));        /* 16px */
+  --ga-text-lg-line-height: calc(1.5rem * var(--ga-sf));    /* 24px */
+  --ga-text-lg-letter-spacing: calc(-0.011rem * var(--ga-sf)); /* -0.18px */
+  --ga-paragraph-spacing-lg: calc(1rem * var(--ga-sf));     /* 16px */
+
+  /* Title — 18px mobile / 20px desktop. Page & modal titles. */
+  --ga-text-xl-font-size: calc(1.125rem * var(--ga-sf));    /* 18px */
+  --ga-text-xl-line-height: calc(1.5rem * var(--ga-sf));    /* 24px */
+  --ga-text-xl-letter-spacing: calc(-0.014rem * var(--ga-sf)); /* -0.22px */
+  --ga-paragraph-spacing-xl: calc(1rem * var(--ga-sf));     /* 16px */
+
+  /* Headline — 24px. Major section breaks. */
+  --ga-text-2xl-font-size: calc(1.5rem * var(--ga-sf));     /* 24px */
+  --ga-text-2xl-line-height: calc(2rem * var(--ga-sf));     /* 32px mobile */
+  --ga-text-2xl-letter-spacing: calc(-0.017rem * var(--ga-sf)); /* -0.27px */
+  --ga-paragraph-spacing-2xl: calc(1rem * var(--ga-sf));    /* 16px mobile */
+
+  /* Display — 32px mobile / 36px desktop. Hero / marketing only. */
+  --ga-text-3xl-font-size: calc(2rem * var(--ga-sf));       /* 32px */
+  --ga-text-3xl-line-height: calc(2.5rem * var(--ga-sf));   /* 40px */
+  --ga-text-3xl-letter-spacing: calc(-0.019rem * var(--ga-sf)); /* -0.31px */
+  --ga-paragraph-spacing-3xl: calc(1rem * var(--ga-sf));    /* 16px mobile */
+
+  /* Deprecated aliases — early revisions of this port called letter-spacing
+     "tracking". Keep both names resolving to the same atom. */
+  --ga-text-xs-tracking: var(--ga-text-xs-letter-spacing);
+  --ga-text-sm-tracking: var(--ga-text-sm-letter-spacing);
+  --ga-text-md-tracking: var(--ga-text-md-letter-spacing);
+  --ga-text-lg-tracking: var(--ga-text-lg-letter-spacing);
+  --ga-text-xl-tracking: var(--ga-text-xl-letter-spacing);
+  --ga-text-2xl-tracking: var(--ga-text-2xl-letter-spacing);
+  --ga-text-3xl-tracking: var(--ga-text-3xl-letter-spacing);
+
+  /* ---------- Radius ---------- */
+  /* Three values — never invent intermediates. Nesting rule: child radius ≤ parent. */
+  --ga-radius: 4px;                          /* inputs, buttons, cards, modals */
+  --ga-radius-default: var(--ga-radius);     /* alias */
+  --ga-radius-round: 999px;                  /* pills, tags, badges, avatars */
+  --ga-radius-sharp: 0.28px;                 /* Figma radius/sharp 0.28 (gaia-styles ships ≈0.02rem) */
+
+  /* ---------- Border width ---------- */
+  --ga-size-border-width-none: 0px;
+  --ga-size-border-width-sm: 1px;
+  --ga-size-border-width-md: 2px;
+  --ga-size-border-width-lg: 4px;
+
+  /* ---------- Size (raw dimensional tokens) ----------
+     Size = "what something IS" (widths, heights, icon boxes).
+     Spacing (below) = "distance between things" (padding, gap).
+     rem-based like the gaia-styles dist, so the whole system tracks the root
+     font size; the scaling factor mirrors gaia-styles' scaled theme layer. */
+  --ga-size-0: 0px;
+  --ga-size-1: calc(0.0625rem * var(--ga-sf));   /* 1px — for HAIRLINE dims, not borders; borders use --ga-size-border-width-* */
+  --ga-size-2: calc(0.125rem * var(--ga-sf));    /* 2px */
+  --ga-size-4: calc(0.25rem * var(--ga-sf));     /* 4px */
+  --ga-size-6: calc(0.375rem * var(--ga-sf));    /* 6px */
+  --ga-size-8: calc(0.5rem * var(--ga-sf));      /* 8px */
+  --ga-size-10: calc(0.625rem * var(--ga-sf));   /* 10px */
+  --ga-size-11: calc(0.6875rem * var(--ga-sf));  /* 11px */
+  --ga-size-12: calc(0.75rem * var(--ga-sf));    /* 12px */
+  --ga-size-14: calc(0.875rem * var(--ga-sf));   /* 14px */
+  --ga-size-16: calc(1rem * var(--ga-sf));       /* 16px */
+  --ga-size-18: calc(1.125rem * var(--ga-sf));   /* 18px */
+  --ga-size-20: calc(1.25rem * var(--ga-sf));    /* 20px */
+  --ga-size-24: calc(1.5rem * var(--ga-sf));     /* 24px */
+  --ga-size-28: calc(1.75rem * var(--ga-sf));    /* 28px */
+  --ga-size-32: calc(2rem * var(--ga-sf));       /* 32px */
+  --ga-size-36: calc(2.25rem * var(--ga-sf));    /* 36px */
+  --ga-size-40: calc(2.5rem * var(--ga-sf));     /* 40px — standard interactive height */
+  --ga-size-44: calc(2.75rem * var(--ga-sf));    /* 44px — WCAG AA touch target */
+  --ga-size-48: calc(3rem * var(--ga-sf));       /* 48px — WCAG AAA touch target */
+  --ga-size-56: calc(3.5rem * var(--ga-sf));     /* 56px */
+  --ga-size-64: calc(4rem * var(--ga-sf));       /* 64px — nav collapsed; page-header */
+  --ga-size-80: calc(5rem * var(--ga-sf));       /* 80px */
+  --ga-size-96: calc(6rem * var(--ga-sf));       /* 96px */
+  --ga-size-112: calc(7rem * var(--ga-sf));      /* 112px */
+  --ga-size-128: calc(8rem * var(--ga-sf));      /* 128px */
+  --ga-size-144: calc(9rem * var(--ga-sf));      /* 144px — page header w/ breadcrumbs + tabs */
+  --ga-size-160: calc(10rem * var(--ga-sf));     /* 160px */
+  --ga-size-192: calc(12rem * var(--ga-sf));     /* 192px */
+  --ga-size-224: calc(14rem * var(--ga-sf));     /* 224px */
+  --ga-size-256: calc(16rem * var(--ga-sf));     /* 256px — nav expanded */
+  --ga-size-288: calc(18rem * var(--ga-sf));     /* 288px */
+  --ga-size-320: calc(20rem * var(--ga-sf));     /* 320px */
+  --ga-size-352: calc(22rem * var(--ga-sf));     /* 352px */
+  --ga-size-384: calc(24rem * var(--ga-sf));     /* 384px */
+  --ga-size-416: calc(26rem * var(--ga-sf));     /* 416px */
+
+  /* ---------- Spacing (semantic gaps) ---------- */
+  --ga-size-spacing-00: 0px;
+  --ga-size-spacing-01: calc(0.125rem * var(--ga-sf)); /* 2px */
+  --ga-size-spacing-02: calc(0.25rem * var(--ga-sf));  /* 4px */
+  --ga-size-spacing-03: calc(0.5rem * var(--ga-sf));   /* 8px — atomic gap */
+  --ga-size-spacing-04: calc(0.75rem * var(--ga-sf));  /* 12px — input padding */
+  --ga-size-spacing-05: calc(1rem * var(--ga-sf));     /* 16px — component gap / card inset */
+  --ga-size-spacing-06: calc(1.5rem * var(--ga-sf));   /* 24px — related groups */
+  --ga-size-spacing-07: calc(2rem * var(--ga-sf));     /* 32px — sections */
+  --ga-size-spacing-08: calc(2.5rem * var(--ga-sf));   /* 40px */
+  --ga-size-spacing-09: calc(3rem * var(--ga-sf));     /* 48px — page regions */
+  --ga-size-spacing-10: calc(4rem * var(--ga-sf));     /* 64px */
+  --ga-size-spacing-11: calc(5rem * var(--ga-sf));     /* 80px */
+  --ga-size-spacing-12: calc(6rem * var(--ga-sf));     /* 96px */
+  --ga-size-spacing-13: calc(10rem * var(--ga-sf));    /* 160px */
+
+  /* ---------- Shadows ----------
+     Four directional, multi-layer stacks tinted with cyan-90 (#133445),
+     derived via color-mix so retinting the primary family retints elevation.
+     Exact layer geometry/alphas from the DTCG source (5 layers each). */
+  --ga-shadow-north:
+    0 4px 8px 0 color-mix(in srgb, var(--ga-color-cyan-90) 10%, transparent),
+    0 15px 15px 0 color-mix(in srgb, var(--ga-color-cyan-90) 9%, transparent),
+    0 34px 21px 0 color-mix(in srgb, var(--ga-color-cyan-90) 5%, transparent),
+    0 61px 24px 0 color-mix(in srgb, var(--ga-color-cyan-90) 1%, transparent),
+    0 95px 27px 0 color-mix(in srgb, var(--ga-color-cyan-90) 0%, transparent);
+  --ga-shadow-south:
+    0 -1px 1px 0 color-mix(in srgb, var(--ga-color-cyan-90) 8%, transparent),
+    0 -2px 2px 0 color-mix(in srgb, var(--ga-color-cyan-90) 7%, transparent),
+    0 -6px 3px 0 color-mix(in srgb, var(--ga-color-cyan-90) 4%, transparent),
+    0 -10px 4px 0 color-mix(in srgb, var(--ga-color-cyan-90) 1%, transparent),
+    0 -15px 4px 0 color-mix(in srgb, var(--ga-color-cyan-90) 0%, transparent);
+  --ga-shadow-east:
+    -2px 0 5px 0 color-mix(in srgb, var(--ga-color-cyan-90) 10%, transparent),
+    -8px 0 8px 0 color-mix(in srgb, var(--ga-color-cyan-90) 9%, transparent),
+    -19px 0 11px 0 color-mix(in srgb, var(--ga-color-cyan-90) 5%, transparent),
+    -34px 0 14px 0 color-mix(in srgb, var(--ga-color-cyan-90) 1%, transparent),
+    -53px 0 15px 0 color-mix(in srgb, var(--ga-color-cyan-90) 0%, transparent);
+  --ga-shadow-west:
+    1px 0 3px 0 color-mix(in srgb, var(--ga-color-cyan-90) 10%, transparent),
+    5px 0 5px 0 color-mix(in srgb, var(--ga-color-cyan-90) 9%, transparent),
+    12px 0 7px 0 color-mix(in srgb, var(--ga-color-cyan-90) 5%, transparent),
+    21px 0 8px 0 color-mix(in srgb, var(--ga-color-cyan-90) 1%, transparent),
+    33px 0 9px 0 color-mix(in srgb, var(--ga-color-cyan-90) 0%, transparent);
+
+  /* ---------- Motion ---------- */
+  /* Durations, easings and composite transitions are motion tokens — not
+     color/spacing/radius/shadow/font — so they're tagged @kind other. */
+  --ga-duration-0: 0ms; /* @kind other */
+  --ga-duration-instant: 50ms; /* @kind other */
+  --ga-duration-fast: 100ms; /* @kind other */
+  --ga-duration-moderate: 150ms; /* @kind other */
+  --ga-duration-slow: 250ms; /* @kind other */
+  --ga-duration-slower: 400ms; /* @kind other */
+
+  --ga-easing-standard: cubic-bezier(0.2, 0, 0.38, 0.9); /* @kind other */
+  --ga-easing-entrance: cubic-bezier(0, 0, 0.38, 0.9); /* @kind other */
+  --ga-easing-exit: cubic-bezier(0.2, 0, 1, 0.9); /* @kind other */
+  --ga-easing-linear: linear; /* @kind other */
+
+  /* Motion scalar — collapses to 0 under prefers-reduced-motion (extension).
+     Baked into the composite transition tokens below; wrap raw durations in
+     calc(x * var(--ga-duration-scalar)) to opt in. */
+  --ga-duration-scalar: 1; /* @kind other */
+
+  --ga-transition-hover: calc(var(--ga-duration-instant) * var(--ga-duration-scalar)) var(--ga-easing-standard); /* @kind other */
+  --ga-transition-state: calc(var(--ga-duration-fast) * var(--ga-duration-scalar)) var(--ga-easing-standard); /* @kind other */
+  --ga-transition-reveal: calc(var(--ga-duration-moderate) * var(--ga-duration-scalar)) var(--ga-easing-entrance); /* @kind other */
+  --ga-transition-dismiss: calc(var(--ga-duration-moderate) * var(--ga-duration-scalar)) var(--ga-easing-exit); /* @kind other */
+  --ga-transition-overlay-in: calc(var(--ga-duration-slow) * var(--ga-duration-scalar)) var(--ga-easing-entrance); /* @kind other */
+  --ga-transition-overlay-out: calc(var(--ga-duration-slow) * var(--ga-duration-scalar)) var(--ga-easing-exit); /* @kind other */
+  --ga-transition-backdrop: calc(var(--ga-duration-slower) * var(--ga-duration-scalar)) var(--ga-easing-standard); /* @kind other */
+  --ga-transition-continuous: var(--ga-easing-linear); /* @kind other */
+
+  /* ---------- Z-index (extension) ---------- */
+  --ga-index-deep: -999999; /* @kind other */
+  --ga-index-default: 1; /* @kind other */
+  --ga-index-sticky: 100; /* @kind other */
+  --ga-index-nav: 200; /* @kind other */
+  --ga-index-popout: 300; /* @kind other */
+  --ga-index-overlay: 400; /* @kind other */
+  --ga-index-modal: 500; /* @kind other */
+  --ga-index-toast: 600; /* @kind other */
+
+  /* ---------- Focus ----------
+     Canonical treatment (gaia-styles): a 2px outline offset 2px in
+     border-focus. Apply as:
+       outline: var(--ga-focus-outline); outline-offset: var(--ga-focus-outline-offset);
+  */
+  --ga-focus-outline: var(--ga-size-border-width-md) solid var(--ga-color-border-focus); /* @kind other */
+  --ga-focus-outline-offset: var(--ga-size-border-width-md); /* @kind other */
+
+  /* ---------- Breakpoints (reference) ----------
+     16-column fluid grid, fixed 16px gutter. Columns: 4 → 8 → 16. */
+  --ga-breakpoint-xs: 20rem;  /* 320px  / 4 cols  / 16px margin */
+  --ga-breakpoint-s: 48rem;   /* 768px  / 8 cols  / 24px margin */
+  --ga-breakpoint-m: 90rem;   /* 1440px / 16 cols / 24px margin */
+  --ga-breakpoint-l: 120rem;  /* 1920px / 16 cols / 40px margin */
+
+  --ga-grid-gutter: 16px;
+  --ga-grid-margin-xs: 16px;
+  --ga-grid-margin-s: 24px;
+  --ga-grid-margin-m: 24px;
+  --ga-grid-margin-l: 40px;
+  --ga-app-nav-expanded: var(--ga-size-256);
+  --ga-app-nav-collapsed: var(--ga-size-64);
+  --ga-app-header-compact: var(--ga-size-64);
+  --ga-app-header-full: var(--ga-size-144);
+}
+
+/* Desktop type overrides — Title/Headline/Display step UP at the S breakpoint
+   (48rem = 768px), matching the responsive token collection's Desktop mode. */
+@media (min-width: 48rem) {
+  :root {
+    --ga-text-xl-font-size: calc(1.25rem * var(--ga-sf));    /* 18px → 20px */
+    --ga-text-xl-line-height: calc(2rem * var(--ga-sf));     /* 24px → 32px */
+    --ga-text-xl-letter-spacing: calc(-0.017rem * var(--ga-sf)); /* -0.27px */
+    --ga-text-2xl-line-height: calc(2.5rem * var(--ga-sf));  /* 32px → 40px */
+    --ga-text-2xl-letter-spacing: calc(-0.019rem * var(--ga-sf)); /* -0.30px */
+    --ga-paragraph-spacing-2xl: calc(1.5rem * var(--ga-sf)); /* 16px → 24px */
+    --ga-text-3xl-font-size: calc(2.25rem * var(--ga-sf));   /* 32px → 36px */
+    --ga-text-3xl-line-height: calc(3rem * var(--ga-sf));    /* 40px → 48px */
+    --ga-text-3xl-letter-spacing: calc(-0.022rem * var(--ga-sf)); /* -0.35px */
+    --ga-paragraph-spacing-3xl: calc(2rem * var(--ga-sf));   /* 16px → 32px */
+  }
+}
+
+/* Reduced motion — collapses the composite transition tokens (and every
+   duration wrapped in the scalar) to 0ms. Continuous loaders (spinner)
+   swap to a static variant in component CSS. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --ga-duration-scalar: 0; /* @kind other */
+  }
+}
