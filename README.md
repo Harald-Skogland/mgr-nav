@@ -1,7 +1,7 @@
 # mgr-nav — Visma Manager login prototype
 
 A click-through prototype of the Visma Manager login flow, built on the Gaia design system.
-Open `login.html` in a browser. No build step, no dependencies, no server required.
+Open `index.html` in a browser. No build step, no dependencies, no server required.
 
 ## The flow
 
