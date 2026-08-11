@@ -10,23 +10,80 @@
   html, body { height: 100%; }
   body {
     margin: 0;
-    background: var(--ga-color-surface-page);
     color: var(--ga-color-text-body);
     font-family: var(--ga-font-family-primary);
     font-size: var(--ga-text-md-font-size);
     line-height: var(--ga-text-md-line-height);
     letter-spacing: var(--ga-text-md-letter-spacing);
+    background: #e7eaee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
+  /* Device frame — 412x892, the same Android reference size the dashboard
+     prototype uses, so login and app read as one continuous demo. */
+  .device {
+    width: 412px;
+    height: 892px;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    padding: 10px;
+    border-radius: 44px;
+    background: #dfe4e6;
+    box-shadow: 0 18px 40px rgba(19, 52, 69, .22);
+  }
+  .device__screen {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    border-radius: 34px;
+    overflow-y: auto;
+    background: var(--ga-color-surface-page);
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Mock status bar, mirroring the dashboard's. Hidden on a real handset,
+     where the OS draws the genuine one. */
+  .statusbar {
+    flex-shrink: 0;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    position: relative;
+    color: var(--ga-color-text-headings);
+    font-size: 14px;
+    letter-spacing: .25px;
+  }
+  .statusbar__punch {
+    position: absolute; left: 50%; top: 8px; transform: translateX(-50%);
+    width: 24px; height: 24px; border-radius: 100px; background: #2e2e2e;
+  }
+  .statusbar__icons { display: flex; align-items: center; gap: 4px; }
+
   .login {
-    min-height: 100%;
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: var(--ga-size-spacing-06);
-    padding: var(--ga-size-spacing-07) var(--ga-size-spacing-05);
+    padding: var(--ga-size-spacing-06) var(--ga-size-spacing-05) var(--ga-size-spacing-07);
     box-sizing: border-box;
+  }
+
+  /* On a real phone: fill the screen, drop the bezel and the mock status bar. */
+  @media (max-width: 480px) {
+    body { display: block; background: var(--ga-color-surface-page); }
+    .device {
+      width: 100%; height: 100dvh;
+      padding: 0; border-radius: 0; box-shadow: none; background: none;
+    }
+    .device__screen { border-radius: 0; }
+    .statusbar { display: none; }
   }
 
   /* Brand lockup — the Visma Manager checkmark above the product name.
@@ -129,6 +186,19 @@
 </style>
 </head>
 <body>
+
+<div class="device">
+<div class="device__screen">
+
+  <div class="statusbar" aria-hidden="true">
+    <span>9:30</span>
+    <span class="statusbar__punch"></span>
+    <span class="statusbar__icons">
+      <svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 13.3L.67 5.97a10.37 10.37 0 0114.66 0L8 13.3z" fill="currentColor"/></svg>
+      <svg width="16" height="16" viewBox="0 0 16 16"><path d="M14.67 14.67V1.33L1.33 14.67h13.34z" fill="currentColor"/></svg>
+      <svg width="16" height="16" viewBox="0 0 16 16"><rect x="4" y="1.5" width="8" height="13" rx="2" fill="currentColor"/></svg>
+    </span>
+  </div>
 
 <main class="login">
   <div class="login__brand">
@@ -244,7 +314,7 @@
 
       <div class="login__actions">
         <a class="ga-button ga-button--primary login__submit"
-           href="../VMM%20-%20Dashboard%20with%20New%20nav%20menu%20and%20BNXT/Visma%20Manager.html"
+           href="dashboard.html"
            style="display:inline-flex;align-items:center;justify-content:center;text-decoration:none">Go to Visma Manager</a>
         <a class="ga-link" href="#" data-go="1">Start over</a>
       </div>
@@ -259,6 +329,9 @@
     <p class="ga-text-helper login__legal">Demo prototype — no credentials are checked.</p>
   </footer>
 </main>
+
+</div>
+</div>
 
 <script>
 (function () {
