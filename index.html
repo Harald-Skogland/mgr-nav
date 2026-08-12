@@ -15,54 +15,24 @@
     font-size: var(--ga-text-md-font-size);
     line-height: var(--ga-text-md-line-height);
     letter-spacing: var(--ga-text-md-letter-spacing);
-    background: #e7eaee;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background: var(--ga-color-surface-page);
+    -webkit-text-size-adjust: 100%;
   }
 
-  /* Device frame — 412x892, the same Android reference size the dashboard
-     prototype uses, so login and app read as one continuous demo. */
-  .device {
-    width: 412px;
-    height: 892px;
-    flex-shrink: 0;
-    box-sizing: border-box;
-    padding: 10px;
-    border-radius: 44px;
-    background: #dfe4e6;
-    box-shadow: 0 18px 40px rgba(19, 52, 69, .22);
-  }
-  .device__screen {
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
-    border-radius: 34px;
-    overflow-y: auto;
-    background: var(--ga-color-surface-page);
+  /* No device frame and no mock status bar — on a handset the browser and OS
+     already supply both, so the page fills the viewport like a real app.
+     Constrained to a phone-width column so a desktop preview stays honest.
+
+     min-height (not height) matters: a fixed-height flex container with
+     justify-content:center clips the TOP of content that outgrows it, which is
+     unreachable by scrolling. With min-height the container grows instead. */
+  .app {
+    min-height: 100dvh;
+    max-width: 412px;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
   }
-
-  /* Mock status bar, mirroring the dashboard's. Hidden on a real handset,
-     where the OS draws the genuine one. */
-  .statusbar {
-    flex-shrink: 0;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 16px;
-    position: relative;
-    color: var(--ga-color-text-headings);
-    font-size: 14px;
-    letter-spacing: .25px;
-  }
-  .statusbar__punch {
-    position: absolute; left: 50%; top: 8px; transform: translateX(-50%);
-    width: 24px; height: 24px; border-radius: 100px; background: #2e2e2e;
-  }
-  .statusbar__icons { display: flex; align-items: center; gap: 4px; }
 
   .login {
     flex: 1;
@@ -70,40 +40,29 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: var(--ga-size-spacing-06);
-    padding: var(--ga-size-spacing-06) var(--ga-size-spacing-05) var(--ga-size-spacing-07);
+    gap: var(--ga-size-spacing-05);
+    padding: var(--ga-size-spacing-05);
     box-sizing: border-box;
   }
 
-  /* On a real phone: fill the screen, drop the bezel and the mock status bar. */
-  @media (max-width: 480px) {
-    body { display: block; background: var(--ga-color-surface-page); }
-    .device {
-      width: 100%; height: 100dvh;
-      padding: 0; border-radius: 0; box-shadow: none; background: none;
-    }
-    .device__screen { border-radius: 0; }
-    .statusbar { display: none; }
-  }
-
-  /* Brand lockup — the Visma Manager checkmark above the product name.
-     Both marks are traced from the Visma Connect reference screens and fill
-     with currentColor, so they retint with the surrounding text colour. */
+  /* Brand lockup — the Visma Manager checkmark above the product name. Both
+     marks are traced from the Visma Connect reference screens and fill with
+     currentColor, so they retint with the surrounding text colour. */
   .login__brand {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--ga-size-spacing-04);
+    gap: var(--ga-size-spacing-02);
     color: var(--ga-color-text-headings);
   }
-  .login__mark { width: 64px; height: auto; display: block; }
+  .login__mark { width: 48px; height: auto; display: block; }
   .login__brand-name { font-weight: var(--ga-font-weight-normal); }
 
   .login__footer {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--ga-size-spacing-04);
+    gap: var(--ga-size-spacing-02);
     color: var(--ga-color-text-headings);
   }
   .login__visma { width: 88px; height: auto; display: block; }
@@ -120,10 +79,10 @@
     box-sizing: border-box;
     width: 100%;
     max-width: 400px;
-    padding: var(--ga-size-spacing-07);
+    padding: var(--ga-size-spacing-06);
   }
 
-  .login__screen { display: none; flex-direction: column; gap: var(--ga-size-spacing-06); }
+  .login__screen { display: none; flex-direction: column; gap: var(--ga-size-spacing-05); }
   .login__screen[data-active] { display: flex; }
 
   .login__head { display: flex; flex-direction: column; gap: var(--ga-size-spacing-02); }
@@ -183,22 +142,22 @@
   .login__notification { width: 100%; min-width: 0; }
 
   .login__legal { color: var(--ga-color-text-body); margin: 0; }
+
+  /* Short viewports — most phones in a browser, once URL bar and toolbar are
+     subtracted. Compacts the vertical rhythm so the tallest screen (the
+     verification step) fits without scrolling, rather than hiding anything. */
+  @media (max-height: 745px) {
+    .login { gap: var(--ga-size-spacing-04); padding: var(--ga-size-spacing-04); }
+    .login__screen { gap: var(--ga-size-spacing-04); }
+    .login__mark { width: 32px; }
+    .login__visma { width: 72px; }
+    .login__card { padding: var(--ga-size-spacing-05); }
+  }
 </style>
 </head>
 <body>
 
-<div class="device">
-<div class="device__screen">
-
-  <div class="statusbar" aria-hidden="true">
-    <span>9:30</span>
-    <span class="statusbar__punch"></span>
-    <span class="statusbar__icons">
-      <svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 13.3L.67 5.97a10.37 10.37 0 0114.66 0L8 13.3z" fill="currentColor"/></svg>
-      <svg width="16" height="16" viewBox="0 0 16 16"><path d="M14.67 14.67V1.33L1.33 14.67h13.34z" fill="currentColor"/></svg>
-      <svg width="16" height="16" viewBox="0 0 16 16"><rect x="4" y="1.5" width="8" height="13" rx="2" fill="currentColor"/></svg>
-    </span>
-  </div>
+<div class="app">
 
 <main class="login">
   <div class="login__brand">
@@ -330,7 +289,6 @@
   </footer>
 </main>
 
-</div>
 </div>
 
 <script>

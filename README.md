@@ -48,13 +48,25 @@ Note that `.ga-icon` is pinned to 16×16 by the design system and stretches its
 
 ## Sizing
 
-The prototype renders in a 412x892 device frame — the same Android reference size
-the dashboard prototype uses — so the login and the app read as one continuous
-demo rather than two differently-shaped pages.
+Mobile-first and frameless: no device bezel and no mock status bar, so on a
+handset the page fills the viewport and reads as a real web app rather than a
+phone drawn inside a phone. A desktop preview constrains the page to a
+412px column so it stays representative.
 
-On a handset (max-width 480px) the bezel, the shadow and the mock status bar all
-drop away and the screen fills the viewport, since the OS already draws a real
-status bar.
+Below a 745px viewport height — most phones in a browser once the URL bar and
+toolbar are subtracted — the vertical rhythm compacts (smaller brand mark,
+tighter gaps and card inset) so the tallest screen, the verification step, fits
+without scrolling. Nothing is hidden to achieve it.
+
+Two layout notes worth keeping:
+
+- The page shell uses `min-height`, not `height`. A fixed-height flex container
+  with `justify-content: center` clips the **top** of content that outgrows it,
+  and that clipped region cannot be scrolled to. `min-height` lets the container
+  grow instead.
+- `dashboard.html` carries a small script that strips its own 412x892
+  AndroidDevice frame, mock status bar and gesture pill below 480px, so the
+  login and the app match on a phone. Above that width the frame is kept.
 
 ## Hosting note
 
