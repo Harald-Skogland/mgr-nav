@@ -1,12 +1,20 @@
 # mgr-nav — Visma Manager login prototype
 
-A click-through prototype of the Visma Manager login flow, built on the Gaia design system,
-running at phone size and handing off to the dashboard prototype.
-Open `index.html` in a browser. No build step, no dependencies, no server required.
+The Visma Manager prototype: the app home screen, plus a click-through login flow
+built on the Gaia design system. No build step, no dependencies, no server required.
+
+| File | What it is |
+|---|---|
+| `index.html` | **Entry point — opens straight on the home screen.** |
+| `login.html` | The login flow. Currently bypassed, not deleted; open it directly to demo it. |
+
+The login is disabled only in the sense that nothing routes to it. Clicking through
+it still ends on the home screen, so it can be re-enabled by pointing the entry
+point back at it.
 
 **Live:** https://harald-skogland.github.io/mgr-nav/
 
-## The flow
+## The login flow (`login.html`)
 
 Four screens, advanced by clicking. Nothing validates and nothing blocks — every
 primary button always moves forward, so the demo can be driven without typing.
@@ -16,7 +24,7 @@ primary button always moves forward, so the demo can be driven without typing.
    with a show/hide toggle, `Log in`
 3. **Verification** — six single-digit boxes that auto-advance as you type, `Verify`
 4. **Logged in** — success confirmation, then `Go to Visma Manager` opens
-   `dashboard.html` — the start page, with the full app prototype behind it
+   `index.html` — the home screen, with the full app prototype behind it
 
 Fields stay editable so the demo feels live: the address typed on step 1 carries
 through to later screens, and the avatar initials follow it (`anna.berg` → `AB`).
@@ -64,7 +72,7 @@ Two layout notes worth keeping:
   with `justify-content: center` clips the **top** of content that outgrows it,
   and that clipped region cannot be scrolled to. `min-height` lets the container
   grow instead.
-- `dashboard.html` carries a small script that strips its own 412x892
+- `index.html` (the app) carries a small script that strips its own 412x892
   AndroidDevice frame, mock status bar and gesture pill below 480px, so the
   login and the app match on a phone. Above that width the frame is kept.
 
