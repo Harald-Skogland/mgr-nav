@@ -385,12 +385,21 @@
   }
   .bottom-nav:not([data-menu-open]) .nav-menu { display: none; }
 
+  /* Overrides taken from the Figma node (17707:150345), where it differs from
+     the web .ga-menu component:
+       - no shadow: the node has no effect applied
+       - 44px rows: the component ships 36px
+       - 16px icon shell: the component leaves icon sizing to the caller       */
+  .nav-menu { box-shadow: none; }
   .nav-menu .ga-menu__item {
     min-height: 44px;
     align-items: center;
     text-decoration: none;
   }
   .nav-menu .ga-menu__item-icon { margin-top: 0; }
+  /* The component sets line-height:1 on the row and the label inherits it; the
+     node specifies lineheight/md (20px on the mobile ramp). */
+  .nav-menu .ga-menu__item-label { line-height: var(--ga-text-md-line-height); }
   /* Calendar and OSR have no module in the app. They stay visually identical to
      the rest — as the Figma shows — but are not actionable, matching how the
      same two rows are treated in the INTEGRATIONS list. */
@@ -636,19 +645,19 @@
 
   <div class="nav-menu ga-menu" id="nav-menu" role="menu" aria-labelledby="more-toggle">
     <a class="ga-menu__item" role="menuitem" href="app.html?open=bnxt">
-      <span class="ga-menu__item-icon ga-icon" data-icon="building-2" data-size="20"></span>
+      <span class="ga-menu__item-icon ga-icon" data-icon="building-2" data-size="16"></span>
       <span class="ga-menu__item-label">BNXT</span>
     </a>
     <span class="ga-menu__item nav-menu__inert" role="menuitem" aria-disabled="true">
-      <span class="ga-menu__item-icon ga-icon" data-icon="chart-no-axes-column" data-size="20"></span>
+      <span class="ga-menu__item-icon ga-icon" data-icon="chart-no-axes-column" data-size="16"></span>
       <span class="ga-menu__item-label">OSR</span>
     </span>
     <a class="ga-menu__item" role="menuitem" href="app.html?open=payroll">
-      <span class="ga-menu__item-icon ga-icon" data-icon="file-spreadsheet" data-size="20"></span>
+      <span class="ga-menu__item-icon ga-icon" data-icon="file-spreadsheet" data-size="16"></span>
       <span class="ga-menu__item-label">Payroll</span>
     </a>
     <span class="ga-menu__item nav-menu__inert" role="menuitem" aria-disabled="true">
-      <span class="ga-menu__item-icon ga-icon" data-icon="calendar-days" data-size="20"></span>
+      <span class="ga-menu__item-icon ga-icon" data-icon="calendar-days" data-size="16"></span>
       <span class="ga-menu__item-label">Calendar</span>
     </span>
   </div>
