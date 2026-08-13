@@ -324,9 +324,9 @@
           <div class="ga-input">
             <input type="text" placeholder="Ask or search.." aria-label="Ask or search">
           </div>
-          <button class="gaia-card__ask" type="button" aria-label="Ask GAiA">
+          <a class="gaia-card__ask" href="app.html?open=gaia" aria-label="Ask GAiA">
             <span class="ga-icon" data-icon="sparkles" data-size="24"></span>
-          </button>
+          </a>
         </div>
         <button class="gaia-card__suggestion" type="button">Show me invoices that are overdue</button>
         <button class="gaia-card__suggestion" type="button">Show tasks that need review</button>
@@ -342,7 +342,7 @@
     </button>
     <div class="section__body" id="body-integrations">
 
-      <a class="list-item" href="app.html">
+      <a class="list-item" href="app.html?open=approval">
         <span class="list-item__left">
           <span class="list-item__icon ga-icon" data-icon="check" data-size="24"></span>
           <span class="list-item__text">
@@ -353,7 +353,7 @@
         <span class="list-item__right list-item__right--warning ga-icon" data-icon="triangle-alert" data-size="24"></span>
       </a>
 
-      <a class="list-item" href="app.html">
+      <a class="list-item" href="app.html?open=autopay">
         <span class="list-item__left">
           <span class="list-item__icon ga-icon" data-icon="credit-card" data-size="24"></span>
           <span class="list-item__text">
@@ -363,7 +363,7 @@
         </span>
       </a>
 
-      <a class="list-item" href="app.html">
+      <a class="list-item" href="app.html?open=bnxt">
         <span class="list-item__left">
           <span class="list-item__icon ga-icon" data-icon="building-2" data-size="24"></span>
           <span class="list-item__text">
@@ -373,7 +373,7 @@
         </span>
       </a>
 
-      <a class="list-item" href="app.html">
+      <div class="list-item" role="link" aria-disabled="true">
         <span class="list-item__left">
           <span class="list-item__icon ga-icon" data-icon="calendar-days" data-size="24"></span>
           <span class="list-item__text">
@@ -381,9 +381,9 @@
             <p class="list-item__secondary">See employee events</p>
           </span>
         </span>
-      </a>
+      </div>
 
-      <a class="list-item" href="app.html">
+      <a class="list-item" href="app.html?open=hrm">
         <span class="list-item__left">
           <span class="list-item__icon ga-icon" data-icon="calendar" data-size="24"></span>
           <span class="list-item__text">
@@ -394,7 +394,7 @@
         <span class="list-item__right list-item__right--info ga-icon" data-icon="info" data-size="24"></span>
       </a>
 
-      <a class="list-item" href="app.html">
+      <a class="list-item" href="app.html?open=payroll">
         <span class="list-item__left">
           <span class="list-item__icon ga-icon" data-icon="file-spreadsheet" data-size="24"></span>
           <span class="list-item__text">
@@ -404,7 +404,7 @@
         </span>
       </a>
 
-      <a class="list-item" href="app.html">
+      <div class="list-item" role="link" aria-disabled="true">
         <span class="list-item__left">
           <span class="list-item__icon ga-icon" data-icon="chart-no-axes-column" data-size="24"></span>
           <span class="list-item__text">
@@ -412,7 +412,7 @@
             <p class="list-item__secondary">Review statistics and insights</p>
           </span>
         </span>
-      </a>
+      </div>
 
     </div>
   </section>
@@ -425,7 +425,7 @@
     </button>
     <div class="section__body" id="body-recent">
 
-      <a class="list-item" href="app.html">
+      <a class="list-item" href="app.html?open=activity">
         <span class="list-item__left">
           <span class="list-item__icon ga-icon" data-icon="thumbs-up" data-size="24"></span>
           <span class="list-item__text">
@@ -435,7 +435,7 @@
         </span>
       </a>
 
-      <a class="list-item" href="app.html">
+      <a class="list-item" href="app.html?open=task">
         <span class="list-item__left">
           <span class="list-item__icon ga-icon" data-icon="file-spreadsheet" data-size="24"></span>
           <span class="list-item__text">
@@ -445,7 +445,7 @@
         </span>
       </a>
 
-      <a class="list-item" href="app.html">
+      <a class="list-item" href="app.html?open=hrm">
         <span class="list-item__left">
           <span class="list-item__icon ga-icon" data-icon="building-2" data-size="24"></span>
           <span class="list-item__text">
@@ -455,7 +455,7 @@
         </span>
       </a>
 
-      <a class="list-item" href="app.html">
+      <a class="list-item" href="app.html?open=history">
         <span class="list-item__left">
           <span class="list-item__text">
             <p class="list-item__primary">View all recent activities</p>
@@ -475,7 +475,7 @@
     </button>
     <div class="section__body" id="body-settings">
 
-      <a class="list-item" href="app.html">
+      <a class="list-item" href="app.html?open=feedback">
         <span class="list-item__left">
           <span class="list-item__icon ga-icon" data-icon="message-square-text" data-size="24"></span>
           <span class="list-item__text">
@@ -484,7 +484,7 @@
         </span>
       </a>
 
-      <a class="list-item" href="app.html">
+      <a class="list-item" href="app.html?open=settings">
         <span class="list-item__left">
           <span class="list-item__icon ga-icon" data-icon="settings" data-size="24"></span>
           <span class="list-item__text">
@@ -504,19 +504,19 @@
     <span class="ga-icon" data-icon="house" data-size="24"></span>
     <span class="bottom-nav__label">Home</span>
   </a>
-  <a class="bottom-nav__item" href="app.html">
+  <a class="bottom-nav__item" href="app.html?open=approval">
     <span class="ga-icon" data-icon="check" data-size="24"></span>
     <span class="bottom-nav__label">Approval</span>
   </a>
-  <a class="bottom-nav__item" href="app.html">
+  <a class="bottom-nav__item" href="app.html?open=autopay">
     <span class="ga-icon" data-icon="credit-card" data-size="24"></span>
     <span class="bottom-nav__label">Autopay</span>
   </a>
-  <a class="bottom-nav__item" href="app.html">
+  <a class="bottom-nav__item" href="app.html?open=hrm">
     <span class="ga-icon" data-icon="calendar-days" data-size="24"></span>
     <span class="bottom-nav__label">HRM</span>
   </a>
-  <a class="bottom-nav__item" href="app.html">
+  <a class="bottom-nav__item" href="app.html?open=history">
     <span class="ga-icon" data-icon="menu" data-size="24"></span>
     <span class="bottom-nav__label">More</span>
   </a>
