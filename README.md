@@ -5,12 +5,29 @@ built on the Gaia design system. No build step, no dependencies, no server requi
 
 | File | What it is |
 |---|---|
-| `index.html` | **Entry point — opens straight on the home screen.** |
-| `login.html` | The login flow. Currently bypassed, not deleted; open it directly to demo it. |
+| `index.html` | **Entry point — the Manager start screen.** Hand-built from Figma MOB-Manager-App node `17707:147660`. |
+| `app.html` | The full app prototype (Approval, detail views, nav menu, history) — the generated bundle. |
+| `login.html` | The login flow. Bypassed, not deleted; open it directly to demo it. |
 
 The login is disabled only in the sense that nothing routes to it. Clicking through
-it still ends on the home screen, so it can be re-enabled by pointing the entry
+it still ends on the start screen, so it can be re-enabled by pointing the entry
 point back at it.
+
+## Start screen
+
+Built to the Figma frame rather than approximated: sections are GAiA, INTEGRATIONS,
+RECENT ACTIVITY and SETTINGS AND FEEDBACK, and the bottom nav is Home / Approval /
+Autopay / HRM / More with Home selected. Section headers collapse and expand.
+
+Two constraints worth knowing:
+
+- **Rows open `app.html` at its own home screen, not the matching module.** The
+  bundle has no hash or query-param routing — tabs are in-memory state — so there
+  is nothing to deep-link to. Real jumps would need a shim that clicks through
+  after load.
+- Type follows the **Gaia Mobile** ramp, matching the Figma frame, which resolves
+  `lineheight/md` to 20 and `lineheight/xl2` to 36. The vendored `_ds` bundle is
+  the web port, so those are overridden per-page rather than in the bundle.
 
 **Live:** https://harald-skogland.github.io/mgr-nav/
 
