@@ -25,26 +25,100 @@
   html, body { height: 100%; }
   body {
     margin: 0;
-    background: var(--ga-color-surface-page);
     color: var(--ga-color-text-body);
     font-family: var(--ga-font-family-primary);
     font-size: var(--ga-text-md-font-size);
     line-height: var(--ga-text-md-line-height);
     letter-spacing: var(--ga-text-md-letter-spacing);
+    background: #e7eaee;
     -webkit-text-size-adjust: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100dvh;
   }
 
-  /* 393px is the design's frame width; on a phone it simply fills. */
+  /* Device frame — identical to the AndroidDevice component the app screens
+     render inside (412x892, 18px radius, 8px bezel, Material surface ground),
+     so the start screen and the app read as one prototype on desktop. */
+  .device {
+    width: 412px;
+    height: 892px;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    border: 8px solid rgba(116, 119, 117, .5);
+    border-radius: 18px;
+    overflow: hidden;
+    background: #f4fbf8;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, .25);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  /* Mock status bar — matches the app's: 40px, time left, punch-hole, levels. */
+  .statusbar {
+    height: 40px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    position: relative;
+    color: #171d1b;
+    font-family: Roboto, system-ui, sans-serif;
+    font-size: 14px;
+    letter-spacing: .25px;
+    background: #f4fbf8;   /* the device ground, as in AndroidStatusBar */
+  }
+  .statusbar__punch {
+    position: absolute; left: 50%; top: 8px; transform: translateX(-50%);
+    width: 24px; height: 24px; border-radius: 100px; background: #2e2e2e;
+  }
+  .statusbar__levels { display: flex; align-items: center; gap: 3px; }
+
+  /* Gesture pill — the app's AndroidNavBar. */
+  .navbar {
+    height: 24px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f4fbf8;
+  }
+  .navbar__pill {
+    width: 108px; height: 4px; border-radius: 2px;
+    background: #171d1b; opacity: .4;
+  }
+
+  /* The scrolling screen area. */
+  .device__body {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    background: var(--ga-color-surface-page);
+  }
+
   .app {
-    max-width: 393px;
-    margin: 0 auto;
-    min-height: 100dvh;
     display: flex;
     flex-direction: column;
     padding: 0 var(--ga-size-spacing-05);
     box-sizing: border-box;
     /* Room for the floating bottom-nav so the last row can scroll clear of it. */
     padding-bottom: 96px;
+  }
+
+  /* On a handset the browser and OS supply the real chrome — drop the bezel and
+     the mock chrome and fill the viewport, matching what app.html does below
+     the same breakpoint. */
+  @media (max-width: 480px) {
+    body { display: block; background: var(--ga-color-surface-page); }
+    .device {
+      width: 100%; height: 100dvh;
+      border: 0; border-radius: 0; box-shadow: none;
+    }
+    .statusbar, .navbar { display: none; }
+    .bottom-nav { bottom: 16px; }
   }
 
   /* ---- Title row (.story-1) — 56px, title left, actions right -------------- */
@@ -245,9 +319,9 @@
 
   /* ---- bottom-nav — floating, content-width, centred ----------------------- */
   .bottom-nav {
-    position: fixed;
+    position: absolute;
     left: 50%;
-    bottom: 16px;
+    bottom: 40px;   /* clears the 24px gesture bar */
     transform: translateX(-50%);
     z-index: 10;
     display: flex;
@@ -301,6 +375,19 @@
 </head>
 <body>
 
+<div class="device">
+
+  <div class="statusbar" aria-hidden="true">
+    <span>9:30</span>
+    <span class="statusbar__punch"></span>
+    <span class="statusbar__levels">
+      <svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 13.3L.67 5.97a10.37 10.37 0 0114.66 0L8 13.3z" fill="currentColor"/></svg>
+      <svg width="16" height="16" viewBox="0 0 16 16"><path d="M14.67 14.67V1.33L1.33 14.67h13.34z" fill="currentColor"/></svg>
+      <svg width="16" height="16" viewBox="0 0 16 16"><rect x="4" y="1.5" width="8" height="13" rx="2" fill="currentColor"/></svg>
+    </span>
+  </div>
+
+  <div class="device__body">
 <div class="app">
 
   <!-- Title row -->
@@ -497,6 +584,7 @@
   </section>
 
 </div>
+  </div>
 
 <!-- bottom-nav — floats above the content, sized to its items --------------- -->
 <nav class="bottom-nav" aria-label="Main">
@@ -521,6 +609,10 @@
     <span class="bottom-nav__label">More</span>
   </a>
 </nav>
+
+  <div class="navbar" aria-hidden="true"><span class="navbar__pill"></span></div>
+
+</div>
 
 <script>
 (function () {
