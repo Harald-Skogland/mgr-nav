@@ -49,6 +49,18 @@ Type follows the **Gaia Mobile** ramp, matching the Figma frame, which resolves
 `lineheight/md` to 20 and `lineheight/xl2` to 36. The vendored `_ds` bundle is
 the web port, so those are overridden per-page rather than in the bundle.
 
+## Navigation
+
+Every screen with a nav shows the same one: Home · Approval · Autopay · HRM ·
+More, with the More dropdown holding BNXT, OSR, Payroll and Calendar. Inside the
+app it is injected over the app's own contextual bar, and switching module drives
+the app's integrations menu rather than navigating — so it happens in place, with
+the shell's frame mounted and no reload.
+
+Replacing that bar removed the only route to four in-module views. They are
+listed in [UNLINKED.md](UNLINKED.md), with what each would need to be reachable
+again.
+
 ## Hosting note
 
 `.nojekyll` is required. GitHub Pages runs a legacy Jekyll build that excludes
