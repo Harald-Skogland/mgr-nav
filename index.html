@@ -7,40 +7,28 @@
 <link rel="stylesheet" href="_ds/gaia-design-system-d69b3cc0-3516-47f6-8310-b21a7cf2d901/styles.css">
 <style>
   /* =========================================================================
-     Manager — start screen
-     Built from Figma MOB-Manager-App, node 17707:147660 (frame "start", 393x852).
-     Frameless by design: no device bezel and no mock status bar, so on a handset
-     the page fills the viewport and the browser/OS supply the real chrome.
+     Shell.
+
+     The device frame lives here and nowhere else. Screens load into the view
+     below as ordinary documents with no chrome of their own, so moving between
+     the start screen and the app never re-renders the frame — it stays put, at
+     a fixed position, with no visual reload.
+
+     Links inside the view target the view by default, so navigation happens
+     within the iframe and this document is never replaced.
      ========================================================================= */
-
-  /* Gaia Mobile line-height deltas. The vendored _ds bundle is the WEB port;
-     the Figma frame resolves lineheight/md to 20 and lineheight/xl2 to 36, i.e.
-     the mobile ramp. Overriding here keeps the bundle a pristine copy. */
-  :root {
-    --ga-text-sm-line-height:  calc(1.25rem * var(--ga-sf));  /* 16 -> 20 */
-    --ga-text-md-line-height:  calc(1.25rem * var(--ga-sf));  /* 24 -> 20 */
-    --ga-text-2xl-line-height: calc(2.25rem * var(--ga-sf));  /* 40 -> 36 */
-  }
-
   html, body { height: 100%; }
   body {
     margin: 0;
-    color: var(--ga-color-text-body);
-    font-family: var(--ga-font-family-primary);
-    font-size: var(--ga-text-md-font-size);
-    line-height: var(--ga-text-md-line-height);
-    letter-spacing: var(--ga-text-md-letter-spacing);
     background: #e7eaee;
-    -webkit-text-size-adjust: 100%;
+    font-family: var(--ga-font-family-primary);
     display: flex;
     align-items: center;
     justify-content: center;
     min-height: 100dvh;
   }
 
-  /* Device frame — identical to the AndroidDevice component the app screens
-     render inside (412x892, 18px radius, 8px bezel, Material surface ground),
-     so the start screen and the app read as one prototype on desktop. */
+  /* Matches the AndroidDevice component the app screens were built inside. */
   .device {
     width: 412px;
     height: 892px;
@@ -56,7 +44,6 @@
     position: relative;
   }
 
-  /* Mock status bar — matches the app's: 40px, time left, punch-hole, levels. */
   .statusbar {
     height: 40px;
     flex-shrink: 0;
@@ -69,7 +56,7 @@
     font-family: Roboto, system-ui, sans-serif;
     font-size: 14px;
     letter-spacing: .25px;
-    background: #f4fbf8;   /* the device ground, as in AndroidStatusBar */
+    background: #f4fbf8;
   }
   .statusbar__punch {
     position: absolute; left: 50%; top: 8px; transform: translateX(-50%);
@@ -77,7 +64,15 @@
   }
   .statusbar__levels { display: flex; align-items: center; gap: 3px; }
 
-  /* Gesture pill — the app's AndroidNavBar. */
+  .device__view {
+    flex: 1;
+    min-height: 0;
+    width: 100%;
+    border: 0;
+    display: block;
+    background: var(--ga-color-surface-page);
+  }
+
   .navbar {
     height: 24px;
     flex-shrink: 0;
@@ -91,26 +86,7 @@
     background: #171d1b; opacity: .4;
   }
 
-  /* The scrolling screen area. */
-  .device__body {
-    flex: 1;
-    min-height: 0;
-    overflow-y: auto;
-    background: var(--ga-color-surface-page);
-  }
-
-  .app {
-    display: flex;
-    flex-direction: column;
-    padding: 0 var(--ga-size-spacing-05);
-    box-sizing: border-box;
-    /* Room for the floating bottom-nav so the last row can scroll clear of it. */
-    padding-bottom: 96px;
-  }
-
-  /* On a handset the browser and OS supply the real chrome — drop the bezel and
-     the mock chrome and fill the viewport, matching what app.html does below
-     the same breakpoint. */
+  /* On a handset the browser and OS supply the real chrome. */
   @media (max-width: 480px) {
     body { display: block; background: var(--ga-color-surface-page); }
     .device {
@@ -118,292 +94,7 @@
       border: 0; border-radius: 0; box-shadow: none;
     }
     .statusbar, .navbar { display: none; }
-    .bottom-nav { bottom: 16px; }
   }
-
-  /* ---- Title row (.story-1) — 56px, title left, actions right -------------- */
-  .story {
-    height: 56px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--ga-size-spacing-02);
-  }
-  .story__title {
-    margin: 0;
-    font-size: var(--ga-text-2xl-font-size);
-    line-height: var(--ga-text-2xl-line-height);
-    font-weight: var(--ga-font-weight-semibold);
-    letter-spacing: -0.3px;
-    color: var(--ga-color-text-body);
-  }
-
-  /* 44x44 touch target per gaia-ds-mobile, even where the glyph is 24. */
-  .icon-button {
-    width: 44px;
-    height: 44px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    border: 0;
-    background: transparent;
-    cursor: pointer;
-    color: var(--ga-color-text-body);
-    border-radius: var(--ga-radius-default);
-  }
-  .icon-button:focus-visible {
-    outline: var(--ga-focus-outline);
-    outline-offset: var(--ga-focus-outline-offset);
-  }
-
-  /* ---- Section (list) + its 44px header ------------------------------------ */
-  .section { padding-top: var(--ga-size-spacing-02); }
-
-  .section__header {
-    height: 44px;
-    width: 100%;
-    display: flex;
-    align-items: flex-end;
-    gap: var(--ga-size-spacing-03);
-    padding: var(--ga-size-spacing-03) var(--ga-size-spacing-05);
-    box-sizing: border-box;
-    border: 0;
-    background: transparent;
-    cursor: pointer;
-    text-align: left;
-    color: var(--ga-color-text-headings);
-    font-family: inherit;
-    font-size: var(--ga-text-sm-font-size);
-    line-height: var(--ga-text-sm-line-height);
-    font-weight: var(--ga-font-weight-semibold);
-    letter-spacing: .04em;
-  }
-  .section__header:focus-visible {
-    outline: var(--ga-focus-outline);
-    outline-offset: -2px;
-    border-radius: var(--ga-radius-default);
-  }
-  .section__chevron {
-    flex-shrink: 0;
-    display: flex;
-    transition: transform var(--ga-transition-state);
-  }
-  .section[data-collapsed] .section__chevron { transform: rotate(180deg); }
-  .section[data-collapsed] .section__body { display: none; }
-
-  .section__body {
-    display: flex;
-    flex-direction: column;
-    gap: var(--ga-size-spacing-02);
-  }
-
-  /* ---- list-item (gaia-ds-mobile: min 64px, own border, own radius) -------- */
-  .list-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--ga-size-spacing-04);
-    width: 100%;
-    min-height: 64px;
-    box-sizing: border-box;
-    padding: var(--ga-size-spacing-04) var(--ga-size-spacing-05);
-    background: var(--ga-color-surface-primary);
-    border: var(--ga-size-border-width-sm) solid var(--ga-color-border-tertiary);
-    border-radius: var(--ga-radius-default);
-    font: inherit;
-    text-align: left;
-    text-decoration: none;
-    cursor: pointer;
-    color: inherit;
-  }
-  .list-item:focus-visible {
-    outline: var(--ga-focus-outline);
-    outline-offset: var(--ga-focus-outline-offset);
-  }
-  .list-item__left {
-    display: flex;
-    align-items: center;
-    gap: var(--ga-size-spacing-03);
-    flex: 1;
-    min-width: 0;
-  }
-  .list-item__icon { flex-shrink: 0; color: var(--ga-color-text-body); }
-  .list-item__text { min-width: 0; }
-  .list-item__primary {
-    margin: 0;
-    color: var(--ga-color-text-body);
-    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-  }
-  .list-item__secondary {
-    margin: 0;
-    font-size: var(--ga-text-sm-font-size);
-    line-height: var(--ga-text-sm-line-height);
-    color: var(--ga-color-text-body-secondary);
-    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-  }
-  .list-item__right { flex-shrink: 0; display: flex; align-items: center; }
-  .list-item__right--warning { color: var(--ga-color-icon-warning, #b8531b); }
-  .list-item__right--info { color: var(--ga-color-text-action); }
-
-  /* ---- GAiA card ----------------------------------------------------------- */
-  .gaia-card {
-    display: flex;
-    flex-direction: column;
-    gap: var(--ga-size-spacing-03);
-    padding: var(--ga-size-spacing-05);
-    background: var(--ga-color-surface-primary);
-    border: var(--ga-size-border-width-sm) solid var(--ga-color-border-tertiary);
-    border-radius: var(--ga-radius-default);
-  }
-  .gaia-card__greeting {
-    margin: 0;
-    font-weight: var(--ga-font-weight-medium);
-    color: var(--ga-color-text-headings);
-  }
-  .gaia-card__row {
-    display: flex;
-    align-items: flex-start;
-    gap: var(--ga-size-spacing-05);
-  }
-  /* The field is 44px in the design — already touch-target compliant. */
-  .gaia-card__row .ga-input {
-    flex: 1;
-    min-width: 0;
-    width: auto;
-    height: 44px;
-    padding-top: 0;
-    padding-bottom: 0;
-  }
-  .gaia-card__row .ga-input input { height: 100%; }
-
-  .gaia-card__ask {
-    width: 44px;
-    height: 44px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--ga-size-spacing-03);
-    border: 0;
-    border-radius: var(--ga-radius-default);
-    background: var(--ga-color-surface-action);
-    color: var(--ga-color-text-on-action);
-    cursor: pointer;
-  }
-  .gaia-card__ask:focus-visible {
-    outline: var(--ga-focus-outline);
-    outline-offset: var(--ga-focus-outline-offset);
-  }
-
-  .gaia-card__suggestion {
-    min-height: 44px;
-    display: flex;
-    align-items: center;
-    padding: var(--ga-size-spacing-03) var(--ga-size-spacing-05);
-    border: 0;
-    border-radius: var(--ga-radius-default);
-    background: transparent;
-    font: inherit;
-    font-weight: var(--ga-font-weight-medium);
-    color: var(--ga-color-text-action);
-    text-align: left;
-    cursor: pointer;
-  }
-  .gaia-card__suggestion:focus-visible {
-    outline: var(--ga-focus-outline);
-    outline-offset: var(--ga-focus-outline-offset);
-  }
-
-  /* ---- bottom-nav — floating, content-width, centred ----------------------- */
-  .bottom-nav {
-    position: absolute;
-    left: 50%;
-    bottom: 40px;   /* clears the 24px gesture bar */
-    transform: translateX(-50%);
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    gap: var(--ga-size-spacing-04);
-    padding: var(--ga-size-spacing-02);
-    background: var(--ga-color-surface-disabled);
-    border-radius: var(--ga-radius-default);
-    /* Shadows/Zenith */
-    box-shadow:
-      0 0 3px rgba(19, 52, 69, .10),
-      0 0 5px rgba(19, 52, 69, .09),
-      0 0 7px rgba(19, 52, 69, .05),
-      0 10.5px 8px rgba(19, 52, 69, .01);
-  }
-  .bottom-nav__item {
-    width: 64px;
-    height: 56px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: var(--ga-size-spacing-01);
-    padding: var(--ga-size-spacing-02) var(--ga-size-spacing-04);
-    box-sizing: border-box;
-    border: 0;
-    background: transparent;
-    border-radius: var(--ga-radius-default);
-    color: var(--ga-color-text-action);
-    font: inherit;
-    text-decoration: none;
-    cursor: pointer;
-  }
-  .bottom-nav__item[aria-current="page"] { background: var(--ga-color-surface-primary); }
-  .bottom-nav__item:focus-visible {
-    outline: var(--ga-focus-outline);
-    outline-offset: var(--ga-focus-outline-offset);
-  }
-  .bottom-nav__label {
-    font-size: var(--ga-text-sm-font-size);
-    line-height: var(--ga-text-sm-line-height);
-    letter-spacing: 0;
-    white-space: nowrap;
-    text-align: center;
-  }
-  /* Semibold is the selection signal, per the g-m spec. */
-  .bottom-nav__item[aria-current="page"] .bottom-nav__label {
-    font-weight: var(--ga-font-weight-semibold);
-  }
-
-  /* ---- More dropdown — Gaia menu, right-aligned to the bar ----------------
-     The four integrations that don't fit in the nav. Uses the design system's
-     .ga-menu; only the row height is overridden, from the component's 36px to
-     the 44px the Figma frame specifies (and the mobile touch-target minimum). */
-  .nav-menu {
-    position: absolute;
-    right: 0;
-    bottom: calc(100% + var(--ga-size-spacing-03));
-    width: 239px;
-    z-index: 1;
-  }
-  .bottom-nav:not([data-menu-open]) .nav-menu { display: none; }
-
-  /* Overrides taken from the Figma node (17707:150345), where it differs from
-     the web .ga-menu component:
-       - no shadow: the node has no effect applied
-       - 44px rows: the component ships 36px
-       - 16px icon shell: the component leaves icon sizing to the caller       */
-  .nav-menu { box-shadow: none; }
-  .nav-menu .ga-menu__item {
-    min-height: 44px;
-    align-items: center;
-    text-decoration: none;
-  }
-  .nav-menu .ga-menu__item-icon { margin-top: 0; }
-  /* The component sets line-height:1 on the row and the label inherits it; the
-     node specifies lineheight/md (20px on the mobile ramp). */
-  .nav-menu .ga-menu__item-label { line-height: var(--ga-text-md-line-height); }
-  /* Calendar and OSR have no module in the app. They stay visually identical to
-     the rest — as the Figma shows — but are not actionable, matching how the
-     same two rows are treated in the INTEGRATIONS list. */
-  .nav-menu__inert { pointer-events: none; }
 </style>
 </head>
 <body>
@@ -420,248 +111,7 @@
     </span>
   </div>
 
-  <div class="device__body">
-<div class="app">
-
-  <!-- Title row -->
-  <div class="story">
-    <h1 class="story__title">Manager</h1>
-    <button class="icon-button" type="button" aria-label="About this view">
-      <span class="ga-icon" data-icon="info" data-size="24"></span>
-    </button>
-  </div>
-
-  <!-- GAiA ------------------------------------------------------------------ -->
-  <section class="section" id="section-gaia">
-    <button class="section__header" type="button" aria-expanded="true" aria-controls="body-gaia">
-      <span class="section__chevron ga-icon" data-icon="chevron-up" data-size="16"></span>
-      GAiA
-    </button>
-    <div class="section__body" id="body-gaia">
-      <div class="gaia-card">
-        <p class="gaia-card__greeting">Good morning, Sam</p>
-        <div class="gaia-card__row">
-          <div class="ga-input">
-            <input type="text" placeholder="Ask or search.." aria-label="Ask or search">
-          </div>
-          <a class="gaia-card__ask" href="app.html?open=gaia" aria-label="Ask GAiA">
-            <span class="ga-icon" data-icon="sparkles" data-size="24"></span>
-          </a>
-        </div>
-        <button class="gaia-card__suggestion" type="button">Show me invoices that are overdue</button>
-        <button class="gaia-card__suggestion" type="button">Show tasks that need review</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- INTEGRATIONS ----------------------------------------------------------- -->
-  <section class="section" id="section-integrations">
-    <button class="section__header" type="button" aria-expanded="true" aria-controls="body-integrations">
-      <span class="section__chevron ga-icon" data-icon="chevron-up" data-size="16"></span>
-      INTEGRATIONS
-    </button>
-    <div class="section__body" id="body-integrations">
-
-      <a class="list-item" href="app.html?open=approval">
-        <span class="list-item__left">
-          <span class="list-item__icon ga-icon" data-icon="check" data-size="24"></span>
-          <span class="list-item__text">
-            <p class="list-item__primary">Approval</p>
-            <p class="list-item__secondary">12 tasks to approve - 3 overdue</p>
-          </span>
-        </span>
-        <span class="list-item__right list-item__right--warning ga-icon" data-icon="triangle-alert" data-size="24"></span>
-      </a>
-
-      <a class="list-item" href="app.html?open=autopay">
-        <span class="list-item__left">
-          <span class="list-item__icon ga-icon" data-icon="credit-card" data-size="24"></span>
-          <span class="list-item__text">
-            <p class="list-item__primary">Autopay</p>
-            <p class="list-item__secondary">7 salaries to approve</p>
-          </span>
-        </span>
-      </a>
-
-      <a class="list-item" href="app.html?open=bnxt">
-        <span class="list-item__left">
-          <span class="list-item__icon ga-icon" data-icon="building-2" data-size="24"></span>
-          <span class="list-item__text">
-            <p class="list-item__primary">BNXT</p>
-            <p class="list-item__secondary">View supplies and inventory</p>
-          </span>
-        </span>
-      </a>
-
-      <div class="list-item" role="link" aria-disabled="true">
-        <span class="list-item__left">
-          <span class="list-item__icon ga-icon" data-icon="calendar-days" data-size="24"></span>
-          <span class="list-item__text">
-            <p class="list-item__primary">Calendar</p>
-            <p class="list-item__secondary">See employee events</p>
-          </span>
-        </span>
-      </div>
-
-      <a class="list-item" href="app.html?open=hrm">
-        <span class="list-item__left">
-          <span class="list-item__icon ga-icon" data-icon="calendar" data-size="24"></span>
-          <span class="list-item__text">
-            <p class="list-item__primary">HRM</p>
-            <p class="list-item__secondary">View employees - 4 birthdays</p>
-          </span>
-        </span>
-        <span class="list-item__right list-item__right--info ga-icon" data-icon="info" data-size="24"></span>
-      </a>
-
-      <a class="list-item" href="app.html?open=payroll">
-        <span class="list-item__left">
-          <span class="list-item__icon ga-icon" data-icon="file-spreadsheet" data-size="24"></span>
-          <span class="list-item__text">
-            <p class="list-item__primary">Payroll</p>
-            <p class="list-item__secondary">Approve wage runs</p>
-          </span>
-        </span>
-      </a>
-
-      <div class="list-item" role="link" aria-disabled="true">
-        <span class="list-item__left">
-          <span class="list-item__icon ga-icon" data-icon="chart-no-axes-column" data-size="24"></span>
-          <span class="list-item__text">
-            <p class="list-item__primary">OSR</p>
-            <p class="list-item__secondary">Review statistics and insights</p>
-          </span>
-        </span>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- RECENT ACTIVITY -------------------------------------------------------- -->
-  <section class="section" id="section-recent">
-    <button class="section__header" type="button" aria-expanded="true" aria-controls="body-recent">
-      <span class="section__chevron ga-icon" data-icon="chevron-up" data-size="16"></span>
-      RECENT ACTIVITY
-    </button>
-    <div class="section__body" id="body-recent">
-
-      <a class="list-item" href="app.html?open=activity">
-        <span class="list-item__left">
-          <span class="list-item__icon ga-icon" data-icon="thumbs-up" data-size="24"></span>
-          <span class="list-item__text">
-            <p class="list-item__primary">Anna Larsen approved invoice for 12 000,-</p>
-            <p class="list-item__secondary">13 mins ago - Nordvik Retail</p>
-          </span>
-        </span>
-      </a>
-
-      <a class="list-item" href="app.html?open=task">
-        <span class="list-item__left">
-          <span class="list-item__icon ga-icon" data-icon="file-spreadsheet" data-size="24"></span>
-          <span class="list-item__text">
-            <p class="list-item__primary">Order 345 was invoiced</p>
-            <p class="list-item__secondary">25 mins ago - Bohlen Group</p>
-          </span>
-        </span>
-      </a>
-
-      <a class="list-item" href="app.html?open=hrm">
-        <span class="list-item__left">
-          <span class="list-item__icon ga-icon" data-icon="building-2" data-size="24"></span>
-          <span class="list-item__text">
-            <p class="list-item__primary">Post address updated for Knut Knutsen</p>
-            <p class="list-item__secondary">13:44 - Mandi AS</p>
-          </span>
-        </span>
-      </a>
-
-      <a class="list-item" href="app.html?open=history">
-        <span class="list-item__left">
-          <span class="list-item__text">
-            <p class="list-item__primary">View all recent activities</p>
-          </span>
-        </span>
-        <span class="list-item__right ga-icon" data-icon="chevron-right" data-size="24"></span>
-      </a>
-
-    </div>
-  </section>
-
-  <!-- SETTINGS AND FEEDBACK --------------------------------------------------- -->
-  <section class="section" id="section-settings">
-    <button class="section__header" type="button" aria-expanded="true" aria-controls="body-settings">
-      <span class="section__chevron ga-icon" data-icon="chevron-up" data-size="16"></span>
-      SETTINGS AND FEEDBACK
-    </button>
-    <div class="section__body" id="body-settings">
-
-      <a class="list-item" href="app.html?open=feedback">
-        <span class="list-item__left">
-          <span class="list-item__icon ga-icon" data-icon="message-square-text" data-size="24"></span>
-          <span class="list-item__text">
-            <p class="list-item__primary">Feedback</p>
-          </span>
-        </span>
-      </a>
-
-      <a class="list-item" href="app.html?open=settings">
-        <span class="list-item__left">
-          <span class="list-item__icon ga-icon" data-icon="settings" data-size="24"></span>
-          <span class="list-item__text">
-            <p class="list-item__primary">Settings</p>
-          </span>
-        </span>
-      </a>
-
-    </div>
-  </section>
-
-</div>
-  </div>
-
-<!-- bottom-nav — floats above the content, sized to its items --------------- -->
-<nav class="bottom-nav" aria-label="Main">
-  <a class="bottom-nav__item" href="index.html" aria-current="page">
-    <span class="ga-icon" data-icon="house" data-size="24"></span>
-    <span class="bottom-nav__label">Home</span>
-  </a>
-  <a class="bottom-nav__item" href="app.html?open=approval">
-    <span class="ga-icon" data-icon="check" data-size="24"></span>
-    <span class="bottom-nav__label">Approval</span>
-  </a>
-  <a class="bottom-nav__item" href="app.html?open=autopay">
-    <span class="ga-icon" data-icon="credit-card" data-size="24"></span>
-    <span class="bottom-nav__label">Autopay</span>
-  </a>
-  <a class="bottom-nav__item" href="app.html?open=hrm">
-    <span class="ga-icon" data-icon="calendar-days" data-size="24"></span>
-    <span class="bottom-nav__label">HRM</span>
-  </a>
-  <button class="bottom-nav__item" type="button" id="more-toggle"
-          aria-haspopup="menu" aria-expanded="false" aria-controls="nav-menu">
-    <span class="ga-icon" data-icon="menu" data-size="24"></span>
-    <span class="bottom-nav__label">More</span>
-  </button>
-
-  <div class="nav-menu ga-menu" id="nav-menu" role="menu" aria-labelledby="more-toggle">
-    <a class="ga-menu__item" role="menuitem" href="app.html?open=bnxt">
-      <span class="ga-menu__item-icon ga-icon" data-icon="building-2" data-size="16"></span>
-      <span class="ga-menu__item-label">BNXT</span>
-    </a>
-    <span class="ga-menu__item nav-menu__inert" role="menuitem" aria-disabled="true">
-      <span class="ga-menu__item-icon ga-icon" data-icon="chart-no-axes-column" data-size="16"></span>
-      <span class="ga-menu__item-label">OSR</span>
-    </span>
-    <a class="ga-menu__item" role="menuitem" href="app.html?open=payroll">
-      <span class="ga-menu__item-icon ga-icon" data-icon="file-spreadsheet" data-size="16"></span>
-      <span class="ga-menu__item-label">Payroll</span>
-    </a>
-    <span class="ga-menu__item nav-menu__inert" role="menuitem" aria-disabled="true">
-      <span class="ga-menu__item-icon ga-icon" data-icon="calendar-days" data-size="16"></span>
-      <span class="ga-menu__item-label">Calendar</span>
-    </span>
-  </div>
-</nav>
+  <iframe class="device__view" id="view" title="Visma Manager"></iframe>
 
   <div class="navbar" aria-hidden="true"><span class="navbar__pill"></span></div>
 
@@ -670,78 +120,12 @@
 <script>
 (function () {
   'use strict';
-
-  /* ---- Icons. Lucide, 24x24 grid, 1.5 stroke, currentColor. --------------- */
-  var ICONS = {
-    'info': '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>',
-    'chevron-up': '<path d="m18 15-6-6-6 6"/>',
-    'chevron-right': '<path d="m9 18 6-6-6-6"/>',
-    'sparkles': '<path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/>',
-    'check': '<path d="M20 6 9 17l-5-5"/>',
-    'triangle-alert': '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/>',
-    'credit-card': '<rect width="20" height="14" x="2" y="5" rx="2"/><path d="M2 10h20"/>',
-    'building-2': '<path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/>',
-    'calendar-days': '<path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/><path d="M16 18h.01"/>',
-    'calendar': '<path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/>',
-    'file-spreadsheet': '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M8 13h2"/><path d="M14 13h2"/><path d="M8 17h2"/><path d="M14 17h2"/>',
-    'chart-no-axes-column': '<line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/>',
-    'thumbs-up': '<path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/>',
-    'message-square-text': '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M7 8h10"/><path d="M7 12h6"/>',
-    'settings': '<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>',
-    'house': '<path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
-    'menu': '<path d="M4 12h16"/><path d="M4 6h16"/><path d="M4 18h16"/>'
-  };
-
-  function paintIcon(host) {
-    var name = host.getAttribute('data-icon');
-    if (!ICONS[name]) return;
-    // .ga-icon is locked to 16x16 by the design system and stretches its <svg>
-    // to fill, so data-size has to drive the wrapper box, not the svg attrs.
-    var size = host.getAttribute('data-size') || '24';
-    host.style.width = size + 'px';
-    host.style.height = size + 'px';
-    host.innerHTML =
-      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" ' +
-      'stroke="currentColor" stroke-width="1.5" stroke-linecap="round" ' +
-      'stroke-linejoin="round" aria-hidden="true" focusable="false">' + ICONS[name] + '</svg>';
-  }
-
-  Array.prototype.forEach.call(document.querySelectorAll('.ga-icon[data-icon]'), paintIcon);
-
-  /* ---- More dropdown ------------------------------------------------------- */
-  var nav = document.querySelector('.bottom-nav');
-  var moreToggle = document.getElementById('more-toggle');
-
-  function setMenu(open) {
-    if (open) nav.setAttribute('data-menu-open', '');
-    else nav.removeAttribute('data-menu-open');
-    moreToggle.setAttribute('aria-expanded', String(open));
-  }
-
-  moreToggle.addEventListener('click', function (event) {
-    event.stopPropagation();
-    setMenu(!nav.hasAttribute('data-menu-open'));
-  });
-
-  document.addEventListener('click', function (event) {
-    if (!nav.hasAttribute('data-menu-open')) return;
-    if (!event.target.closest('#nav-menu')) setMenu(false);
-  });
-
-  document.addEventListener('keydown', function (event) {
-    if (event.key === 'Escape') setMenu(false);
-  });
-
-  /* ---- Collapsible sections ------------------------------------------------ */
-  Array.prototype.forEach.call(document.querySelectorAll('.section__header'), function (header) {
-    header.addEventListener('click', function () {
-      var section = header.closest('.section');
-      var collapsed = section.hasAttribute('data-collapsed');
-      if (collapsed) section.removeAttribute('data-collapsed');
-      else section.setAttribute('data-collapsed', '');
-      header.setAttribute('aria-expanded', String(collapsed));
-    });
-  });
+  // /            -> the start screen
+  // /?open=<key> -> straight into the app, so existing deep links still work.
+  var key = '';
+  try { key = new URLSearchParams(window.location.search).get('open') || ''; } catch (e) {}
+  document.getElementById('view').src =
+    key ? 'app.html?open=' + encodeURIComponent(key) : 'start.html';
 }());
 </script>
 

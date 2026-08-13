@@ -5,9 +5,18 @@ built on the Gaia design system. No build step, no dependencies, no server requi
 
 | File | What it is |
 |---|---|
-| `index.html` | **Entry point — the Manager start screen.** Hand-built from Figma MOB-Manager-App node `17707:147660`. |
-| `app.html` | The full app prototype (Approval, detail views, nav menu, history) — the generated bundle. |
+| `index.html` | **Entry point — the shell.** Owns the device frame; screens load into an iframe inside it. |
+| `start.html` | The Manager start screen, frameless. Built from Figma node `17707:147660`. |
+| `app.html` | The full app prototype (Approval, detail views, history) — the generated bundle. |
 | `login.html` | The login flow. Bypassed, not deleted; open it directly to demo it. |
+
+The shell exists so navigation is seamless. Screens are separate documents with no
+chrome of their own, and links inside the view target the view, so moving between
+the start screen and the app swaps only the content — the frame never re-renders
+and never shifts. Before this, each screen carried its own frame and they landed
+17px apart vertically, with a further 7px sideways jump from a stray scrollbar.
+
+`index.html?open=<key>` loads the app directly in the shell, so deep links survive.
 
 The login is disabled only in the sense that nothing routes to it. Clicking through
 it still ends on the start screen, so it can be re-enabled by pointing the entry
