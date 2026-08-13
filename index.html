@@ -371,6 +371,30 @@
   .bottom-nav__item[aria-current="page"] .bottom-nav__label {
     font-weight: var(--ga-font-weight-semibold);
   }
+
+  /* ---- More dropdown — Gaia menu, right-aligned to the bar ----------------
+     The four integrations that don't fit in the nav. Uses the design system's
+     .ga-menu; only the row height is overridden, from the component's 36px to
+     the 44px the Figma frame specifies (and the mobile touch-target minimum). */
+  .nav-menu {
+    position: absolute;
+    right: 0;
+    bottom: calc(100% + var(--ga-size-spacing-03));
+    width: 239px;
+    z-index: 1;
+  }
+  .bottom-nav:not([data-menu-open]) .nav-menu { display: none; }
+
+  .nav-menu .ga-menu__item {
+    min-height: 44px;
+    align-items: center;
+    text-decoration: none;
+  }
+  .nav-menu .ga-menu__item-icon { margin-top: 0; }
+  /* Calendar and OSR have no module in the app. They stay visually identical to
+     the rest — as the Figma shows — but are not actionable, matching how the
+     same two rows are treated in the INTEGRATIONS list. */
+  .nav-menu__inert { pointer-events: none; }
 </style>
 </head>
 <body>
@@ -604,10 +628,30 @@
     <span class="ga-icon" data-icon="calendar-days" data-size="24"></span>
     <span class="bottom-nav__label">HRM</span>
   </a>
-  <a class="bottom-nav__item" href="app.html?open=history">
+  <button class="bottom-nav__item" type="button" id="more-toggle"
+          aria-haspopup="menu" aria-expanded="false" aria-controls="nav-menu">
     <span class="ga-icon" data-icon="menu" data-size="24"></span>
     <span class="bottom-nav__label">More</span>
-  </a>
+  </button>
+
+  <div class="nav-menu ga-menu" id="nav-menu" role="menu" aria-labelledby="more-toggle">
+    <a class="ga-menu__item" role="menuitem" href="app.html?open=bnxt">
+      <span class="ga-menu__item-icon ga-icon" data-icon="building-2" data-size="20"></span>
+      <span class="ga-menu__item-label">BNXT</span>
+    </a>
+    <span class="ga-menu__item nav-menu__inert" role="menuitem" aria-disabled="true">
+      <span class="ga-menu__item-icon ga-icon" data-icon="chart-no-axes-column" data-size="20"></span>
+      <span class="ga-menu__item-label">OSR</span>
+    </span>
+    <a class="ga-menu__item" role="menuitem" href="app.html?open=payroll">
+      <span class="ga-menu__item-icon ga-icon" data-icon="file-spreadsheet" data-size="20"></span>
+      <span class="ga-menu__item-label">Payroll</span>
+    </a>
+    <span class="ga-menu__item nav-menu__inert" role="menuitem" aria-disabled="true">
+      <span class="ga-menu__item-icon ga-icon" data-icon="calendar-days" data-size="20"></span>
+      <span class="ga-menu__item-label">Calendar</span>
+    </span>
+  </div>
 </nav>
 
   <div class="navbar" aria-hidden="true"><span class="navbar__pill"></span></div>
@@ -654,6 +698,30 @@
   }
 
   Array.prototype.forEach.call(document.querySelectorAll('.ga-icon[data-icon]'), paintIcon);
+
+  /* ---- More dropdown ------------------------------------------------------- */
+  var nav = document.querySelector('.bottom-nav');
+  var moreToggle = document.getElementById('more-toggle');
+
+  function setMenu(open) {
+    if (open) nav.setAttribute('data-menu-open', '');
+    else nav.removeAttribute('data-menu-open');
+    moreToggle.setAttribute('aria-expanded', String(open));
+  }
+
+  moreToggle.addEventListener('click', function (event) {
+    event.stopPropagation();
+    setMenu(!nav.hasAttribute('data-menu-open'));
+  });
+
+  document.addEventListener('click', function (event) {
+    if (!nav.hasAttribute('data-menu-open')) return;
+    if (!event.target.closest('#nav-menu')) setMenu(false);
+  });
+
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape') setMenu(false);
+  });
 
   /* ---- Collapsible sections ------------------------------------------------ */
   Array.prototype.forEach.call(document.querySelectorAll('.section__header'), function (header) {
