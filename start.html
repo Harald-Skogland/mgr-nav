@@ -324,6 +324,23 @@
   /* The component sets line-height:1 on the row and the label inherits it; the
      node specifies lineheight/md (20px on the mobile ramp). */
   .nav-menu .ga-menu__item-label { line-height: var(--ga-text-md-line-height); }
+
+  /* gaia-ds-mobile: a touch device has no hover, so the web component's hover
+     treatment becomes the pressed state. Hover is neutralised back to the
+     resting colours and the peach fill moves to :active (mousedown). */
+  .nav-menu .ga-menu__item:hover { background: var(--ga-color-surface-primary); }
+  .nav-menu .ga-menu__item:hover .ga-menu__item-icon { color: var(--ga-color-icon-primary); }
+  .nav-menu .ga-menu__item:hover .ga-menu__item-label { color: var(--ga-color-text-action); }
+
+  .nav-menu .ga-menu__item:active { background: var(--ga-color-surface-action-hover-2); }
+  .nav-menu .ga-menu__item:active .ga-menu__item-icon { color: var(--ga-color-icon-action); }
+  .nav-menu .ga-menu__item:active .ga-menu__item-label { color: var(--ga-color-text-action-hover); }
+
+  /* The bar presses with the same peach as the menu. */
+  .bottom-nav__item:active {
+    background: var(--ga-color-surface-action-hover-2);
+    color: var(--ga-color-text-action-hover);
+  }
   /* Calendar and OSR have no module in the app. They stay visually identical to
      the rest — as the Figma shows — but are not actionable, matching how the
      same two rows are treated in the INTEGRATIONS list. */

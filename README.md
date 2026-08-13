@@ -52,7 +52,13 @@ the web port, so those are overridden per-page rather than in the bundle.
 ## Navigation
 
 Every screen with a nav shows the same one: Home · Approval · Autopay · HRM ·
-More, with the More dropdown holding BNXT, OSR, Payroll and Calendar. Inside the
+More, with the More dropdown holding BNXT, OSR, Payroll and Calendar. When the
+active destination lives in the dropdown, More takes the selected treatment and
+the active row carries a trailing check.
+
+There is no hover state: a touch device cannot hover, so per gaia-ds-mobile the
+component's hover treatment is applied on `:active` (mousedown) instead. The bar
+presses with the same peach fill as the menu. Inside the
 app it is injected over the app's own contextual bar, and switching module drives
 the app's integrations menu rather than navigating — so it happens in place, with
 the shell's frame mounted and no reload.
