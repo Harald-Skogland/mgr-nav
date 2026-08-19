@@ -28,7 +28,9 @@ Then http://localhost:8000/ — or the machine's LAN address on a phone.
 | `_ds/` | Vendored Gaia design system. Kept pristine — override per page instead. |
 
 Nothing is fetched from a CDN: the runtime resolves React, ReactDOM and Babel
-through `window.__resources`, which points at `vendor/`.
+through `window.__resources`, which points at `vendor/`, and `gaia-icons-extra.js`
+supplies the glyphs the Gaia registry lacks so Lucide is never needed. Verified
+with every CDN blocked.
 
 ## Structure
 
@@ -53,9 +55,6 @@ before `5d44946` has that version if it is ever needed.
 
 ## Known gaps
 
-- **Icons need the network.** Every glyph resolves, but the runtime re-renders
-  the icon spans and blanks them after the painter fills them, so the Lucide
-  fallback is doing the work. Invisible online; blank offline.
 - **The app's own controls are under 44px** — header icons, tabs and checkboxes
   at 24–37px. The screens added here meet the target; fixing the rest means
   restyling the original app.

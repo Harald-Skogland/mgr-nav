@@ -104,4 +104,47 @@
     if (GLYPHS[name]) return wrap(GLYPHS[name], size);
     return out;
   };
+  /* ---- Late repaint ------------------------------------------------------
+     The document authors icons as empty <span class="ga-icon" data-icon>, and a
+     painter fills them. The dc runtime then re-renders those spans with its own
+     empty <svg>, leaving a child in place and the painter's stamp intact — so
+     the painter treats them as done and the glyph never returns.
+
+     Online this is invisible: the design system loads Lucide asynchronously and
+     repaints once it arrives, which lands after the runtime has settled and so
+     sticks. Offline there is no such late pass, and the icons stay blank.
+
+     This supplies that late pass. Repaints are strictly bounded: a global cap
+     and a per-element limit, so it cannot ping-pong with the runtime the way an
+     unbounded observer does.                                                  */
+  var MAX_TOTAL = 4000, MAX_PER_EL = 6, painted = 0;
+
+  function repaintBlanks() {
+    if (painted > MAX_TOTAL) return 0;
+    var n = 0;
+    document.querySelectorAll('.ga-icon[data-icon]').forEach(function (el) {
+      var child = el.firstElementChild;
+      if (child && child.innerHTML.trim()) return;              // already good
+      var count = (+el.getAttribute('data-icon-tries') || 0);
+      if (count >= MAX_PER_EL) return;
+      var html = G.svgFor(el.getAttribute('data-icon'), el.getAttribute('data-size') || 16);
+      if (!body(html)) return;                                  // nothing to draw
+      el.innerHTML = html;
+      el.setAttribute('data-icon-tries', count + 1);
+      painted++; n++;
+    });
+    return n;
+  }
+
+  // A few passes as the runtime settles, then stop. No standing observer.
+  [0, 60, 200, 500, 1200, 2500].forEach(function (ms) {
+    setTimeout(repaintBlanks, ms);
+  });
+
+  // One more after any navigation, debounced and still under the caps.
+  var t = null;
+  document.addEventListener('click', function () {
+    clearTimeout(t);
+    t = setTimeout(repaintBlanks, 120);
+  }, true);
 }());
