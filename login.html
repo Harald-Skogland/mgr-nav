@@ -143,6 +143,44 @@
 
   .login__legal { color: var(--ga-color-text-body); margin: 0; }
 
+  /* ---- Gaia Mobile deltas -------------------------------------------------
+     The vendored _ds bundle is the WEB Gaia port. Gaia Mobile redefines four
+     line-heights; overriding them here keeps the bundle pristine while this
+     page renders to the mobile ramp. Source order puts these after the bundle,
+     so they win at every width — including over its own >=48rem step-up.
+
+     The Avatar is deliberately unaffected: its initials read --ga-size-16/-24
+     rather than the sm text token, which is exactly the component-specific
+     exception the gaia-ds-mobile spec calls out. */
+  :root {
+    --ga-text-sm-line-height:  calc(1.25rem * var(--ga-sf));  /* 16 -> 20 */
+    --ga-text-md-line-height:  calc(1.25rem * var(--ga-sf));  /* 24 -> 20 */
+    --ga-text-2xl-line-height: calc(2.25rem * var(--ga-sf));  /* 40 -> 36 */
+    --ga-text-3xl-line-height: calc(3.5rem  * var(--ga-sf));  /* 48 -> 56 */
+  }
+
+  /* ---- Touch targets ------------------------------------------------------
+     gaia-ds-mobile: every interactive element needs a >=44x44 hit area, even
+     where the visual sits at the web default of 40. Where the visual should
+     stay small (the password reveal), the hit area is extended with negative
+     margins into the parent's padding rather than by growing the icon. */
+  .login__submit { min-height: 44px; }
+  /* The wrapper alone is not the hit area — tapping a .ga-input's padding does
+     not focus the field. Drop the wrapper's vertical padding and let the native
+     input fill it, so the whole 44px field is genuinely tappable. A single-line
+     input centres its own text vertically, so nothing shifts visually. */
+  .login .ga-input { height: 44px; padding-top: 0; padding-bottom: 0; }
+  .login .ga-input input { height: 100%; }
+  .login__code .ga-input { min-width: 44px; padding-left: 0; padding-right: 0; }
+  .login__back { width: 44px; height: 44px; }
+  .login__reveal { width: 44px; height: 44px; margin: -8px -12px -8px 0; }
+  .login__actions .ga-link {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    padding: 0 var(--ga-size-spacing-03);
+  }
+
   /* Short viewports — most phones in a browser, once URL bar and toolbar are
      subtracted. Compacts the vertical rhythm so the tallest screen (the
      verification step) fits without scrolling, rather than hiding anything. */
