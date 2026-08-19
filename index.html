@@ -1036,12 +1036,6 @@ window.__resources = {
       <!-- Bottom navigation -->
 
       <!-- Approval selection bar -->
-      <sc-if value="{{ anySelected }}" hint-placeholder-val="{{ false }}">
-        <div style="position:absolute;left:50%;bottom:96px;transform:translateX(-50%);display:flex;gap:12px;background:#ffffff;border-radius:14px;box-shadow:0 12px 30px rgba(19,52,69,0.3);padding:14px;z-index:31;animation:vmmSheet 180ms ease-out;">
-          <button onClick="{{ approveSelected }}" style="height:44px;padding:0 34px;border:none;border-radius:8px;background:#1f4e66;color:#fdf9ee;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;">Approve</button>
-          <button onClick="{{ cancelSelection }}" style="height:44px;padding:0 30px;border:1px solid #cccfd7;border-radius:8px;background:#ffffff;color:#1f4e66;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;">Cancel</button>
-        </div>
-      </sc-if>
 
       <!-- Autopay selection bar -->
       <sc-if value="{{ apAnySelected }}" hint-placeholder-val="{{ false }}">
@@ -2085,7 +2079,7 @@ window.__resources = {
     </sc-if>
 
     <!-- Module nav — the same bar on every screen -->
-    <div class="dc-nav" style="position:absolute;left:50%;bottom:16px;transform:translateX(-50%);display:flex;align-items:center;gap:12px;padding:4px;background:var(--ga-color-surface-disabled);border-radius:4px;box-shadow:0 0 3px rgba(19,52,69,.10),0 0 5px rgba(19,52,69,.09),0 0 7px rgba(19,52,69,.05),0 10.5px 8px rgba(19,52,69,.01);z-index:34;">
+    <div class="dc-nav" style="opacity:{{ navOpacity }};pointer-events:{{ navEvents }};transition:opacity 180ms ease;position:absolute;left:50%;bottom:16px;transform:translateX(-50%);display:flex;align-items:center;gap:12px;padding:4px;background:var(--ga-color-surface-disabled);border-radius:4px;box-shadow:0 0 3px rgba(19,52,69,.10),0 0 5px rgba(19,52,69,.09),0 0 7px rgba(19,52,69,.05),0 10.5px 8px rgba(19,52,69,.01);z-index:34;">
       <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="5">
         <button onClick="{{ n.go }}" aria-label="{{ n.label }}" style="width:64px;height:56px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:4px 12px;box-sizing:border-box;border:none;border-radius:4px;background:{{ n.bg }};cursor:pointer;font-family:var(--ga-font-family-primary);color:var(--ga-color-text-action);">
           <span class="ga-icon" data-icon="{{ n.icon }}" data-size="24" style="width:24px;height:24px;"></span>
@@ -2093,6 +2087,13 @@ window.__resources = {
         </button>
       </sc-for>
     </div>
+
+  <!-- Selection actions — the nav's manager-actions variant. Same container,
+       cross-fading with the nav rather than stacking above it. -->
+  <div class="dc-nav dc-actions" style="opacity:{{ actionsOpacity }};pointer-events:{{ actionsEvents }};transition:opacity 180ms ease;position:absolute;left:50%;bottom:16px;transform:translateX(-50%);display:flex;align-items:center;gap:12px;padding:4px;background:var(--ga-color-surface-disabled);border-radius:4px;box-shadow:0 0 3px rgba(19,52,69,.10),0 0 5px rgba(19,52,69,.09),0 0 7px rgba(19,52,69,.05),0 10.5px 8px rgba(19,52,69,.01);z-index:34;">
+    <button onClick="{{ approveSelected }}" style="height:56px;min-width:44px;display:flex;align-items:center;justify-content:center;gap:8px;padding:8px 16px;box-sizing:border-box;border-radius:4px;cursor:pointer;font-family:var(--ga-font-family-primary);font-size:14px;line-height:20px;font-weight:500;letter-spacing:-0.096px;border:none;background:var(--ga-color-surface-action);color:var(--ga-color-text-on-action);">Approve</button>
+    <button onClick="{{ cancelSelection }}" style="height:56px;min-width:44px;display:flex;align-items:center;justify-content:center;gap:8px;padding:8px 16px;box-sizing:border-box;border-radius:4px;cursor:pointer;font-family:var(--ga-font-family-primary);font-size:14px;line-height:20px;font-weight:500;letter-spacing:-0.096px;border:1px solid var(--ga-color-border-action);background:var(--ga-color-surface-primary);color:var(--ga-color-text-action);">Cancel</button>
+  </div>
   </sc-if>
 </div>
 </x-import>
@@ -3409,6 +3410,12 @@ class Component extends DCLogic {
     }
     const selCount = Object.keys(S.selectedTasks).filter(k => S.selectedTasks[k]).length;
     v.anySelected = v.isMain && v.showTasks && selCount > 0;
+    /* The nav and the selection actions occupy the same spot and cross-fade,
+       rather than the actions stacking above the nav. */
+    v.navOpacity     = v.anySelected ? '0' : '1';
+    v.navEvents      = v.anySelected ? 'none' : 'auto';
+    v.actionsOpacity = v.anySelected ? '1' : '0';
+    v.actionsEvents  = v.anySelected ? 'auto' : 'none';
     v.approveSelected = this.approveSelected;
     v.cancelSelection = () => this.setState({ selectedTasks: {} });
 
