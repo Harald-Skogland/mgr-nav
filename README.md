@@ -1,78 +1,63 @@
-# mgr-nav — Visma Manager login prototype
+# Visma Manager prototype
 
-The Visma Manager prototype: the app home screen, plus a click-through login flow
-built on the Gaia design system. No build step, no dependencies, no server required.
+A mobile prototype of Visma Manager, built against the Gaia design system.
+
+**Live:** https://harald-skogland.github.io/mgr-nav/
+
+## Running it
+
+It must be served over **http** — not opened as a file. The runtime fetches
+`android-frame.jsx` to transpile it, and `file://` blocks that, which makes the
+device frame silently disappear.
+
+```
+python3 -m http.server 8000 --bind 0.0.0.0
+```
+
+Then http://localhost:8000/ — or the machine's LAN address on a phone.
+
+## Files
 
 | File | What it is |
 |---|---|
-| `index.html` | **Entry point — the shell.** Owns the device frame; screens load into an iframe inside it. |
-| `start.html` | The Manager start screen, frameless. Built from Figma node `17707:147660`. |
-| `app.html` | The full app prototype (Approval, detail views, history) — the generated bundle. |
-| `login.html` | The login flow. Bypassed, not deleted; open it directly to demo it. |
+| `index.html` | The prototype. One document, all screens. |
+| `support.js` | The `dc` runtime that renders it. Generated — do not edit. |
+| `android-frame.jsx` | The device frame component the document imports. |
+| `gaia-icons-extra.js` | Fills gaps in the Gaia icon registry. |
+| `vendor/` | React, ReactDOM and Babel, pinned and local. |
+| `_ds/` | Vendored Gaia design system. Kept pristine — override per page instead. |
 
-The shell exists so navigation is seamless. Screens are separate documents with no
-chrome of their own, and links inside the view target the view, so moving between
-the start screen and the app swaps only the content — the frame never re-renders
-and never shifts. Before this, each screen carried its own frame and they landed
-17px apart vertically, with a further 7px sideways jump from a stray scrollbar.
+Nothing is fetched from a CDN: the runtime resolves React, ReactDOM and Babel
+through `window.__resources`, which points at `vendor/`.
 
-`index.html?open=<key>` loads the app directly in the shell, so deep links survive.
+## Structure
 
-The login is disabled only in the sense that nothing routes to it. Clicking through
-it still ends on the start screen, so it can be re-enabled by pointing the entry
-point back at it.
+Every screen lives in `index.html` as an `sc-if` block with a
+`data-screen-label`, switched by state rather than navigation. Moving between
+the start screen, a module and a detail view never reloads the document, so the
+frame stays mounted and there is nothing to keep in sync.
 
-## Start screen
+This replaced an earlier split — a hand-written start screen plus a generated
+8.1MB export carrying seven runtime patches. Keeping those two consistent was
+manual, and it was where every visual inconsistency came from. The history
+before `5d44946` has that version if it is ever needed.
 
-Built to the Figma frame rather than approximated: sections are GAiA, INTEGRATIONS,
-RECENT ACTIVITY and SETTINGS AND FEEDBACK, and the bottom nav is Home / Approval /
-Autopay / HRM / More with Home selected. Section headers collapse and expand.
+## Design notes
 
-Every row links into `app.html` via `?open=<key>`, which the app reads to set its
-initial state. The old home screen is gone: `homeActive` is forced false so its
-markup never renders, and the app's own Home button returns here.
+- The device frame is for desktop preview. Below 480px it un-frames: no bezel,
+  no mock status or gesture bar, and the nav shrinks rather than clipping.
+- Type follows the **Gaia Mobile** ramp, which differs from the vendored web
+  bundle. Those line-heights are overridden in the document, not in `_ds/`.
+- The nav is defined once at root level, so every screen that shows one shows
+  the same one — including Payroll, which is reached from the More menu.
 
-| Row | Opens |
-|---|---|
-| Approval / Autopay / BNXT / HRM | that module |
-| Payroll | Wagerun detail (`Månedslønn`) |
-| Calendar, OSR | nothing — no such module exists in the app |
-| GAiA sparkles button | GAiA Agent |
-| Recent activity rows | voucher detail, task detail, HRM |
-| View all recent activities | Approval, History tab |
-| Feedback / Settings | those screens |
-| Bottom nav | Approval / Autopay / HRM / History |
+## Known gaps
 
-`app.html` with no parameter falls back to Approval, since Home no longer exists.
-
-Type follows the **Gaia Mobile** ramp, matching the Figma frame, which resolves
-`lineheight/md` to 20 and `lineheight/xl2` to 36. The vendored `_ds` bundle is
-the web port, so those are overridden per-page rather than in the bundle.
-
-## Navigation
-
-Every screen with a nav shows the same one: Home · Approval · Autopay · HRM ·
-More, with the More dropdown holding BNXT, OSR, Payroll and Calendar. When the
-active destination lives in the dropdown, More takes the selected treatment and
-the active row carries a trailing check.
-
-There is no hover state: a touch device cannot hover, so per gaia-ds-mobile the
-component's hover treatment is applied on `:active` (mousedown) instead. The bar
-presses with the same peach fill as the menu. Inside the
-app it is injected over the app's own contextual bar, and switching module drives
-the app's integrations menu rather than navigating — so it happens in place, with
-the shell's frame mounted and no reload.
-
-Replacing that bar removed the only route to four in-module views. They are
-listed in [UNLINKED.md](UNLINKED.md), with what each would need to be reachable
-again.
-
-## Hosting note
-
-`.nojekyll` is required. GitHub Pages runs a legacy Jekyll build that excludes
-paths beginning with an underscore, which silently drops the whole `_ds/` bundle
-and serves an unstyled page.
-
-## Status
-
-Demo only. No authentication, no network calls, no credentials are checked.
+- **Icons need the network.** Every glyph resolves, but the runtime re-renders
+  the icon spans and blanks them after the painter fills them, so the Lucide
+  fallback is doing the work. Invisible online; blank offline.
+- **The app's own controls are under 44px** — header icons, tabs and checkboxes
+  at 24–37px. The screens added here meet the target; fixing the rest means
+  restyling the original app.
+- **The start screen shows Figma copy**, not live data — "Good morning, Sam",
+  "12 tasks to approve". The app knows the real figures.
