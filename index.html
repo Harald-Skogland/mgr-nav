@@ -63,6 +63,13 @@ window.__resources = {
       --ga-text-3xl-line-height: calc(3.5rem  * var(--ga-sf));  /* 48 -> 56 */
     }
 
+    /* Gaia Mobile button, Type=secondary. The component defines pressed, not
+       hover, so the peach fill goes on :active. */
+    .ga-cta:active {
+      background: var(--ga-color-surface-action-hover-2);
+      color: var(--ga-color-text-action-hover);
+    }
+
     /* On a handset the browser and OS supply the real chrome, so the device
        bezel and its mock status/gesture bars are dropped and the screen fills
        the viewport. Above this width the frame is useful for desktop preview. */
@@ -416,7 +423,7 @@ window.__resources = {
                       <div style="font-size:12px;line-height:20px;color:var(--ga-color-text-body-secondary);">12 tasks to approve - 3 overdue</div>
                     </span>
                   </span>
-                  <span style="display:flex;align-items:center;justify-content:center;gap:8px;flex-shrink:0;min-height:44px;padding:8px 16px;box-sizing:border-box;border-radius:4px;background:var(--ga-color-surface-action);color:var(--ga-color-text-on-action);font-weight:500;">
+                  <span class="ga-cta" style="display:flex;align-items:center;justify-content:center;gap:8px;flex-shrink:0;height:44px;min-width:44px;padding:8px 16px;box-sizing:border-box;border-radius:4px;background:var(--ga-color-surface-primary);border:1px solid var(--ga-color-border-action);color:var(--ga-color-text-action);font-weight:500;letter-spacing:-0.096px;">
                       <span class="ga-icon" data-icon="triangle-alert" data-size="20" style="width:20px;height:20px;flex-shrink:0;"></span>
                     View
                   </span>
@@ -429,7 +436,7 @@ window.__resources = {
                       <div style="font-size:12px;line-height:20px;color:var(--ga-color-text-body-secondary);">7 salaries to approve</div>
                     </span>
                   </span>
-                  <span style="display:flex;align-items:center;justify-content:center;gap:8px;flex-shrink:0;min-height:44px;padding:8px 16px;box-sizing:border-box;border-radius:4px;background:var(--ga-color-surface-action);color:var(--ga-color-text-on-action);font-weight:500;">
+                  <span class="ga-cta" style="display:flex;align-items:center;justify-content:center;gap:8px;flex-shrink:0;height:44px;min-width:44px;padding:8px 16px;box-sizing:border-box;border-radius:4px;background:var(--ga-color-surface-primary);border:1px solid var(--ga-color-border-action);color:var(--ga-color-text-action);font-weight:500;letter-spacing:-0.096px;">
                     View
                   </span>
                 </button>
@@ -441,7 +448,7 @@ window.__resources = {
                       <div style="font-size:12px;line-height:20px;color:var(--ga-color-text-body-secondary);">View employees - 4 birthdays</div>
                     </span>
                   </span>
-                  <span style="display:flex;align-items:center;justify-content:center;gap:8px;flex-shrink:0;min-height:44px;padding:8px 16px;box-sizing:border-box;border-radius:4px;background:var(--ga-color-surface-action);color:var(--ga-color-text-on-action);font-weight:500;">
+                  <span class="ga-cta" style="display:flex;align-items:center;justify-content:center;gap:8px;flex-shrink:0;height:44px;min-width:44px;padding:8px 16px;box-sizing:border-box;border-radius:4px;background:var(--ga-color-surface-primary);border:1px solid var(--ga-color-border-action);color:var(--ga-color-text-action);font-weight:500;letter-spacing:-0.096px;">
                       <span class="ga-icon" data-icon="info" data-size="20" style="width:20px;height:20px;flex-shrink:0;"></span>
                     View
                   </span>
