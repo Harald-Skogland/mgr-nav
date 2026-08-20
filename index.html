@@ -289,6 +289,18 @@ window.__resources = {
               </div>
             </sc-if>
           </div>
+          <sc-if value="{{ sortOpen }}" hint-placeholder-val="{{ false }}">
+          <div onClick="{{ closeSort }}" style="position:absolute;inset:0;z-index:40;"></div>
+          <div style="position:absolute;left:-18px;right:-18px;top:100%;z-index:41;background:#ffffff;box-shadow:0 24px 44px rgba(19,52,69,0.3);animation:vmmFade 140ms ease-out;">
+          <div style="padding:18px 22px;color:#377ea0;font-size:13px;border-bottom:1px solid #eef0f3;">Sort tasks by</div>
+          <sc-for list="{{ sortOptions }}" as="o" hint-placeholder-count="3">
+          <button onClick="{{ o.pick }}" style="width:100%;display:flex;justify-content:space-between;align-items:center;padding:20px 18px;background:#ffffff;border:none;border-bottom:1px solid #eef0f3;font-size:17px;font-weight:600;color:#133445;cursor:pointer;font-family:inherit;">
+          {{ o.label }}
+          <sc-if value="{{ o.active }}" hint-placeholder-val="{{ false }}"><span class="ga-icon" data-icon="check" data-size="24" style="width:24px;height:24px;color:#133445;"></span></sc-if>
+          </button>
+          </sc-for>
+          </div>
+          </sc-if>
         </div>
       </sc-if>
 
@@ -1038,18 +1050,6 @@ window.__resources = {
       </sc-if>
 
       <!-- Sort overlay -->
-      <sc-if value="{{ sortOpen }}" hint-placeholder-val="{{ false }}">
-        <div onClick="{{ closeSort }}" style="position:absolute;inset:0;z-index:40;background:rgba(19,52,69,0.18);"></div>
-        <div style="position:absolute;left:0;right:0;top:106px;z-index:41;background:#ffffff;box-shadow:0 24px 44px rgba(19,52,69,0.3);animation:vmmFade 140ms ease-out;">
-          <div style="padding:18px 22px;color:#377ea0;font-size:13px;border-bottom:1px solid #eef0f3;">Sort tasks by</div>
-          <sc-for list="{{ sortOptions }}" as="o" hint-placeholder-count="3">
-            <button onClick="{{ o.pick }}" style="width:100%;display:flex;justify-content:space-between;align-items:center;padding:20px 18px;background:#ffffff;border:none;border-bottom:1px solid #eef0f3;font-size:17px;font-weight:600;color:#133445;cursor:pointer;font-family:inherit;">
-              {{ o.label }}
-              <sc-if value="{{ o.active }}" hint-placeholder-val="{{ false }}"><span class="ga-icon" data-icon="check" data-size="24" style="width:24px;height:24px;color:#133445;"></span></sc-if>
-            </button>
-          </sc-for>
-        </div>
-      </sc-if>
     </div>
   </sc-if>
 
