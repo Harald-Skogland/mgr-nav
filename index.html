@@ -249,11 +249,13 @@ window.__resources = {
       <!-- Home header -->
       <!-- Start screen header -->
       <sc-if value="{{ homeActive }}" hint-placeholder-val="{{ false }}">
-        <div data-screen-label="Home" style="height:56px;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:0 16px;">
-          <div style="font-family:var(--ga-font-family-primary);font-size:24px;line-height:36px;font-weight:600;letter-spacing:-0.3px;color:var(--ga-color-text-body);">Manager</div>
-          <button aria-label="About this view" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border:none;background:none;padding:0;cursor:pointer;color:var(--ga-color-text-body);">
-            <span class="ga-icon" data-icon="info" data-size="24" style="width:24px;height:24px;"></span>
-          </button>
+        <div data-screen-label="Home" style="padding:22px 18px 0;display:flex;align-items:center;justify-content:space-between;">
+          <div style="font-size:26px;font-weight:700;color:#133445;">Manager</div>
+          <div style="display:flex;align-items:center;gap:18px;">
+            <button onClick="{{ openInfo }}" aria-label="About this view" style="border:none;background:none;padding:0;cursor:pointer;color:#133445;display:flex;">
+              <span class="ga-icon" data-icon="info" data-size="24" style="width:24px;height:24px;"></span>
+            </button>
+          </div>
         </div>
       </sc-if>
 
@@ -3072,8 +3074,7 @@ class Component extends DCLogic {
       { icon: 'building-2', label: 'BNXT', active: onMain && S.tab === 'bnxt', go: navGo('bnxt') },
       { icon: 'chart-no-axes-column', label: 'OSR', active: false, go: () => this.setState({ moreOpen: false }) },
       { icon: 'file-spreadsheet', label: 'Payroll', active: S.screen === 'wagerun',
-        go: () => this.setState({ screen: 'wagerun', wagerunId: 'w0', moreOpen: false }) },
-      { icon: 'calendar-days', label: 'Calendar', active: false, go: () => this.setState({ moreOpen: false }) }
+        go: () => this.setState({ screen: 'wagerun', wagerunId: 'w0', moreOpen: false }) }
     ];
 
     v.goApprovalRow = goTab('approval', { approvalTab: 'tasks', overdueOnly: false });
