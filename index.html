@@ -270,25 +270,24 @@ window.__resources = {
       <!-- Approval sub-header -->
       <sc-if value="{{ tabApproval }}" hint-placeholder-val="{{ false }}">
         <div style="position:relative;display:flex;align-items:flex-end;justify-content:space-between;padding:10px 18px 0;border-bottom:2px solid #26526b;">
-          <div style="display:flex;gap:22px;">
-            <button onClick="{{ pickTasks }}" style="position:relative;border:none;background:none;padding:0 2px 12px;cursor:pointer;font-family:inherit;font-size:21px;color:#133445;">
-              <sc-if value="{{ aTasksSel }}" hint-placeholder-val="{{ true }}"><span style="font-weight:700;">Tasks</span><span style="position:absolute;left:0;right:0;bottom:-2px;height:6px;background:#133445;border-radius:4px 4px 0 0;"></span></sc-if>
-              <sc-if value="{{ aTasksNot }}" hint-placeholder-val="{{ false }}"><span style="font-weight:400;">Tasks</span></sc-if>
-            </button>
-            <button onClick="{{ pickHistory }}" style="position:relative;border:none;background:none;padding:0 2px 12px;cursor:pointer;font-family:inherit;font-size:21px;color:#133445;">
-              <sc-if value="{{ aHistSel }}" hint-placeholder-val="{{ false }}"><span style="font-weight:700;">History</span><span style="position:absolute;left:0;right:0;bottom:-2px;height:6px;background:#133445;border-radius:4px 4px 0 0;"></span></sc-if>
-              <sc-if value="{{ aHistNot }}" hint-placeholder-val="{{ true }}"><span style="font-weight:400;">History</span></sc-if>
-            </button>
-              <button onClick="{{ toggleApprViews }}" aria-label="More views" aria-haspopup="menu" style="border:none;background:none;padding:0 2px 12px;cursor:pointer;display:flex;align-items:center;color:#133445;">
-                <span class="ga-icon" data-icon="chevron-down" data-size="24" style="width:24px;height:24px;"></span>
-              </button>
+            <div data-tabrow="1" style="display:flex;flex:1;min-width:0;gap:22px;">
+              <sc-for list="{{ apprTabs }}" as="t" hint-placeholder-count="3">
+                <button onClick="{{ t.pick }}" style="position:relative;flex:1;min-width:0;border:none;background:none;padding:0 2px 12px;cursor:pointer;font-family:inherit;font-size:21px;color:#133445;text-align:left;">
+                  <span style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:{{ t.weight }};">{{ t.label }}</span>
+                  <sc-if value="{{ t.sel }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;left:0;right:0;bottom:-2px;height:6px;background:#133445;border-radius:4px 4px 0 0;"></span></sc-if>
+                </button>
+              </sc-for>
+              <sc-if value="{{ apprChevron }}" hint-placeholder-val="{{ false }}">
+                <button onClick="{{ toggleApprViews }}" aria-label="More views" aria-haspopup="menu" style="flex-shrink:0;border:none;background:none;padding:0 2px 12px;cursor:pointer;display:flex;align-items:center;color:#133445;">
+                  <span class="ga-icon" data-icon="chevron-down" data-size="24" style="width:24px;height:24px;"></span>
+                </button>
+              </sc-if>
+            </div>
             <sc-if value="{{ apprViewsOpen }}" hint-placeholder-val="{{ false }}">
               <div class="ga-menu" style="position:absolute;right:0;top:calc(100% + 4px);width:239px;box-shadow:none;z-index:20;">
-                <button class="ga-menu__item" style="min-height:44px;align-items:center;"><span class="ga-menu__item-label" style="line-height:20px;">Workflow</span></button>
-                <button class="ga-menu__item" style="min-height:44px;align-items:center;"><span class="ga-menu__item-label" style="line-height:20px;">To be reviewed</span></button>
-              </div>
-            </sc-if>
-          </div>
+                <sc-for list="{{ apprMenuItems }}" as="m" hint-placeholder-count="2">
+                  <button onClick="{{ m.pick }}" class="ga-menu__item" style="min-height:44px;align-items:center;"><span class="ga-menu__item-label" style="line-height:20px;">{{ m.label }}</span></button>
+                </sc-for>
           <sc-if value="{{ sortOpen }}" hint-placeholder-val="{{ false }}">
           <div onClick="{{ closeSort }}" style="position:absolute;inset:0;z-index:40;"></div>
           <div style="position:absolute;left:0;right:0;top:100%;z-index:41;background:#ffffff;box-shadow:0 0 3px rgba(19,52,69,.10),0 0 5px rgba(19,52,69,.09),0 0 7px rgba(19,52,69,.05),0 10.5px 8px rgba(19,52,69,.01);animation:vmmFade 140ms ease-out;">
@@ -301,7 +300,9 @@ window.__resources = {
           </sc-for>
           </div>
           </sc-if>
-        </div>
+              </div>
+            </sc-if>
+          </div>
       </sc-if>
 
       <!-- Autopay sub-header -->
@@ -317,20 +318,26 @@ window.__resources = {
       <!-- HRM sub-header -->
       <sc-if value="{{ tabHrm }}" hint-placeholder-val="{{ false }}">
         <div style="display:flex;align-items:flex-end;justify-content:space-between;padding:10px 18px 0;border-bottom:2px solid #26526b;">
-          <div style="display:flex;gap:22px;">
-            <button onClick="{{ pickCalendar }}" style="position:relative;border:none;background:none;padding:0 2px 12px;cursor:pointer;font-family:inherit;font-size:21px;color:#133445;">
-              <sc-if value="{{ hrmCalendarSel }}" hint-placeholder-val="{{ false }}"><span style="font-weight:700;">Calendar</span><span style="position:absolute;left:0;right:0;bottom:-2px;height:6px;background:#133445;border-radius:4px 4px 0 0;"></span></sc-if>
-              <sc-if value="{{ hrmCalendarSelNot }}" hint-placeholder-val="{{ true }}"><span style="font-weight:400;">Calendar</span></sc-if>
-            </button>
-            <button style="position:relative;border:none;background:none;padding:0 2px 12px;cursor:default;font-family:inherit;font-size:21px;color:#133445;">
-              <sc-if value="{{ hrmDialogueSel }}" hint-placeholder-val="{{ false }}"><span style="font-weight:700;">Dialogue</span><span style="position:absolute;left:0;right:0;bottom:-2px;height:6px;background:#133445;border-radius:4px 4px 0 0;"></span></sc-if>
-              <sc-if value="{{ hrmDialogueNot }}" hint-placeholder-val="{{ true }}"><span style="font-weight:400;">Dialogue</span></sc-if>
-            </button>
-            <button onClick="{{ pickEmployees }}" style="position:relative;border:none;background:none;padding:0 2px 12px;cursor:pointer;font-family:inherit;font-size:21px;color:#133445;">
-              <sc-if value="{{ hrmEmployeesSel }}" hint-placeholder-val="{{ false }}"><span style="font-weight:700;">Employees</span><span style="position:absolute;left:0;right:0;bottom:-2px;height:6px;background:#133445;border-radius:4px 4px 0 0;"></span></sc-if>
-              <sc-if value="{{ hrmEmployeesSelNot }}" hint-placeholder-val="{{ true }}"><span style="font-weight:400;">Employees</span></sc-if>
-            </button>
-          </div>
+            <div data-tabrow="1" style="display:flex;flex:1;min-width:0;gap:22px;">
+              <sc-for list="{{ hrmTabs }}" as="t" hint-placeholder-count="3">
+                <button onClick="{{ t.pick }}" style="position:relative;flex:1;min-width:0;border:none;background:none;padding:0 2px 12px;cursor:pointer;font-family:inherit;font-size:21px;color:#133445;text-align:left;">
+                  <span style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:{{ t.weight }};">{{ t.label }}</span>
+                  <sc-if value="{{ t.sel }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;left:0;right:0;bottom:-2px;height:6px;background:#133445;border-radius:4px 4px 0 0;"></span></sc-if>
+                </button>
+              </sc-for>
+              <sc-if value="{{ hrmChevron }}" hint-placeholder-val="{{ false }}">
+                <button onClick="{{ toggleHrmViews }}" aria-label="More views" aria-haspopup="menu" style="flex-shrink:0;border:none;background:none;padding:0 2px 12px;cursor:pointer;display:flex;align-items:center;color:#133445;">
+                  <span class="ga-icon" data-icon="chevron-down" data-size="24" style="width:24px;height:24px;"></span>
+                </button>
+              </sc-if>
+            </div>
+            <sc-if value="{{ hrmViewsOpen }}" hint-placeholder-val="{{ false }}">
+              <div class="ga-menu" style="position:absolute;right:0;top:calc(100% + 4px);width:239px;box-shadow:none;z-index:20;">
+                <sc-for list="{{ hrmMenuItems }}" as="m" hint-placeholder-count="2">
+                  <button onClick="{{ m.pick }}" class="ga-menu__item" style="min-height:44px;align-items:center;"><span class="ga-menu__item-label" style="line-height:20px;">{{ m.label }}</span></button>
+                </sc-for>
+              </div>
+            </sc-if>
         </div>
       </sc-if>
 
@@ -2106,7 +2113,10 @@ class Component extends DCLogic {
       homeExpand: { approval: true, autopay: false, hrm: false, bnxt: false },
       startOpen: { gaia: true, integrations: true, recent: true, settings: true },
       moreOpen: false,
+      winW: (typeof window !== 'undefined' ? window.innerWidth : 393),
+      tabTick: 0,
       apprViewsOpen: false,
+      hrmViewsOpen: false,
       homeSearch: false, homeQuery: '', homeThread: [], homeTyping: false, feedExtra: [],
       approvalTab: 'tasks', hrmTab: 'dialogue', overdueOnly: false, apFilter: 'all',
       hrmCal: this.dataHrmCalendar(), calYear: 2026, calMonth: 6, calEvents: this.dataCalEvents(),
@@ -3044,6 +3054,8 @@ class Component extends DCLogic {
     /* The nav belongs to the module screens and to Payroll, which is reached
        from the More menu and would otherwise be a dead end. */
     v.apprViewsOpen = !!S.apprViewsOpen;
+    v.hrmViewsOpen  = !!S.hrmViewsOpen;
+    v.toggleHrmViews = () => this.setState({ hrmViewsOpen: !S.hrmViewsOpen });
     v.toggleApprViews = () => this.setState({ apprViewsOpen: !S.apprViewsOpen });
     v.showNav = onMain || S.screen === 'wagerun';
     v.moreOpen = !!S.moreOpen;
@@ -3357,7 +3369,69 @@ class Component extends DCLogic {
     v.overdueFilter = v.tabApproval && S.approvalTab === 'tasks' && S.overdueOnly;
     v.clearOverdue = () => this.setState({ overdueOnly: false, subSel: Object.assign({}, S.subSel, { approval: 0 }) });
     /* sort belongs to Approval's task list; the header is shared, so scope it */
+    /* ---- Tab rows ---------------------------------------------------------
+       Tabs share the row equally with their text left-aligned. A label that
+       would have to truncate is not shown truncated: the rightmost tab moves
+       into the chevron menu instead, repeatedly until the rest fit. The
+       chevron appears only when something has moved (Approval keeps its own,
+       since it carries Workflow / To be reviewed regardless). */
+    if (!this._resizeHooked) {
+      this._resizeHooked = true;
+      window.addEventListener('resize', () => this.setState({ winW: window.innerWidth }));
+    }
+    const measureLabel = (text) => {
+      if (!this._tabCtx) this._tabCtx = document.createElement('canvas').getContext('2d');
+      this._tabCtx.font = '700 21px Inter, system-ui, sans-serif';   // bold = worst case
+      return this._tabCtx.measureText(text).width;
+    };
+    const layoutTabs = (items, rowIndex) => {
+      /* Measure the row that is actually on screen rather than predicting from
+         the window: the device frame, padding and chevron all eat into it, and
+         guessing overestimated enough to let a label truncate. */
+      const rows = document.querySelectorAll('[data-tabrow]');
+      const el = rows[rowIndex || 0];
+      const avail = (el && el.clientWidth) ? el.clientWidth : Math.max(0, (S.winW || 393) - 36);
+      /* The measurement comes from the frame already on screen, so the first
+         render after arriving still uses the fallback. Ask for one more render
+         when the real width first becomes known — bounded, since the value then
+         stops changing. */
+      const seen = this._availSeen || (this._availSeen = {});
+      const key = 'r' + (rowIndex || 0);
+      if (seen[key] !== avail) {
+        seen[key] = avail;
+        setTimeout(() => this.setState({ tabTick: (this.state.tabTick || 0) + 1 }), 0);
+      }
+      const CHEV = 46;                                   // chevron plus its gap
+      for (let n = items.length; n >= 1; n--) {
+        const moved = n < items.length;
+        /* the row's 22px gaps and each button's 2px side padding come out
+           of the width before it is shared */
+        const share = (avail - (n - 1) * 22 - (moved ? CHEV : 0)) / n - 4;
+        const fits = items.slice(0, n).every(it => measureLabel(it.label) <= share);
+        if (fits || n === 1) {
+          return { visible: items.slice(0, n), overflow: items.slice(n), moved };
+        }
+      }
+      return { visible: items, overflow: [], moved: false };
+    };
+    const asTab = (label, sel, pick) => ({
+      label, sel, pick, notSel: !sel, weight: sel ? '700' : '400'
+    });
+
     v.showSortIcon = v.tabApproval && v.aTasksSel;
+
+    const apprLayout = layoutTabs([
+      asTab('Tasks',   v.aTasksSel, v.pickTasks),
+      asTab('History', v.aHistSel,  v.pickHistory)
+    ]);
+    v.apprTabs = apprLayout.visible;
+    v.apprChevron = true;
+    /* Approval's chevron is permanent: it holds Workflow / To be reviewed even
+       when no tab has had to move. */
+    v.apprMenuItems = apprLayout.overflow.concat([
+      { label: 'Workflow', pick: null },
+      { label: 'To be reviewed', pick: null }
+    ]);
     v.sortOpen = S.sortOpen;
     v.toggleSort = () => this.setState({ sortOpen: !S.sortOpen, searchOpen: false });
     v.closeSort = () => this.setState({ sortOpen: false });
@@ -3423,6 +3497,15 @@ class Component extends DCLogic {
     v.hrmEmployeesSelNot = !(S.hrmTab === 'employees');
     v.pickEmployees = () => this.setState({ hrmTab: 'employees', searchOpen: false, searchText: '' });
     v.pickCalendar  = () => this.setState({ hrmTab: 'calendar', searchOpen: false, searchText: '' });
+
+    const hrmLayout = layoutTabs([
+      asTab('Calendar',  v.hrmCalendarSel,  v.pickCalendar),
+      asTab('Dialogue',  v.hrmDialogueSel,  null),
+      asTab('Employees', S.hrmTab === 'employees', v.pickEmployees)
+    ]);
+    v.hrmTabs     = hrmLayout.visible;
+    v.hrmChevron  = hrmLayout.moved;
+    v.hrmMenuItems = hrmLayout.overflow;
 
     v.anySelected = v.isMain && v.showTasks && selCount > 0;
     /* The nav and the selection actions occupy the same spot and cross-fade,
