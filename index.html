@@ -307,11 +307,27 @@ window.__resources = {
 
       <!-- Autopay sub-header -->
       <sc-if value="{{ tabAutopay }}" hint-placeholder-val="{{ false }}">
-        <div style="display:flex;align-items:flex-end;justify-content:space-between;padding:10px 18px 0;border-bottom:2px solid #26526b;">
-          <button style="position:relative;border:none;background:none;padding:0 2px 12px;cursor:default;font-family:inherit;font-size:21px;color:#133445;">
-            <span style="font-weight:700;">{{ apTitle }}</span>
-            <span style="position:absolute;left:0;right:0;bottom:-2px;height:6px;background:#133445;border-radius:4px 4px 0 0;"></span>
-          </button>
+        <div style="position:relative;display:flex;align-items:flex-end;justify-content:space-between;padding:10px 18px 0;border-bottom:2px solid #26526b;">
+            <div data-tabrow="1" style="display:flex;flex:1;min-width:0;gap:22px;">
+              <sc-for list="{{ apTabs }}" as="t" hint-placeholder-count="3">
+                <button onClick="{{ t.pick }}" style="position:relative;flex:1 0 auto;min-width:0;border:none;background:none;padding:0 2px 12px;cursor:pointer;font-family:inherit;font-size:21px;color:#133445;text-align:left;">
+                  <span style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:{{ t.weight }};">{{ t.label }}</span>
+                  <sc-if value="{{ t.sel }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;left:0;right:0;bottom:-2px;height:6px;background:#133445;border-radius:4px 4px 0 0;"></span></sc-if>
+                </button>
+              </sc-for>
+              <sc-if value="{{ apChevron }}" hint-placeholder-val="{{ false }}">
+                <button onClick="{{ toggleApViews }}" aria-label="More views" aria-haspopup="menu" style="flex-shrink:0;border:none;background:none;padding:0 2px 12px;cursor:pointer;display:flex;align-items:center;color:#133445;">
+                  <span class="ga-icon" data-icon="chevron-down" data-size="24" style="width:24px;height:24px;"></span>
+                </button>
+              </sc-if>
+            </div>
+            <sc-if value="{{ apViewsOpen }}" hint-placeholder-val="{{ false }}">
+              <div class="ga-menu" style="position:absolute;right:0;top:calc(100% + 4px);width:239px;box-shadow:none;z-index:20;">
+                <sc-for list="{{ apMenuItems }}" as="m" hint-placeholder-count="2">
+                  <button onClick="{{ m.pick }}" class="ga-menu__item" style="min-height:44px;align-items:center;"><span class="ga-menu__item-label" style="line-height:20px;">{{ m.label }}</span></button>
+                </sc-for>
+              </div>
+            </sc-if>
         </div>
       </sc-if>
 
@@ -353,17 +369,27 @@ window.__resources = {
 
       <!-- BNXT sub-header -->
       <sc-if value="{{ tabBnxt }}" hint-placeholder-val="{{ false }}">
-        <div style="display:flex;align-items:flex-end;justify-content:space-between;padding:10px 18px 0;border-bottom:2px solid #26526b;">
-          <div style="display:flex;gap:22px;">
-            <button onClick="{{ bxPickA }}" style="position:relative;border:none;background:none;padding:0 2px 12px;cursor:pointer;font-family:inherit;font-size:21px;color:#133445;">
-              <sc-if value="{{ bxASel }}" hint-placeholder-val="{{ true }}"><span style="font-weight:700;">{{ bxALabel }}</span><span style="position:absolute;left:0;right:0;bottom:-2px;height:6px;background:#133445;border-radius:4px 4px 0 0;"></span></sc-if>
-              <sc-if value="{{ bxANot }}" hint-placeholder-val="{{ false }}"><span style="font-weight:400;">{{ bxALabel }}</span></sc-if>
-            </button>
-            <button onClick="{{ bxPickB }}" style="position:relative;border:none;background:none;padding:0 2px 12px;cursor:pointer;font-family:inherit;font-size:21px;color:#133445;">
-              <sc-if value="{{ bxBSel }}" hint-placeholder-val="{{ false }}"><span style="font-weight:700;">{{ bxBLabel }}</span><span style="position:absolute;left:0;right:0;bottom:-2px;height:6px;background:#133445;border-radius:4px 4px 0 0;"></span></sc-if>
-              <sc-if value="{{ bxBNot }}" hint-placeholder-val="{{ true }}"><span style="font-weight:400;">{{ bxBLabel }}</span></sc-if>
-            </button>
-          </div>
+        <div style="position:relative;display:flex;align-items:flex-end;justify-content:space-between;padding:10px 18px 0;border-bottom:2px solid #26526b;">
+            <div data-tabrow="1" style="display:flex;flex:1;min-width:0;gap:22px;">
+              <sc-for list="{{ bxTabs }}" as="t" hint-placeholder-count="3">
+                <button onClick="{{ t.pick }}" style="position:relative;flex:1 0 auto;min-width:0;border:none;background:none;padding:0 2px 12px;cursor:pointer;font-family:inherit;font-size:21px;color:#133445;text-align:left;">
+                  <span style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:{{ t.weight }};">{{ t.label }}</span>
+                  <sc-if value="{{ t.sel }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;left:0;right:0;bottom:-2px;height:6px;background:#133445;border-radius:4px 4px 0 0;"></span></sc-if>
+                </button>
+              </sc-for>
+              <sc-if value="{{ bxChevron }}" hint-placeholder-val="{{ false }}">
+                <button onClick="{{ toggleBxViews }}" aria-label="More views" aria-haspopup="menu" style="flex-shrink:0;border:none;background:none;padding:0 2px 12px;cursor:pointer;display:flex;align-items:center;color:#133445;">
+                  <span class="ga-icon" data-icon="chevron-down" data-size="24" style="width:24px;height:24px;"></span>
+                </button>
+              </sc-if>
+            </div>
+            <sc-if value="{{ bxViewsOpen }}" hint-placeholder-val="{{ false }}">
+              <div class="ga-menu" style="position:absolute;right:0;top:calc(100% + 4px);width:239px;box-shadow:none;z-index:20;">
+                <sc-for list="{{ bxMenuItems }}" as="m" hint-placeholder-count="2">
+                  <button onClick="{{ m.pick }}" class="ga-menu__item" style="min-height:44px;align-items:center;"><span class="ga-menu__item-label" style="line-height:20px;">{{ m.label }}</span></button>
+                </sc-for>
+              </div>
+            </sc-if>
         </div>
       </sc-if>
 
@@ -2117,6 +2143,8 @@ class Component extends DCLogic {
       tabTick: 0,
       apprViewsOpen: false,
       hrmViewsOpen: false,
+      apViewsOpen: false,
+      bxViewsOpen: false,
       homeSearch: false, homeQuery: '', homeThread: [], homeTyping: false, feedExtra: [],
       approvalTab: 'tasks', hrmTab: 'dialogue', overdueOnly: false, apFilter: 'all',
       hrmCal: this.dataHrmCalendar(), calYear: 2026, calMonth: 6, calEvents: this.dataCalEvents(),
@@ -3501,12 +3529,32 @@ class Component extends DCLogic {
     v.pickEmployees = () => this.setState({ hrmTab: 'employees', searchOpen: false, searchText: '' });
     v.pickCalendar  = () => this.setState({ hrmTab: 'calendar', searchOpen: false, searchText: '' });
 
+    const apPick = (f) => () => this.setState({ apFilter: f, searchOpen: false, searchText: '' });
+    const apLayout = layoutTabs([
+      asTab('Payments', S.apFilter !== 'salary', apPick('all')),
+      asTab('Salary',   S.apFilter === 'salary', apPick('salary'))
+    ]);
+    v.apTabs      = apLayout.visible;
+    v.apChevron   = apLayout.moved;
+    v.apMenuItems = apLayout.overflow;
+    v.apViewsOpen = !!S.apViewsOpen;
+    v.toggleApViews = () => this.setState({ apViewsOpen: !S.apViewsOpen });
+
     const hrmLayout = layoutTabs([
       asTab('Calendar',  v.hrmCalendarSel,  v.pickCalendar),
       asTab('Dialogue',  v.hrmDialogueSel,  null),
       asTab('Employees', S.hrmTab === 'employees', v.pickEmployees)
     ]);
     v.hrmTabs     = hrmLayout.visible;
+    const bxLayout = layoutTabs([
+      asTab(v.bxALabel, v.bxASel, v.bxPickA),
+      asTab(v.bxBLabel, v.bxBSel, v.bxPickB)
+    ]);
+    v.bxTabs      = bxLayout.visible;
+    v.bxChevron   = bxLayout.moved;
+    v.bxMenuItems = bxLayout.overflow;
+    v.bxViewsOpen = !!S.bxViewsOpen;
+    v.toggleBxViews = () => this.setState({ bxViewsOpen: !S.bxViewsOpen });
     v.hrmChevron  = hrmLayout.moved;
     v.hrmMenuItems = hrmLayout.overflow;
 
