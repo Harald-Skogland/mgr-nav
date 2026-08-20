@@ -286,7 +286,7 @@ window.__resources = {
               </button>
             </sc-if>
             <button onClick="{{ toggleSearch }}" aria-label="Search" style="border:none;background:none;padding:0;cursor:pointer;color:#133445;display:flex;">
-              <sc-if value="{{ searchClosed }}" hint-placeholder-val="{{ true }}"><span class="ga-icon" data-icon="search" data-size="24" style="width:24px;height:24px;"></span></sc-if>
+              <sc-if value="{{ searchClosed }}" hint-placeholder-val="{{ true }}"><span class="ga-icon" data-icon="sparkles" data-size="24" style="width:24px;height:24px;"></span></sc-if>
               <sc-if value="{{ searchOpen }}" hint-placeholder-val="{{ false }}"><span class="ga-icon" data-icon="search-x" data-size="24" style="width:24px;height:24px;"></span></sc-if>
             </button>
           </div>
@@ -302,7 +302,7 @@ window.__resources = {
           </button>
           <div style="display:flex;gap:24px;padding-bottom:12px;">
             <button onClick="{{ toggleSearch }}" aria-label="Search" style="border:none;background:none;padding:0;cursor:pointer;color:#133445;display:flex;">
-              <sc-if value="{{ searchClosed }}" hint-placeholder-val="{{ true }}"><span class="ga-icon" data-icon="search" data-size="24" style="width:24px;height:24px;"></span></sc-if>
+              <sc-if value="{{ searchClosed }}" hint-placeholder-val="{{ true }}"><span class="ga-icon" data-icon="sparkles" data-size="24" style="width:24px;height:24px;"></span></sc-if>
               <sc-if value="{{ searchOpen }}" hint-placeholder-val="{{ false }}"><span class="ga-icon" data-icon="search-x" data-size="24" style="width:24px;height:24px;"></span></sc-if>
             </button>
           </div>
@@ -328,7 +328,7 @@ window.__resources = {
             </sc-if>
             <sc-if value="{{ hrmEmployeesSel }}" hint-placeholder-val="{{ false }}">
               <button onClick="{{ toggleSearch }}" aria-label="Search" style="border:none;background:none;padding:0;cursor:pointer;color:#133445;display:flex;">
-                <sc-if value="{{ searchClosed }}" hint-placeholder-val="{{ true }}"><span class="ga-icon" data-icon="search" data-size="24" style="width:24px;height:24px;"></span></sc-if>
+                <sc-if value="{{ searchClosed }}" hint-placeholder-val="{{ true }}"><span class="ga-icon" data-icon="sparkles" data-size="24" style="width:24px;height:24px;"></span></sc-if>
                 <sc-if value="{{ searchOpen }}" hint-placeholder-val="{{ false }}"><span class="ga-icon" data-icon="search-x" data-size="24" style="width:24px;height:24px;"></span></sc-if>
               </button>
             </sc-if>
@@ -361,15 +361,15 @@ window.__resources = {
           </div>
           <div style="display:flex;gap:24px;padding-bottom:12px;">
             <button onClick="{{ toggleSearch }}" aria-label="Search" style="border:none;background:none;padding:0;cursor:pointer;color:#133445;display:flex;">
-              <sc-if value="{{ searchClosed }}" hint-placeholder-val="{{ true }}"><span class="ga-icon" data-icon="search" data-size="24" style="width:24px;height:24px;"></span></sc-if>
+              <sc-if value="{{ searchClosed }}" hint-placeholder-val="{{ true }}"><span class="ga-icon" data-icon="sparkles" data-size="24" style="width:24px;height:24px;"></span></sc-if>
               <sc-if value="{{ searchOpen }}" hint-placeholder-val="{{ false }}"><span class="ga-icon" data-icon="search-x" data-size="24" style="width:24px;height:24px;"></span></sc-if>
             </button>
           </div>
         </div>
       </sc-if>
 
-      <!-- Ask GAiA — module screens only; the start screen has the GAiA card -->
-      <sc-if value="{{ notHome }}" hint-placeholder-val="{{ true }}">
+      <!-- Ask GAiA — revealed by the header search button, module screens only -->
+      <sc-if value="{{ askBarOpen }}" hint-placeholder-val="{{ false }}">
       <div style="padding:12px 14px 2px;">
         <button onClick="{{ openHomeSearch }}" style="display:flex;align-items:center;gap:10px;width:100%;height:44px;padding:0 14px;border:1px solid #d3d7de;border-radius:10px;background:#ffffff;color:#8d95a3;font-size:14px;font-family:inherit;cursor:pointer;text-align:left;box-sizing:border-box;">
           <span class="ga-icon" data-icon="search" data-size="18" style="width:18px;height:18px;color:#6f7687;flex-shrink:0;"></span>
@@ -378,8 +378,8 @@ window.__resources = {
       </div>
       </sc-if>
 
-      <!-- Search panel -->
-      <sc-if value="{{ searchOpen }}" hint-placeholder-val="{{ false }}">
+      <!-- Legacy inline search input — superseded by the Ask GAiA bar above -->
+      <sc-if value="{{ legacySearchOpen }}" hint-placeholder-val="{{ false }}">
         <div style="background:#ffffff;padding:14px 14px 18px;border-radius:0 0 14px 14px;box-shadow:0 10px 20px rgba(19,52,69,0.08);animation:vmmFade 160ms ease-out;">
           <input type="text" value="{{ searchText }}" onChange="{{ setSearch }}" placeholder="Enter search text.." style="width:100%;height:48px;border:2px solid #6f7687;border-radius:8px;padding:0 16px;font-size:15px;color:#1f4e66;font-family:inherit;box-sizing:border-box;background:#ffffff;">
         </div>
@@ -3382,6 +3382,11 @@ class Component extends DCLogic {
     ].map(o => ({ label: o.label, active: S.sortBy === o.key, pick: () => this.setState({ sortBy: o.key, sortOpen: false }) }));
     v.searchOpen = S.searchOpen; v.searchClosed = !S.searchOpen;
     v.toggleSearch = () => this.setState({ searchOpen: !S.searchOpen, searchText: '' });
+    /* The header's search button now reveals the Ask GAiA bar rather than an
+       inline text input; that bar opens the assistant, which searches across
+       modules. The old input is kept in the markup but never shown. */
+    v.askBarOpen      = v.notHome && !!S.searchOpen;
+    v.legacySearchOpen = false;
     v.searchText = S.searchText;
     v.setSearch = e => this.setState({ searchText: e.target.value });
 

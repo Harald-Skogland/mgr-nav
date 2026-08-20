@@ -13,6 +13,7 @@ bar itself.
 |---|---|---|---|
 | Approval | **Overdue** | `overdueOnly: true` | Every other setter writes `false`. `clearOverdue` only turns it off. |
 | Autopay | **Invoices** | `apFilter: 'invoices'` | Every other setter writes `'all'`. |
+| all modules | **inline text filter** | `searchText` | The header's search button now reveals the Ask GAiA bar instead of the inline input, so nothing writes `searchText`. The assistant searches across modules, so finding things still works — but per-module filtering does not. |
 
 Autopay keeps Payments and Salary; only Invoices is stranded.
 
