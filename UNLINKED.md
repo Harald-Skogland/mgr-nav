@@ -13,7 +13,6 @@ bar itself.
 |---|---|---|---|
 | Approval | **Overdue** | `overdueOnly: true` | Every other setter writes `false`. `clearOverdue` only turns it off. |
 | Autopay | **Invoices** | `apFilter: 'invoices'` | Every other setter writes `'all'`. |
-| all modules | **inline text filter** | `searchText` | The header's search button now reveals the Ask GAiA bar instead of the inline input, so nothing writes `searchText`. The assistant searches across modules, so finding things still works — but per-module filtering does not. |
 
 Autopay keeps Payments and Salary; only Invoices is stranded.
 
@@ -25,6 +24,7 @@ Autopay keeps Payments and Salary; only Invoices is stranded.
 | Approval | History | `pickHistory` — same tabs; also `?open=history` |
 | Autopay | Payments | the default `apFilter: 'all'` |
 | Autopay | Salary | the start screen's Autopay **Approve** button |
+| all modules | inline text filter | the search row's field — typing writes `searchText` and filters live |
 | HRM | Calendar | its own tab beside Employees, and the start screen's HRM **View** button |
 | HRM | Employees | start screen HRM row, search results, `?open=hrm` |
 | HRM | Dialogue | `openDept`, and the app's own dialogue links |

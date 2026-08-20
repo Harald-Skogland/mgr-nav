@@ -368,14 +368,20 @@ window.__resources = {
         </div>
       </sc-if>
 
-      <!-- Ask GAiA — revealed by the header search button, module screens only -->
+      <!-- Search row — revealed by the header button. Typing filters the list
+           live; Ask hands the text to the assistant. -->
       <sc-if value="{{ askBarOpen }}" hint-placeholder-val="{{ false }}">
-      <div style="padding:12px 14px 2px;">
-        <button onClick="{{ openHomeSearch }}" style="display:flex;align-items:center;gap:10px;width:100%;height:44px;padding:0 14px;border:1px solid #d3d7de;border-radius:10px;background:#ffffff;color:#8d95a3;font-size:14px;font-family:inherit;cursor:pointer;text-align:left;box-sizing:border-box;">
-          <span class="ga-icon" data-icon="search" data-size="18" style="width:18px;height:18px;color:#6f7687;flex-shrink:0;"></span>
-          <span style="flex:1;">Search or ask GAiA</span>
-        </button>
-      </div>
+        <div style="display:flex;align-items:center;gap:8px;padding:12px 14px 2px;">
+          <div class="ga-input" style="flex:1;min-width:0;height:44px;padding-top:0;padding-bottom:0;">
+            <input type="text" value="{{ searchText }}" onChange="{{ setSearch }}" placeholder="Search or ask GAiA" aria-label="Search or ask GAiA" style="height:100%;">
+            <sc-if value="{{ hasSearchText }}" hint-placeholder-val="{{ false }}">
+              <button onClick="{{ clearSearchText }}" aria-label="Clear search" style="display:flex;align-items:center;justify-content:center;width:24px;height:24px;flex-shrink:0;border:none;background:none;padding:0;cursor:pointer;color:var(--ga-color-icon-secondary);">
+                <span class="ga-icon" data-icon="x" data-size="20" style="width:20px;height:20px;"></span>
+              </button>
+            </sc-if>
+          </div>
+          <button onClick="{{ askGaia }}" style="height:44px;min-width:44px;flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:8px 16px;box-sizing:border-box;border:none;border-radius:4px;background:var(--ga-color-surface-action);color:var(--ga-color-text-on-action);font-family:var(--ga-font-family-primary);font-size:14px;line-height:20px;font-weight:500;letter-spacing:-0.096px;cursor:pointer;">Ask</button>
+        </div>
       </sc-if>
 
       <!-- Legacy inline search input — superseded by the Ask GAiA bar above -->
@@ -3387,6 +3393,11 @@ class Component extends DCLogic {
        modules. The old input is kept in the markup but never shown. */
     v.askBarOpen      = v.notHome && !!S.searchOpen;
     v.legacySearchOpen = false;
+    v.hasSearchText   = !!(S.searchText || '').length;
+    v.clearSearchText = () => this.setState({ searchText: '' });
+    /* Ask carries whatever has been typed into the assistant, so the query is
+       not lost when moving from filtering to asking. */
+    v.askGaia = () => this.setState({ homeSearch: true, homeQuery: S.searchText || '' });
     v.searchText = S.searchText;
     v.setSearch = e => this.setState({ searchText: e.target.value });
 
