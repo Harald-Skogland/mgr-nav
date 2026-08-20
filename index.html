@@ -3401,8 +3401,7 @@ class Component extends DCLogic {
        Tabs share the row equally with their text left-aligned. A label that
        would have to truncate is not shown truncated: the rightmost tab moves
        into the chevron menu instead, repeatedly until the rest fit. The
-       chevron appears only when something has moved (Approval keeps its own,
-       since it carries Workflow / To be reviewed regardless). */
+       chevron appears only when something has moved. */
     if (!this._resizeHooked) {
       this._resizeHooked = true;
       window.addEventListener('resize', () => this.setState({ winW: window.innerWidth }));
@@ -3455,14 +3454,9 @@ class Component extends DCLogic {
       asTab('Tasks',   v.aTasksSel, v.pickTasks),
       asTab('History', v.aHistSel,  v.pickHistory)
     ]);
-    v.apprTabs = apprLayout.visible;
-    v.apprChevron = true;
-    /* Approval's chevron is permanent: it holds Workflow / To be reviewed even
-       when no tab has had to move. */
-    v.apprMenuItems = apprLayout.overflow.concat([
-      { label: 'Workflow', pick: null },
-      { label: 'To be reviewed', pick: null }
-    ]);
+    v.apprTabs      = apprLayout.visible;
+    v.apprChevron   = apprLayout.moved;
+    v.apprMenuItems = apprLayout.overflow;
     v.sortOpen = S.sortOpen;
     v.toggleSort = () => this.setState({ sortOpen: !S.sortOpen, searchOpen: false });
     v.closeSort = () => this.setState({ sortOpen: false });
